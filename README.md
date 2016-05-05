@@ -19,8 +19,11 @@ options just with a command and 0 configuration.
 
 ### Steps
 1. Install docker
+    
     1.1 MacOS/Windows: https://www.docker.com/products/docker-toolbox 
+    
     Note, there are some permissions problems in MacOS, though the actual setup might work well
+    
     1.2 Linux: https://docs.docker.com/engine/installation/
 2. Build the container using docker-compose: `docker-compose build`
 3. Run the container

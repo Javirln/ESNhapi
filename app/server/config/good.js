@@ -1,6 +1,6 @@
 'use strict';
 
-var Good = require('good');
+const Good = require('good');
 
 exports.register = [{
     register: Good,
@@ -12,7 +12,7 @@ exports.register = [{
             console: [{
                 module: 'good-squeeze',
                 name: 'Squeeze',
-                args: [{log: '*', response: '*'}]
+                args: [{ log: '*', response: '*' }]
             }, {
                 module: 'good-console'
             }, 'stdout']

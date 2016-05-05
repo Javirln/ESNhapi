@@ -1,25 +1,31 @@
-var hapi = require('hapi');
+'use strict';
 
-var server = new hapi.Server();
+const Hapi = require('hapi');
 
-server.connection({port: 3000});
+const server = new Hapi.Server();
+
+server.connection({ port: 3000 });
 
 server.route({
     method: 'GET',
     path: '/{yourname*}',
-    handler: function (req, reply) {
-        reply('Hello this is someone called ' + req.params.yourname + '!')
+    handler: (req, reply) => {
+
+        reply('Hello this is someone called ' + req.params.yourname + '!');
     }
 });
 
 server.register(
     require('./server/config/good').register,
-    function (err) {
+
+    (err) => {
+
         if (err) {
             throw err; // something bad happened loading Good
         }
 
-        server.start(function () {
+        server.start( () => {
+
             server.log('info', 'Server running at: ' + server.info.uri);
         });
     });

@@ -1,32 +1,35 @@
 {
-  "name": "esnhapi",
-  "version": "0.0.1",
-  "description": "An API for ESN content",
-  "main": "app/index.js",
-  "scripts": {
-    "start": "nodemon -L --debug",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "api",
-    "hapi",
-    "ESN"
-  ],
-  "author": "ESN AISBL",
-  "license": "ISC",
-  "dependencies": {
-    "boom": "^3.1.2",
-    "confidence": "^3.0.0",
-    "good": "^7.0.0",
-    "good-console": "^6.1.1",
-    "good-file": "^6.0.1",
-    "good-http": "^6.0.1",
-    "good-squeeze": "^3.0.1",
-    "hapi": "^13.3.0",
-    "hapi-router": "^3.5.0",
-    "joi": "^8.0.5"
-  },
-  "devDependencies": {
-    "nodemon": "^1.9.2"
-  }
+    "name": "esnhapi",
+    "version": "0.0.1",
+    "description": "An API for ESN content",
+    "main": "app/index.js",
+    "scripts": {
+        "start": "nodemon -L --debug",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "api",
+        "hapi",
+        "ESN"
+    ],
+    "author": "ESN AISBL",
+    "license": "ISC",
+    "dependencies": {
+        "boom": "^3.1.2",
+        "confidence": "^3.0.0",
+        "good": "^7.0.0",
+        "good-console": "^6.1.1",
+        "good-file": "^6.0.1",
+        "good-http": "^6.0.1",
+        "good-squeeze": "^3.0.1",
+        "hapi": "^13.3.0",
+        "hapi-router": "^3.5.0",
+        "joi": "^8.0.5"
+    },
+    "devDependencies": {
+        "eslint": "^2.9.0",
+        "eslint-config-hapi": "^9.1.0",
+        "eslint-plugin-hapi": "^4.0.0",
+        "nodemon": "^1.9.2"
+    }
 }

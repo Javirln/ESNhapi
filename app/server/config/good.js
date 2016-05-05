@@ -2,7 +2,7 @@
 
 const Good = require('good');
 
-exports.register = [{
+exports.registerGood = {
     register: Good,
     options: {
         ops: {
@@ -18,10 +18,5 @@ exports.register = [{
             }, 'stdout']
         }
     }
-}, {
-    register: require('hapi-router'),
-    options: {
-        routes: 'server/modules/**/routes.js' // uses glob to include files
-    }
-}
-];
+};
+

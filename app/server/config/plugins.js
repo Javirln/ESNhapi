@@ -3,6 +3,7 @@
 const Blipp = require('blipp');
 const HapiRouter = require('hapi-router');
 const Good = require('good');
+const HapiSwagger = require('hapi-swagger');
 
 exports.registerGood = {
     register: Good,
@@ -30,4 +31,8 @@ exports.registerRouter = {
 };
 
 exports.registerBlipp = { register: Blipp, options: {} };
+
+exports.registerSwagger = {
+    register: HapiSwagger
+};
 

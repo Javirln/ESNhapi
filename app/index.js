@@ -1,7 +1,10 @@
 'use strict';
 
 const Hapi = require('hapi');
+
 const Plugins = require('./server/config/plugins');
+const Inert = require('inert');
+const Vision = require('vision');
 
 const server = new Hapi.Server();
 
@@ -11,7 +14,10 @@ server.register(
     [
         Plugins.registerGood,
         Plugins.registerRouter,
-        Plugins.registerBlipp
+        Plugins.registerBlipp,
+        Inert,
+        Vision,
+        Plugins.registerSwagger
     ],
 
     (err) => {

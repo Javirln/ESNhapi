@@ -25,7 +25,12 @@
     "good-squeeze": "^3.0.1",
     "hapi": "^13.3.0",
     "hapi-router": "^3.5.0",
-    "joi": "^8.0.5"
+    "hapi-swagger": "^5.1.0",
+    "hapi-swaggered": "^2.6.0",
+    "hapi-swaggered-ui": "^2.3.1",
+    "inert": "^3.2.1",
+    "joi": "^8.0.5",
+    "vision": "^4.1.0"
   },
   "devDependencies": {
     "eslint": "^2.9.0",

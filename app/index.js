@@ -17,7 +17,8 @@ server.register(
         Plugins.registerBlipp,
         Inert,
         Vision,
-        Plugins.registerSwagger
+        Plugins.registerSwagger,
+        Plugins.registerMongoDB
     ],
 
     (err) => {

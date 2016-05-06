@@ -1,5 +1,7 @@
 'use strict';
 
+const Boom = require('boom');
+
 module.exports = [
     {
         path: '/countries',
@@ -17,10 +19,28 @@ module.exports = [
         method: 'POST',
         handler: (req, reply) => {
 
-            reply('Create a country');
+            const db = req.server.plugins['hapi-mongodb'].db;
+
+            db.collection('countries').insert(
+                {
+                    _id: req.payload.code,
+                    code: req.payload.code,
+                    url: req.payload.url
+                },
+                (err, result) => {
+
+                    if (err) {
+                        if (err.code === 11000) {
+                            return reply(Boom.conflict('Duplicated index', err.errmsg));
+                        }
+                        return reply(Boom.internal('Internal MongoDB error', err.errmsg));
+                    }
+                    reply(result).code(201);
+                });
         },
         config: {
-            tags: ['api', 'swagger']
+            tags: ['api', 'swagger'],
+            validate: require('./validator')
         }
     },
     {

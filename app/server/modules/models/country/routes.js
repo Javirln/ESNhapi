@@ -8,7 +8,10 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            reply('List of all the countries');
+            const db = req.server.plugins['hapi-mongodb'].db;
+
+
+            reply(db.collection('countries').find({}).toArray()).code(200);
         },
         config: {
             tags: ['api', 'swagger']

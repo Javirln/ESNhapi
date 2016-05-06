@@ -27,7 +27,9 @@ options just with a command and 0 configuration.
     1.2 Linux: https://docs.docker.com/engine/installation/
 2. Build the container using docker-compose: `docker-compose build`
 3. Run the container
+    
     3.1 As a daemon (in background): `docker-compose -d up`
+    
     3.2 As a process (stoppable with CTR+C): `docker-compose up`
     
 Logs and changes are printed in the console.
@@ -36,6 +38,7 @@ Logs and changes are printed in the console.
 *  3000: API port
 *  3000/documentation: Swagger API documentation endpoint
 *  5858: Node.JS debug port
+*  27017: MongoDB port
 
 ### Debugging
 #### Webstorm

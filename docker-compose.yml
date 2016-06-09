@@ -1,11 +1,13 @@
 api:
-  build: .
-  volumes:
-    - "./app:/src/app"
-  ports:
-    - "3000:3000"
-    - "5858:5858"
-  links:
-    - db:mongo
+    build: .
+    volumes:
+     - "./app:/src/app"
+    ports:
+     - "3000:3000"
+     - "5858:5858"
+    links:
+     - db:mongo
 db:
     image: mongo
+    ports:
+     - "27017:27017"

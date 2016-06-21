@@ -7,5 +7,7 @@ services:
       image: git.esn.org:4567/sturgelose/esnhapi:v1
       ports:
         - "3000:3000"
+      links:
+        - db:mongo
     db:
         image: mongo

@@ -27,7 +27,7 @@ exports.registerGood = {
 exports.registerRouter = {
     register: HapiRouter,
     options: {
-        routes: 'app/server/modules/**/routes.js' // uses glob to include files and starts where the process is started
+        routes: 'server/modules/**/routes.js' // uses glob to include files and starts where the process is started
     }
 };
 

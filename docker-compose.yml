@@ -1,7 +1,7 @@
 api:
     build: .
     volumes:
-     - "./app:/src/app"
+     - "./app:/src"
     ports:
      - "3000:3000"
      - "5858:5858"
@@ -11,3 +11,6 @@ db:
     image: mongo
     ports:
      - "27017:27017"
+    volumes:
+     - "./data/mongo/configdb:/data/configdb"
+     - "./data/mongo/db:/data/db"

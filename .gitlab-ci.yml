@@ -3,7 +3,7 @@ stages:
   - build
   - deploy
 
-test_api:
+test_api_dev:
   stage: test
   image: node:6
   services:
@@ -19,6 +19,16 @@ build_image_dev:
   image: gitlab/dind
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN git.esn.org:4567
+    - docker build --file="app/Dockerfile.prod" -t git.esn.org:4567/sturgelose/esnhapi:dev .
+    - docker push git.esn.org:4567/sturgelose/esnhapi:dev
+  only:
+    - develop
+
+deploy_dev:
+  stage: deploy
+  image: monostream/rancher-compose
+  script:
+    - rancher-compose up --upgrade --pull --confirm-upgrade ESNhapi
     - docker build --file="app/Dockerfile.prod" -t git.esn.org:4567/sturgelose/esnhapi:dev .
     - docker push git.esn.org:4567/sturgelose/esnhapi:dev
   only:

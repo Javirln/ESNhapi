@@ -29,7 +29,7 @@ deploy_dev:
   image: monostream/rancher-compose
   script:
     - cd rancher/development
-    - rancher-compose -p ESNhapi up --upgrade --pull API
+    - rancher-compose -p ESNhapi up --upgrade --pull -d API
   only:
     - develop
 

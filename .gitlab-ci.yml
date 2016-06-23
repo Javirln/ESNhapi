@@ -28,9 +28,8 @@ deploy_dev:
   stage: deploy
   image: monostream/rancher-compose
   script:
+    - cd rancher/development
     - rancher-compose up --upgrade --pull --confirm-upgrade ESNhapi
-    - docker build --file="app/Dockerfile.prod" -t git.esn.org:4567/sturgelose/esnhapi:dev .
-    - docker push git.esn.org:4567/sturgelose/esnhapi:dev
   only:
     - develop
 

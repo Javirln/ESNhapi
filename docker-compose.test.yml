@@ -1,0 +1,17 @@
+version: '2'
+services:
+    api_test:
+      container_name: esnhapi_test_api
+      build:
+        context: .
+        dockerfile: app/Dockerfile.test
+      tty: true
+      ports:
+        - "3000:3000"
+      volumes:
+           - "./app:/src/app/"
+      links:
+        - mongo:mongo
+    db_test:
+        container_name: esnhapi_test_db
+        image: mongo

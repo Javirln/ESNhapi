@@ -1,52 +1,74 @@
 'use strict';
 
-const Blipp = require('blipp');
-const HapiRouter = require('hapi-router');
-const Good = require('good');
-const HapiSwagger = require('hapi-swagger');
-const MongoDB = require('hapi-mongodb');
-
 exports.registerGood = {
-    register: Good,
-    options: {
-        ops: {
-            interval: 1000
-        },
-        reporters: {
-            console: [{
-                module: 'good-squeeze',
-                name: 'Squeeze',
-                args: [{ log: '*', response: '*' }]
-            }, {
-                module: 'good-console'
-            }, 'stdout']
+    plugin: {
+        register: 'good',
+        options: {
+            ops: {
+                interval: 1000
+            },
+            reporters: {
+                console: [{
+                    module: 'good-squeeze',
+                    name: 'Squeeze',
+                    args: [{ log: '*', response: '*' }]
+                }, {
+                    module: 'good-console'
+                }, 'stdout']
+            }
         }
     }
 };
 
 exports.registerRouter = {
-    register: HapiRouter,
-    options: {
-        routes: 'server/modules/**/routes.js' // uses glob to include files and starts where the process is started
+    plugin: {
+        register: 'hapi-router',
+        options: {
+            routes: 'app/server/modules/**/routes.js' // uses glob to include files and starts where the process is started
+        }
     }
 };
 
 exports.registerBlipp = {
-    register: Blipp,
-    options: {}
+    plugin: {
+        register: 'blipp',
+        options: {}
+    }
+};
+
+exports.registerInert = {
+    plugin: {
+        register: 'inert'
+    }
+};
+
+exports.registerVision = {
+    plugin: {
+        register: 'vision'
+    }
 };
 
 exports.registerSwagger = {
-    register: HapiSwagger
+    plugin: {
+        register: 'hapi-swagger'
+    }
+};
+
+exports.registerInjectThen = {
+    plugin: {
+        register: 'inject-then'
+    }
 };
 
 exports.registerMongoDB = {
-    register: MongoDB,
-    options: {
-        url: 'mongodb://mongo:27017/test',
-        settings: {
-            db: {
-                native_parser: false
+    plugin: {
+        register: 'hapi-mongodb',
+        options: {
+            url: 'mongodb://mongo:27017/test',
+            settings: {
+                db: {
+                    native_parser: false
+                }
             }
         }
     }

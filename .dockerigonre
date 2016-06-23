@@ -1,5 +1,6 @@
 .git
 .gitignore
+data
 README.md
-docker-compose.yml
+docker-compose.*
 node_modules

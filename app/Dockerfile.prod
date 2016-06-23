@@ -2,10 +2,8 @@ FROM node:6
 
 RUN mkdir /src
 
-RUN npm install -g pm2
-
 WORKDIR /src
-ADD app/ /src/
+ADD . /src
 RUN npm install
 
 EXPOSE 3000

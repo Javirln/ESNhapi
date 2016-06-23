@@ -1,0 +1,13 @@
+FROM node:6
+
+RUN mkdir /src
+
+RUN npm install -g tape
+
+WORKDIR /src
+ADD package.json /src
+RUN npm install
+
+EXPOSE 3000
+
+CMD tape app/tests/*/*.test.js | node_modules/.bin/tap-spec

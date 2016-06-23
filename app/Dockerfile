@@ -5,9 +5,9 @@ RUN mkdir /src
 RUN npm install -g nodemon
 
 WORKDIR /src
-ADD app/package.json /src/package.json
+ADD package.json /src
 RUN npm install
 
 EXPOSE 3000
 
-CMD nodemon -L --debug
+CMD nodemon -L --debug app/index.js

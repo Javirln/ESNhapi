@@ -1,8 +1,26 @@
-build_image:
+stages:
+  - test
+  - build
+  - deploy
+
+test_api:
+  stage: test
+  image: node:6
+  services:
+    - mongo
+  script:
+    - npm install
+    - node_modules/.bin/tape app/tests/*/*.test.js | node_modules/.bin/tap-spec
+  only:
+    - develop
+
+build_image_dev:
+  stage: build
   image: gitlab/dind
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN git.esn.org:4567
-    - docker build --file="Dockerfile.prod" -t git.esn.org:4567/sturgelose/esnhapi:dev .
+    - docker build --file="app/Dockerfile.prod" -t git.esn.org:4567/sturgelose/esnhapi:dev .
     - docker push git.esn.org:4567/sturgelose/esnhapi:dev
   only:
     - develop
+

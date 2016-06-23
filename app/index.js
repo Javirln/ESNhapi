@@ -1,36 +1,20 @@
 'use strict';
 
-const Hapi = require('hapi');
+const Glue = require('glue');
+const ManifestDev = require('./server/config/manifest.dev');
+const ManifestProd = require('./server/config/manifest.prod');
 
-const Plugins = require('./server/config/plugins');
-const Inert = require('inert');
-const Vision = require('vision');
+const options = {
+    relativeTo: __dirname
+};
 
-const server = new Hapi.Server();
+Glue.compose(ManifestDev, options, (err, server) => {
 
-server.connection({ port: 3000 });
+    if (err) {
+        throw err;
+    }
+    server.start(() => {
 
-server.register(
-    [
-        Plugins.registerGood,
-        Plugins.registerRouter,
-        Plugins.registerBlipp,
-        Inert,
-        Vision,
-        Plugins.registerSwagger,
-        Plugins.registerMongoDB
-    ],
-
-    (err) => {
-
-        if (err) {
-            throw err; // something bad happened loading plugins
-        }
-
-        server.start(() => {
-
-            server.log('info', 'Server running at: ' + server.info.uri);
-        });
+        server.log('info', 'Server running at: ' + server.info.uri);
     });
-
-module.exports = server;
+});

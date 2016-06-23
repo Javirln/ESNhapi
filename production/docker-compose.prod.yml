@@ -1,0 +1,22 @@
+API:
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  image: git.esn.org:4567/sturgelose/esnhapi:dev
+  links:
+  - db:mongo
+  stdin_open: true
+db:
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  image: mongo
+  stdin_open: true
+loadBalancer:
+  ports:
+  - 3000:3000
+  tty: true
+  image: rancher/load-balancer-service
+  links:
+  - API:API
+  stdin_open: true

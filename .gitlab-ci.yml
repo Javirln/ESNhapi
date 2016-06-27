@@ -9,7 +9,7 @@ test_api_dev:
   services:
     - mongo
   script:
-    - npm install
+    - npm install --silent
     - node_modules/.bin/tape app/tests/*/*.test.js | node_modules/.bin/tap-spec
   only:
     - develop

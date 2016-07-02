@@ -24,13 +24,17 @@ options just with a command and 0 configuration.
     
     Note, there are some permissions problems in MacOS, though the actual setup might work well
     
-    1.2 Linux: https://docs.docker.com/engine/installation/
-2. Build the container using docker-compose: `docker-compose build`
-3. Run the container
+    1.2 Linux:
+    * install docker-engine: https://docs.docker.com/engine/installation/
+    * install docker-compose: https://docs.docker.com/compose/install/
+
+2. Install npm packages for development: `npm install`
+3. Build the container using docker-compose: `docker-compose build`
+4. Run the container
     
-    3.1 As a daemon (in background): `docker-compose -d up`
+    4.1 As a daemon (in background): `docker-compose -d up`
     
-    3.2 As a process (stoppable with CTR+C): `docker-compose up`
+    4.2 As a process (stoppable with CTR+C): `docker-compose up`
     
 Logs and changes are printed in the console.
 

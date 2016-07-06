@@ -64,7 +64,7 @@ exports.registerMongoDB = {
     plugin: {
         register: 'hapi-mongodb',
         options: {
-            url: 'mongodb://db:27017/test',
+            url: 'mongodb://mongo:27017/test',
             settings: {
                 db: {
                     native_parser: false

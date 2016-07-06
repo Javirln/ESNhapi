@@ -1,6 +1,6 @@
 version: '2'
 services:
-    api_test:
+    api:
       container_name: esnhapi_test_api
       build:
         context: .
@@ -12,7 +12,7 @@ services:
            - "./app:/src/app/"
       links:
         - mongo:mongo
-    db_test:
+    mongo:
         container_name: esnhapi_test_db
         image: mongo
         tty: true

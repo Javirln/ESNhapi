@@ -11,6 +11,7 @@ services:
          - "5858:5858"
         links:
          - db:mongo
+        tty: true
     db:
         image: mongo
         ports:
@@ -18,3 +19,4 @@ services:
         volumes:
          - "./data/mongo/configdb:/data/configdb"
          - "./data/mongo/db:/data/db"
+        tty: true

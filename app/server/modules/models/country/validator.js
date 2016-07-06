@@ -4,7 +4,9 @@ const Joi = require('joi');
 
 module.exports = {
     payload: {
-        code: Joi.string().length(2).uppercase().required(),
-        url: Joi.string().min(10).max(50).required()
+        _id: Joi.string().length(2).uppercase().required().example('AA')
+            .description('Code of the country'),
+        url: Joi.string().uri().required().example('html://esnantartica.org')
+            .description('URL to the Country\'s ESN Homepage')
     }
 };

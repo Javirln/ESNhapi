@@ -1,6 +1,7 @@
 'use strict';
 
 const Boom = require('boom');
+const Joi = require('joi');
 
 module.exports = [
     {
@@ -24,22 +25,25 @@ module.exports = [
 
             const db = req.server.plugins['hapi-mongodb'].db;
 
-            db.collection('countries').insert(
-                {
-                    _id: req.payload.code,
-                    code: req.payload.code,
+            db.collection('countries')
+                .insertOne({
+                    _id: req.payload._id,
                     url: req.payload.url
-                },
-                (err, result) => {
+                })
+                .then(
+                    (result) => {
 
-                    if (err) {
-                        if (err.code === 11000) {
-                            return reply(Boom.conflict('Duplicated index', err.errmsg));
+                        reply(result).code(201);
+                    },
+                    (err) => {
+
+                        if (err) {
+                            if (err.code === 11000) {
+                                return reply(Boom.conflict('Duplicated index', err.errmsg));
+                            }
+                            return reply(Boom.internal('Internal MongoDB error', err.errmsg));
                         }
-                        return reply(Boom.internal('Internal MongoDB error', err.errmsg));
-                    }
-                    reply(result).code(201);
-                });
+                    });
         },
         config: {
             tags: ['api', 'swagger'],
@@ -51,7 +55,21 @@ module.exports = [
         method: 'DELETE',
         handler: (req, reply) => {
 
-            reply('Delete a country');
+            const db = req.server.plugins['hapi-mongodb'].db;
+
+            db.collection('countries')
+                .deleteOne({
+                    _id: req.payload.code
+                })
+                .then(
+                    (result) => {
+
+                        reply(result).code(201);
+                    },
+                    (err) => {
+
+                        return reply(Boom.internal('Internal MongoDB error', err.errmsg));
+                    });
         },
         config: {
             tags: ['api', 'swagger']
@@ -84,10 +102,31 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            reply('Information of country with code ' + req.params.code);
+            const db = req.server.plugins['hapi-mongodb'].db;
+
+            db.collection('countries')
+                .findOne({
+                    _id: req.params.code
+                })
+                .then(
+                    (result) => {
+
+                        reply(result).code(200);
+                    },
+                    (err) => {
+
+                        return reply(Boom.internal('Internal MongoDB error', err.errmsg));
+                    });
+
         },
         config: {
-            tags: ['api', 'swagger']
+            tags: ['api', 'swagger'],
+            validate: {
+                params: {
+                    code: Joi.string().length(2).uppercase().required().example('AA')
+                        .description('Code of the country to fetch')
+                }
+            }
         }
     },
     {
@@ -98,7 +137,13 @@ module.exports = [
             reply('Section list of country with code ' + req.params.code);
         },
         config: {
-            tags: ['api', 'swagger']
+            tags: ['api', 'swagger'],
+            validate: {
+                params: {
+                    code: Joi.string().length(2).uppercase().required().example('AA')
+                        .description('Code of the country to fetch')
+                }
+            }
         }
     },
     {
@@ -109,7 +154,13 @@ module.exports = [
             reply('Cities list of country with code ' + req.params.code);
         },
         config: {
-            tags: ['api', 'swagger']
+            tags: ['api', 'swagger'],
+            validate: {
+                params: {
+                    code: Joi.string().length(2).uppercase().required().example('AA')
+                        .description('Code of the country to fetch')
+                }
+            }
         }
     },
     {
@@ -120,7 +171,13 @@ module.exports = [
             reply('Aggregated news list of country with code ' + req.params.code);
         },
         config: {
-            tags: ['api', 'swagger']
+            tags: ['api', 'swagger'],
+            validate: {
+                params: {
+                    code: Joi.string().length(2).uppercase().required().example('AA')
+                        .description('Code of the country to fetch')
+                }
+            }
         }
     },
     {
@@ -131,7 +188,13 @@ module.exports = [
             reply('Aggregated events list of country with code ' + req.params.code);
         },
         config: {
-            tags: ['api', 'swagger']
+            tags: ['api', 'swagger'],
+            validate: {
+                params: {
+                    code: Joi.string().length(2).uppercase().required().example('AA')
+                        .description('Code of the country to fetch')
+                }
+            }
         }
     },
     {
@@ -142,7 +205,13 @@ module.exports = [
             reply('Aggregated partners list of country with code ' + req.params.code);
         },
         config: {
-            tags: ['api', 'swagger']
+            tags: ['api', 'swagger'],
+            validate: {
+                params: {
+                    code: Joi.string().length(2).uppercase().required().example('AA')
+                        .description('Code of the country to fetch')
+                }
+            }
         }
     }
 ];

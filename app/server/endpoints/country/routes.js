@@ -9,7 +9,7 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            const db = req.server.plugins['hapi-mongodb'].db;
+            const db = req.server.mongo.db;
 
 
             reply(db.collection('countries').find({}).toArray()).code(200);
@@ -23,7 +23,7 @@ module.exports = [
         method: 'POST',
         handler: (req, reply) => {
 
-            const db = req.server.plugins['hapi-mongodb'].db;
+            const db = req.server.mongo.db;
 
             db.collection('countries')
                 .insertOne({
@@ -33,7 +33,7 @@ module.exports = [
                 .then(
                     (result) => {
 
-                        reply(result).code(201);
+                        reply(result.result).code(201);
                     },
                     (err) => {
 
@@ -55,7 +55,7 @@ module.exports = [
         method: 'DELETE',
         handler: (req, reply) => {
 
-            const db = req.server.plugins['hapi-mongodb'].db;
+            const db = req.server.mongo.db;
 
             db.collection('countries')
                 .deleteOne({
@@ -102,7 +102,7 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            const db = req.server.plugins['hapi-mongodb'].db;
+            const db = req.server.mongo.db;
 
             db.collection('countries')
                 .findOne({

@@ -45,6 +45,6 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/app/server/modules/models/news/routes.js" />
+    <file url="file://$PROJECT_DIR$/app/server/endpoints/news/routes.js" />
   </component>
 </project>

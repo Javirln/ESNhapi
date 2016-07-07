@@ -43,7 +43,7 @@ Test('[/country] Should be able to create a single country ', (t) => {
     };
 
     const sampleCountry = {
-        code: 'AA',
+        _id: 'AA',
         url: 'http://somewhere.com'
     };
 
@@ -54,13 +54,11 @@ Test('[/country] Should be able to create a single country ', (t) => {
     };
 
     const successfulPOSTAnswer = {
-        insertedCount: 1,
-        insertedIds: ['AA'],
-        ops: [{ _id: 'AA', code: 'AA', url: 'http://somewhere.com' }],
-        result: { n: 1, ok: 1 }
+        ok: 1,
+        n: 1
     };
 
-    const successfulGETAnswer = [{ _id: 'AA', code: 'AA', url: 'http://somewhere.com' }];
+    const successfulGETAnswer = [{ _id: 'AA', url: 'http://somewhere.com' }];
 
     t.plan(3);
     Server.inject(postOptions)

@@ -26,7 +26,7 @@ exports.registerRouter = {
     plugin: {
         register: 'hapi-router',
         options: {
-            routes: 'app/server/modules/**/routes.js' // uses glob to include files and starts where the process is started
+            routes: 'app/server/endpoints/**/routes.js' // uses glob to include files and starts where the process is started
         }
     }
 };
@@ -71,7 +71,8 @@ exports.registerMongoDB = {
                 db: {
                     native_parser: false
                 }
-            }
+            },
+            decorate: true
         }
     }
 };

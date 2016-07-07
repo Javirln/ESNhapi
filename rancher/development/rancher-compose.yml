@@ -1,5 +1,7 @@
 API:
   scale: 2
+  upgrade_strategy:
+      start_first: true
 db:
   scale: 1
 loadBalancer:

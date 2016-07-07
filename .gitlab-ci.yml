@@ -2,6 +2,7 @@ stages:
   - test
   - build
   - deploy
+  - cleanup
 
 test_api_dev:
   stage: test
@@ -29,7 +30,28 @@ deploy_dev:
   image: monostream/rancher-compose
   script:
     - cd rancher/development
-    - rancher-compose -p ESNhapi up --upgrade --pull -d API
+    - rancher-compose -p ESNhapi up --upgrade --pull --force-upgrade -d API
   only:
     - develop
+
+cleanup_fail_build_job:
+  stage: cleanup
+  image: monostream/rancher-compose
+  script:
+    - cd rancher/development
+    - rancher-compose -p ESNhapi up --upgrade --rollback -d API
+  when: on_failure
+  only:
+    - develop
+
+cleanup_success_build_job:
+  stage: cleanup
+  image: monostream/rancher-compose
+  script:
+    - cd rancher/development
+    - rancher-compose -p ESNhapi up --upgrade --pull --confirm-upgrade -d API
+  when: on_success
+  only:
+    - develop
+
 

@@ -2,6 +2,7 @@
 
 const Request = require('request-promise');
 const _ = require('lodash');
+const OmitEmpty = require('omit-empty');
 
 const CallhomeCountryURL = 'http://satellite.esn.org/callhome/api/country.json';
 
@@ -26,10 +27,10 @@ exports.schedule = (server) => {
                         {
                             _id: country.code
                         },
-                        {
+                        OmitEmpty({
                             url: country.website,
                             name: country.name
-                        },
+                        }),
                         {
                             upsert: true
                         });

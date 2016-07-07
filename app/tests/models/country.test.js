@@ -44,7 +44,8 @@ Test('[/country] Should be able to create a single country ', (t) => {
 
     const sampleCountry = {
         _id: 'AA',
-        url: 'http://somewhere.com'
+        url: 'http://somewhere.com',
+        name: 'ESN Somewhere'
     };
 
     const postOptions = {
@@ -58,8 +59,6 @@ Test('[/country] Should be able to create a single country ', (t) => {
         n: 1
     };
 
-    const successfulGETAnswer = [{ _id: 'AA', url: 'http://somewhere.com' }];
-
     t.plan(3);
     Server.inject(postOptions)
         .then((response) => {
@@ -72,7 +71,7 @@ Test('[/country] Should be able to create a single country ', (t) => {
             return Server.inject(getOptions)
                 .then((response) => {
 
-                    t.deepEqual(response.result, successfulGETAnswer, 'Expect result with one country');
+                    t.deepEqual(response.result, [sampleCountry], 'Expect result with one country');
                 });
         });
 });

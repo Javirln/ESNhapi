@@ -31,6 +31,7 @@ deploy_dev:
   script:
     - cd rancher/development
     - rancher-compose -p ESNhapi up --upgrade --pull --force-upgrade -d API
+  environment: develop
   only:
     - develop
 

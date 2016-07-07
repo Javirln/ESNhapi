@@ -23,6 +23,8 @@ module.exports = [
         method: 'POST',
         handler: (req, reply) => {
 
+            // TODO Check that the country really exists
+
             const db = req.server.mongo.db;
 
             db.collection('sections')

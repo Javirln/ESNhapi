@@ -138,7 +138,10 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            reply('Section list of country with code ' + req.params.code);
+            const db = req.server.mongo.db;
+
+            // TODO Check that the country really exists
+            reply(db.collection('sections').find({ country: req.params.code }).sort( { _id: 1 } ).toArray()).code(200);
         },
         config: {
             tags: ['api', 'swagger'],

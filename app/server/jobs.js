@@ -5,7 +5,11 @@ const Schedule = require('node-schedule');
 
 const ScheduleJobs = (server) => {
 
-    server.log('info', 'Starting scheduling of jobs');
+    server.log('info', 'Executing Scheduled Jobs at start');
+
+    FetchCountries.schedule(server);
+
+    server.log('info', 'Scheduling of jobs');
     Schedule.scheduleJob(
         '0 0 * * *',
         () => {

@@ -1,5 +1,7 @@
 'use strict';
 
+const mongoURL = 'mongodb://mongo:27017/esnhapi';
+
 exports.registerGood = {
     plugin: {
         register: 'good',
@@ -64,7 +66,7 @@ exports.registerMongoDB = {
     plugin: {
         register: 'hapi-mongodb',
         options: {
-            url: 'mongodb://mongo:27017/test',
+            url: mongoURL,
             settings: {
                 db: {
                     native_parser: false

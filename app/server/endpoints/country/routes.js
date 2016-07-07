@@ -12,7 +12,7 @@ module.exports = [
             const db = req.server.mongo.db;
 
 
-            reply(db.collection('countries').find({}).toArray()).code(200);
+            reply(db.collection('countries').find({}).sort( { _id: 1 } ).toArray()).code(200);
         },
         config: {
             tags: ['api', 'swagger']
@@ -26,10 +26,7 @@ module.exports = [
             const db = req.server.mongo.db;
 
             db.collection('countries')
-                .insertOne({
-                    _id: req.payload._id,
-                    url: req.payload.url
-                })
+                .insertOne(req.payload)
                 .then(
                     (result) => {
 
@@ -51,20 +48,21 @@ module.exports = [
         }
     },
     {
-        path: '/countries',
+        path: '/countries/{code}',
         method: 'DELETE',
         handler: (req, reply) => {
 
             const db = req.server.mongo.db;
 
             db.collection('countries')
-                .deleteOne({
-                    _id: req.payload.code
-                })
+                .deleteOne({ _id: req.params.code })
                 .then(
                     (result) => {
 
-                        reply(result).code(201);
+                        if (result.result.n === 0) {
+                            reply(result).code(404); // If no items deleted, return a 404
+                        }
+                        reply(result).code(200);
                     },
                     (err) => {
 
@@ -72,11 +70,17 @@ module.exports = [
                     });
         },
         config: {
-            tags: ['api', 'swagger']
+            tags: ['api', 'swagger'],
+            validate: {
+                params: {
+                    code: Joi.string().length(2).uppercase().required().example('AA')
+                        .description('Code of the country')
+                }
+            }
         }
     },
     {
-        path: '/countries',
+        path: '/countries/{code}',
         method: 'PUT',
         handler: (req, reply) => {
 
@@ -87,7 +91,7 @@ module.exports = [
         }
     },
     {
-        path: '/countries',
+        path: '/countries/{code}',
         method: 'PATCH',
         handler: (req, reply) => {
 

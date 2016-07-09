@@ -9,6 +9,9 @@ const ScheduleJobs = (server) => {
 
     FetchCountries.schedule(server);
 
+    // ==================
+    // = CRON SCHEDULES =
+    // ==================
     server.log('info', 'Scheduling of jobs');
     Schedule.scheduleJob(
         '0 0 * * *',

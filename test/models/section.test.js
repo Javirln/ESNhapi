@@ -2,12 +2,12 @@
 
 const expect = require('chai').expect;   // assertion library
 const TestTools = require('./../test-tools');
-const FakeCountry = require('../fixtures/sampleCountry');
+const FakeSection = require('../fixtures/sampleSection');
 
 
 let Server;
 
-describe('Countries', function () {
+describe('Sections', function () {
 
     // =====
     // SETUP
@@ -22,7 +22,7 @@ describe('Countries', function () {
     beforeEach(function () {
 
         return TestTools
-            .clearCollection('countries');
+            .clearCollection('sections');
     });
 
     after(function (done) {
@@ -37,7 +37,7 @@ describe('Countries', function () {
     it('should have an existing endpoint', function () {
 
         return Server
-            .inject(FakeCountry.get, function (response) {
+            .inject(FakeSection.get, function (response) {
 
                 expect(response.result).to.be.a('array');
                 expect(response.statusCode).to.equal(200);
@@ -45,34 +45,34 @@ describe('Countries', function () {
 
     });
 
-    it('should be able to create a single country', () => {
+    it('should be able to create a single section', () => {
 
         return Server
         // Create country A
-            .inject(FakeCountry.create(FakeCountry.A))
+            .inject(FakeSection.create(FakeSection.A))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(FakeCountry.successPOST);
+                expect(response.result).to.deep.equal(FakeSection.successPOST);
                 expect(response.statusCode).to.equal(201);
             })
             // Get country A
-            .then(() => Server.inject(FakeCountry.get))
+            .then(() => Server.inject(FakeSection.get))
             .then((response) => {
 
                 expect(response.result).to.be.a('array');
                 expect(response.result.length).to.equal(1);
-                expect(response.result[0]).to.deep.equal(FakeCountry.A);
+                expect(response.result[0]).to.deep.equal(FakeSection.A);
             });
     });
 
-    it('should be able to fetch a specific country', () => {
+    it('should be able to fetch a specific section', () => {
 
         return Server
-            .inject(FakeCountry.create(FakeCountry.A))
-            .then(() => Server.inject(FakeCountry.getSpecific(FakeCountry.A)))
+            .inject(FakeSection.create(FakeSection.A))
+            .then(() => Server.inject(FakeSection.getSpecific(FakeSection.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(FakeCountry.A);
+                expect(response.result).to.deep.equal(FakeSection.A);
                 expect(response.statusCode).to.equal(200);
             });
     });

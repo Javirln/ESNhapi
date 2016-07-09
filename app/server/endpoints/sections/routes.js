@@ -12,7 +12,11 @@ module.exports = [
             const db = req.server.mongo.db;
 
 
-            reply(db.collection('sections').find({}).sort( { _id: 1 } ).toArray()).code(200);
+            reply(db
+                .collection('sections')
+                .find({})
+                .sort( { _id: 1 } )
+                .toArray()).code(200);
         },
         config: {
             tags: ['api', 'swagger']
@@ -30,10 +34,7 @@ module.exports = [
             db.collection('sections')
                 .insertOne(req.payload)
                 .then(
-                    (result) => {
-
-                        reply(result.result).code(201);
-                    },
+                    (result) => reply(result.result).code(201),
                     (err) => {
 
                         if (err) {
@@ -66,10 +67,7 @@ module.exports = [
                         }
                         reply(result).code(200);
                     },
-                    (err) => {
-
-                        return reply(Boom.internal('Internal MongoDB error', err.errmsg));
-                    });
+                    (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg)));
         },
         config: {
             tags: ['api', 'swagger'],
@@ -123,18 +121,13 @@ module.exports = [
             const db = req.server.mongo.db;
 
             db.collection('sections')
-                .findOne({
-                    _id: req.params.code
-                })
+                .findOne({ _id: req.params.code })
                 .then(
                     (result) => {
 
                         reply(result).code(200);
                     },
-                    (err) => {
-
-                        return reply(Boom.internal('Internal MongoDB error', err.errmsg));
-                    });
+                    (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg)));
         },
         config: {
             tags: ['api', 'swagger'],

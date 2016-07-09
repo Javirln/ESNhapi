@@ -6,6 +6,7 @@ services:
           dockerfile: app/Dockerfile
         volumes:
          - "./app:/src/app"
+         - "./node_modules:/src/node_modules"
         ports:
          - "3000:3000"
          - "5858:5858"

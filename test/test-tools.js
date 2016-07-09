@@ -1,9 +1,8 @@
 'use strict';
 
-const Test = require('tape');
 const Glue = require('glue');
 const MongoClient = require('mongodb').MongoClient;
-const ManifestTest = require('../server/config/manifest.test');
+const ManifestTest = require('../app/server/config/manifest.test');
 
 const glueOptions = {
     relativeTo: __dirname
@@ -11,7 +10,7 @@ const glueOptions = {
 
 let Server = {};
 
-exports.setup = (cb) => {
+exports.setup = () => {
 
     return new Promise((resolve) => {
 
@@ -33,29 +32,26 @@ exports.setup = (cb) => {
 
 exports.clearCollection = (collectionName) => {
 
-    Test('[Tool] Clear collection ' + collectionName, (t) => {
+    return new Promise(( resolve, error) => {
 
-        MongoClient.connect('mongodb://mongo:27017/test', (err, db) => {
+        MongoClient.connect('mongodb://mongo:27017/esnhapi', (err, db) => {
 
             if (err) {
-                t.fail(err);
+                error(err);
             }
             db.dropCollection(collectionName, () => {
 
                 db.close();
-                t.end();
+                resolve();
             });
         });
     });
 };
 
 
-exports.teardown = () => {
+exports.teardown = (done) => {
     // Close the server after all tests
-    Test('Teardown', (t) => {
-
-        Server.stop();
-        t.end();
-    });
+    Server.stop();
+    done();
 };
 

@@ -37,11 +37,16 @@
     "vision": "^4.1.0"
   },
   "devDependencies": {
+    "arrow-mocha": "^1.0.1",
+    "chai": "^3.5.0",
+    "code": "^3.0.1",
     "eslint": "^2.9.0",
     "eslint-config-hapi": "^9.1.0",
     "eslint-plugin-hapi": "^4.0.0",
     "eslint-plugin-promise": "^1.1.0",
     "inject-then": "^2.0.5",
+    "lab": "^10.8.2",
+    "mocha": "^2.5.3",
     "mongodb": "^2.1.18",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.0"

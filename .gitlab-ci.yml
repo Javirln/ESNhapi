@@ -4,16 +4,14 @@ stages:
   - deploy
   - cleanup
 
-test_api_dev:
+test_api:
   stage: test
   image: node:6
   services:
     - mongo
   script:
-    - npm install --silent
-    - node_modules/.bin/tape app/tests/*/*.test.js | node_modules/.bin/tap-spec
-  only:
-    - develop
+    - npm install --silent > /dev/null
+    - node_modules/.bin/_mocha --recursive
 
 build_image_dev:
   stage: build

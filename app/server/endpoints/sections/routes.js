@@ -27,23 +27,42 @@ module.exports = [
         method: 'POST',
         handler: (req, reply) => {
 
-            // TODO Check that the country really exists
-
             const db = req.server.mongo.db;
 
-            db.collection('sections')
-                .insertOne(req.payload)
-                .then(
-                    (result) => reply(result.result).code(201),
-                    (err) => {
+            Promise
+                .resolve(db
+                    .collection('countries')
+                    .find({ _id: req.payload.country })
+                    .count()
+                )
+                .then((country) => {
 
-                        if (err) {
-                            if (err.code === 11000) {
-                                return reply(Boom.conflict('Duplicated index', err.errmsg));
+                    if (country === 1){
+                        return Promise.resolve();
+                    }
+                    return Promise.reject('Country doesn\'t exist');
+                })
+                .then(() => db
+                    .collection('sections')
+                    .insertOne(req.payload)
+                )
+                .then(
+                    (success) => reply(success.result).code(201),
+                    (error) => {
+
+                        if (error) {
+                            if (error.code === 11000) {
+                                return reply(Boom.conflict('Duplicated index', error));
                             }
-                            return reply(Boom.internal('Internal MongoDB error', err.errmsg));
+                            if (error.errmsg) {
+                                return reply(Boom.internal('Internal MongoDB error', error));
+                            }
+                            return reply(Boom.forbidden('Country doesn\'t exist', error));
+
                         }
-                    });
+                    }
+                );
+
         },
         config: {
             tags: ['api', 'swagger'],

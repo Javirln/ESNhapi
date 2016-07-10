@@ -54,6 +54,7 @@ module.exports = [
         method: 'DELETE',
         handler: (req, reply) => {
 
+            // TODO Should delete all the other resources underneath
             const db = req.server.mongo.db;
 
             db
@@ -134,8 +135,28 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            // TODO Check that the country really exists
-            reply(db.collection('sections').find({ country: req.params.code }).sort( { _id: 1 } ).toArray()).code(200);
+            Promise
+                .resolve(db
+                    .collection('countries')
+                    .find({ _id: req.params.code })
+                    .count()
+                )
+                .then((country) => {
+
+                    if (country === 1){
+                        return Promise.resolve();
+                    }
+                    return Promise.reject(Boom.notFound('Country doesn\'t exist'));
+                })
+                .then(() => db
+                    .collection('sections')
+                    .find({ country: req.params.code })
+                    .sort({ _id: 1 })
+                    .toArray())
+                .then(
+                    (success) => reply(success).code(200),
+                    (error) => reply(error)
+                );
         },
         config: {
             tags: ['api', 'swagger'],

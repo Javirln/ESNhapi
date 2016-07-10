@@ -37,7 +37,7 @@ describe('Countries', function () {
     it('should have an existing endpoint', function () {
 
         return Server
-            .inject(FakeCountry.get, function (response) {
+            .injectThen(FakeCountry.get, function (response) {
 
                 expect(response.result).to.be.a('array');
                 expect(response.statusCode).to.equal(200);
@@ -49,14 +49,14 @@ describe('Countries', function () {
 
         return Server
         // Create country A
-            .inject(FakeCountry.create(FakeCountry.A))
+            .injectThen(FakeCountry.create(FakeCountry.A))
             .then((response) => {
 
                 expect(response.result).to.deep.equal(FakeCountry.successPOST);
                 expect(response.statusCode).to.equal(201);
             })
             // Get country A
-            .then(() => Server.inject(FakeCountry.get))
+            .then(() => Server.injectThen(FakeCountry.get))
             .then((response) => {
 
                 expect(response.result).to.be.a('array');
@@ -68,13 +68,21 @@ describe('Countries', function () {
     it('should be able to fetch a specific country', () => {
 
         return Server
-            .inject(FakeCountry.create(FakeCountry.A))
+            .injectThen(FakeCountry.create(FakeCountry.A))
             .then(() => Server.inject(FakeCountry.getSpecific(FakeCountry.A)))
             .then((response) => {
 
                 expect(response.result).to.deep.equal(FakeCountry.A);
                 expect(response.statusCode).to.equal(200);
             });
+    });
+
+    it('should be able to delete a country and all the resources underneath', () => {
+        throw new Error("To be implemented");
+    });
+
+    it('should be able to fetch the sections of the country', () => {
+        throw new Error("To be implemented");
     });
 
 });

@@ -21,9 +21,7 @@ const ScheduleJobs = (server) => {
 
             return FetchCountries.schedule(server)
                 .then(() => FetchSections.schedule(server))
-                .catch((err) => {
-                    server.log('error', 'An error occurred while executing cron' + err);
-                });
+                .catch((err) => server.log('error', 'An error occurred while executing cron' + err));
 
         });
 };

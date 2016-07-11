@@ -23,18 +23,19 @@ exports.schedule = (server) => {
 
                 Promise.all(_.map(json, (section) => {
 
-                        return sections.updateOne(
-                            {
-                                _id: section.code
-                            },
-                            OmitEmpty({
-                                url: section.website,
-                                name: section.name
-                            }),
-                            {
-                                upsert: true
-                            });
-                    }))
+                    return sections.updateOne(
+                        {
+                            _id: section.code
+                        },
+                        OmitEmpty({
+                            url: section.website,
+                            name: section.name,
+                            country: section.code.split('-')[0]
+                        }),
+                        {
+                            upsert: true
+                        });
+                }))
                     .then(
                         (success) => {
 

@@ -68,6 +68,14 @@ describe('Sections', function () {
             });
     });
 
+    it('should throw a duplicate error when creating if it already exists', () => {
+        throw new Error("To be implemented");
+    });
+
+    it('should not allow to create one if a parent country does not exist', () => {
+        throw new Error("To be implemented");
+    });
+
     it('should be able to fetch a specific section', () => {
 
         return Server
@@ -82,6 +90,10 @@ describe('Sections', function () {
                 expect(response.result).to.deep.equal(FakeSection.A);
                 expect(response.statusCode).to.equal(200);
             });
+    });
+
+    it('should be able to delete a section and all the resources underneath', () => {
+        throw new Error("To be implemented");
     });
 
 });

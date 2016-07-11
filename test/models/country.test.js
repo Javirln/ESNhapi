@@ -3,6 +3,7 @@
 const expect = require('chai').expect;   // assertion library
 const TestTools = require('./../test-tools');
 const FakeCountry = require('../fixtures/sampleCountry');
+const FakeSection = require('../fixtures/sampleSection');
 
 
 let Server;
@@ -65,6 +66,10 @@ describe('Countries', function () {
             });
     });
 
+    it('should throw a duplicate error when creating if it already exists', () => {
+        throw new Error("To be implemented");
+    });
+
     it('should be able to fetch a specific country', () => {
 
         return Server
@@ -82,7 +87,17 @@ describe('Countries', function () {
     });
 
     it('should be able to fetch the sections of the country', () => {
-        throw new Error("To be implemented");
+
+        return Server
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
+            .then(() => Server.inject(FakeSection.create(FakeSection.B)))
+            .then(() => Server.inject(FakeCountry.getSections(FakeCountry.A)))
+            .then((response) => {
+
+                expect(response.result).to.deep.equal([FakeSection.A, FakeSection.B]);
+                expect(response.statusCode).to.equal(200);
+            });
     });
 
 });

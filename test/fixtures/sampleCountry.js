@@ -13,10 +13,24 @@ exports.getSpecific = (country) => {
     }
 };
 
+exports.getSections = (country) => {
+
+    return {
+        method: 'GET',
+        url: '/countries/' + country._id + '/sections'
+    }
+};
+
 exports.A = {
     _id: 'AA',
     url: 'http://somewhere.com',
     name: 'ESN Somewhere'
+};
+
+exports.Z = {
+    _id: 'ZZ',
+    url: 'http://zigzag.com',
+    name: 'ESN ZigZag'
 };
 
 exports.create = (country) => {

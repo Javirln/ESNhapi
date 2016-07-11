@@ -20,6 +20,13 @@ exports.A = {
     country: 'AA'
 };
 
+exports.B = {
+    _id: 'AA-AABB',
+    url: 'http://bomewhere.com',
+    name: 'ESN Bomewhere',
+    country: 'AA'
+};
+
 exports.create = (section) => {
     return {
         method: 'POST',

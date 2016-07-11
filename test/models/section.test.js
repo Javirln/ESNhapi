@@ -5,6 +5,7 @@ const TestTools = require('./../test-tools');
 const FakeSection = require('../fixtures/sampleSection');
 const FakeCountry = require('../fixtures/sampleCountry');
 
+const Boom = require('boom');
 
 let Server;
 
@@ -69,7 +70,15 @@ describe('Sections', function () {
     });
 
     it('should throw a duplicate error when creating if it already exists', () => {
-        throw new Error("To be implemented");
+        return Server
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
+            .then((response) => {
+
+                expect(response.result).to.deep.equal(Boom.conflict('Duplicated index').output.payload);
+                expect(response.statusCode).to.equal(409);
+            });
     });
 
     it('should not allow to create one if a parent country does not exist', () => {

@@ -93,7 +93,27 @@ describe('Countries', function () {
     });
 
     it('should be able to delete a country and all the resources underneath', () => {
-        throw new Error("To be implemented");
+        return Server
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
+            .then(() => Server.inject(FakeSection.create(FakeSection.B)))
+            .then(() => Server.inject(FakeCountry.delete(FakeCountry.A)))
+            .then((response) => {
+                
+                expect(response.statusCode).to.equal(200);
+            })
+            .then(() => Server.inject(FakeCountry.get))
+            .then((response) => {
+
+                expect(response.result).to.deep.equal([]);
+                expect(response.statusCode).to.equal(200);
+            })
+            .then(() => Server.inject(FakeSection.get))
+            .then((response) => {
+
+                expect(response.result).to.deep.equal([]);
+                expect(response.statusCode).to.equal(200);
+            });
     });
 
     it('should be able to fetch the sections of the country', () => {

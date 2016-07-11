@@ -107,8 +107,8 @@ describe('Sections', function () {
             });
     });
 
-    it('should be able to delete a section and all the resources underneath', () => {
-        throw new Error("To be implemented");
+    xit('should be able to delete a section and all the resources underneath', () => {
+        throw new Error('To be implemented');
     });
 
 });

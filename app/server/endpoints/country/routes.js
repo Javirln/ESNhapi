@@ -54,21 +54,27 @@ module.exports = [
         method: 'DELETE',
         handler: (req, reply) => {
 
-            // TODO Should delete all the other resources underneath
             const db = req.server.mongo.db;
 
-            db
-                .collection('countries')
-                .deleteOne({ _id: req.params.code })
-                .then(
-                    (result) => {
+            Promise
+            // Delete the sections underneath the country
+                .resolve(db
+                    .collection('sections')
+                    .deleteMany({ country: req.params.code })
+                )
+                .then(() => db
+                    .collection('countries')
+                    .deleteOne({ _id: req.params.code })
+                    .then(
+                        (result) => {
 
-                        if (result.result.n === 0) {
-                            reply(result).code(404); // If no items deleted, return a 404
-                        }
-                        reply(result).code(200);
-                    },
-                    (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg)));
+                            if (result.result.n === 0) {
+                                reply(result).code(404); // If no items deleted, return a 404
+                            }
+                            reply(result).code(200);
+                        },
+                        (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg))));
+
         },
         config: {
             tags: ['api', 'swagger'],
@@ -143,7 +149,7 @@ module.exports = [
                 )
                 .then((country) => {
 
-                    if (country === 1){
+                    if (country === 1) {
                         return Promise.resolve();
                     }
                     return Promise.reject(Boom.notFound('Country doesn\'t exist'));

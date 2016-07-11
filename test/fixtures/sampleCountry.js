@@ -41,6 +41,13 @@ exports.create = (country) => {
     }
 };
 
+exports.delete = (country) => {
+    return {
+        method: 'DELETE',
+        url: '/countries/' + country._id
+    }
+};
+
 exports.successPOST = {
     ok: 1,
     n: 1

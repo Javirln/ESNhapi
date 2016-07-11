@@ -12,7 +12,11 @@ module.exports = [
             const db = req.server.mongo.db;
 
 
-            reply(db.collection('countries').find({}).sort( { _id: 1 } ).toArray()).code(200);
+            reply(db
+                .collection('countries')
+                .find({})
+                .sort({ _id: 1 })
+                .toArray()).code(200);
         },
         config: {
             tags: ['api', 'swagger']
@@ -25,13 +29,11 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            db.collection('countries')
+            db
+                .collection('countries')
                 .insertOne(req.payload)
                 .then(
-                    (result) => {
-
-                        reply(result.result).code(201);
-                    },
+                    (result) => reply(result.result).code(201),
                     (err) => {
 
                         if (err) {
@@ -54,20 +56,25 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            db.collection('countries')
-                .deleteOne({ _id: req.params.code })
-                .then(
-                    (result) => {
+            Promise
+            // Delete the sections underneath the country
+                .resolve(db
+                    .collection('sections')
+                    .deleteMany({ country: req.params.code })
+                )
+                .then(() => db
+                    .collection('countries')
+                    .deleteOne({ _id: req.params.code })
+                    .then(
+                        (result) => {
 
-                        if (result.result.n === 0) {
-                            reply(result).code(404); // If no items deleted, return a 404
-                        }
-                        reply(result).code(200);
-                    },
-                    (err) => {
+                            if (result.result.n === 0) {
+                                reply(result).code(404); // If no items deleted, return a 404
+                            }
+                            reply(result).code(200);
+                        },
+                        (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg))));
 
-                        return reply(Boom.internal('Internal MongoDB error', err.errmsg));
-                    });
         },
         config: {
             tags: ['api', 'swagger'],
@@ -108,19 +115,13 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            db.collection('countries')
-                .findOne({
-                    _id: req.params.code
-                })
+            db
+                .collection('countries')
+                .findOne({ _id: req.params.code })
                 .then(
-                    (result) => {
-
-                        reply(result).code(200);
-                    },
-                    (err) => {
-
-                        return reply(Boom.internal('Internal MongoDB error', err.errmsg));
-                    });
+                    (result) => reply(result).code(200),
+                    (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg))
+                );
 
         },
         config: {
@@ -138,7 +139,30 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            reply('Section list of country with code ' + req.params.code);
+            const db = req.server.mongo.db;
+
+            Promise
+                .resolve(db
+                    .collection('countries')
+                    .find({ _id: req.params.code })
+                    .count()
+                )
+                .then((country) => {
+
+                    if (country === 1) {
+                        return Promise.resolve();
+                    }
+                    return Promise.reject(Boom.notFound('Country doesn\'t exist'));
+                })
+                .then(() => db
+                    .collection('sections')
+                    .find({ country: req.params.code })
+                    .sort({ _id: 1 })
+                    .toArray())
+                .then(
+                    (success) => reply(success).code(200),
+                    (error) => reply(error)
+                );
         },
         config: {
             tags: ['api', 'swagger'],

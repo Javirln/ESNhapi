@@ -82,7 +82,13 @@ describe('Sections', function () {
     });
 
     it('should not allow to create one if a parent country does not exist', () => {
-        throw new Error("To be implemented");
+        return Server
+            .injectThen(FakeSection.create(FakeSection.A))
+            .then((response) => {
+
+                expect(response.result).to.deep.equal(Boom.forbidden('Country doesn\'t exist').output.payload);
+                expect(response.statusCode).to.equal(403);
+            });
     });
 
     it('should be able to fetch a specific section', () => {

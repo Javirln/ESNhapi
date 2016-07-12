@@ -24,8 +24,8 @@ describe('Countries', function () {
 
     beforeEach(function () {
 
-        return TestTools
-            .clearCollection('countries');
+        return TestTools.clearCollection('sections')
+            .then(() => TestTools.clearCollection('countries'));
     });
 
     after(function (done) {
@@ -99,7 +99,7 @@ describe('Countries', function () {
             .then(() => Server.inject(FakeSection.create(FakeSection.B)))
             .then(() => Server.inject(FakeCountry.delete(FakeCountry.A)))
             .then((response) => {
-                
+
                 expect(response.statusCode).to.equal(200);
             })
             .then(() => Server.inject(FakeCountry.get))

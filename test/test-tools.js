@@ -34,7 +34,7 @@ exports.clearCollection = (collectionName) => {
 
     return new Promise(( resolve, error) => {
 
-        MongoClient.connect('mongodb://mongo:27017/esnhapi', (err, db) => {
+        MongoClient.connect('mongodb://mongo:27017/esnhapi-test', (err, db) => {
 
             if (err) {
                 error(err);

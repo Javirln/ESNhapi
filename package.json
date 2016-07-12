@@ -4,7 +4,6 @@
   "description": "An API for ESN content",
   "main": "app/index.js",
   "scripts": {
-    "test": "docker-compose --file='docker-compose.test.yml'  up --abort-on-container-exit",
     "start": "docker-compose up --build",
     "create-image": "docker build --file='app/Dockerfile.prod' -t git.esn.org:4567/sturgelose/esnhapi:dev ."
   },
@@ -44,6 +43,7 @@
     "eslint-plugin-promise": "^1.1.0",
     "inject-then": "^2.0.5",
     "mocha": "^2.5.3",
-    "mongodb": "^2.1.18"
+    "mongodb": "^2.1.18",
+    "nodemon": "^1.9.2"
   }
 }

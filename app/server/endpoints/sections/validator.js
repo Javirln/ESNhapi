@@ -11,6 +11,10 @@ module.exports = {
         name: Joi.string().required().example('ESN Antartica')
             .description('Full name of the country'),
         country: Joi.string().length(2).uppercase().required().example('AA')
-            .description('Code of the country')
+            .description('Code of the country'),
+        address: Joi.strin().required.example('Iceberg n34, North Rock, Antartica')
+            .description('Street address of the section'),
+        city: Joi.string().required().example('Antartica')
+            .description('City of the section')
     }
 };

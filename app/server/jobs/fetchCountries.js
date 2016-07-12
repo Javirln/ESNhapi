@@ -4,7 +4,8 @@ const Request = require('request-promise');
 const _ = require('lodash');
 const OmitEmpty = require('omit-empty');
 
-const CallhomeCountryURL = 'http://satellite.esn.org/callhome/api/country.json';
+//const CallhomeCountryURL = 'http://satellite.esn.org/callhome/api/country.json';
+const CallhomeCountryURL = 'https://git.esn.org/snippets/14/raw';
 
 exports.schedule = (server) => {
 

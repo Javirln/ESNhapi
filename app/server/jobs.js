@@ -2,6 +2,7 @@
 
 const FetchCountries = require('./jobs/fetchCountries');
 const FetchSections = require('./jobs/fetchSections');
+const FetchCities = require('./jobs/fetchCities');
 const Schedule = require('node-schedule');
 
 const ScheduleJobs = (server) => {
@@ -10,6 +11,7 @@ const ScheduleJobs = (server) => {
 
     FetchCountries.schedule(server);
     FetchSections.schedule(server);
+    FetchCities.schedule(server);
 
     // ==================
     // = CRON SCHEDULES =
@@ -20,6 +22,7 @@ const ScheduleJobs = (server) => {
         () => {
 
             return FetchCountries.schedule(server)
+                .then(() => FetchCities.schedule(server))
                 .then(() => FetchSections.schedule(server))
                 .catch((err) => server.log('error', 'An error occurred while executing cron' + err));
 

@@ -4,7 +4,7 @@ const Joi = require('joi');
 
 module.exports = {
     payload: {
-        _id: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).example('AA-AAAA')
+        _id: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}-[A-Z0-9]{3,4}$/).example('AA-AAAA-AAAA')
             .description('Code of the section'),
         url: Joi.string().uri().example('html://esnantartica.org')
             .description('URL to the Country\'s ESN Homepage'),

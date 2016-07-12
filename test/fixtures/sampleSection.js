@@ -14,14 +14,14 @@ exports.getSpecific = (section) => {
 };
 
 exports.A = {
-    _id: 'AA-AAAA',
+    _id: 'AA-AAAA-AAAA',
     url: 'http://somewhere.com',
     name: 'ESN Somewhere',
     country: 'AA'
 };
 
 exports.B = {
-    _id: 'AA-AABB',
+    _id: 'AA-AABB-AABB',
     url: 'http://bomewhere.com',
     name: 'ESN Bomewhere',
     country: 'AA'

@@ -10,8 +10,9 @@ const ScheduleJobs = (server) => {
     server.log('info', 'Executing Scheduled Jobs at start');
 
     FetchCountries.schedule(server);
-    FetchSections.schedule(server);
     FetchCities.schedule(server);
+    FetchSections.schedule(server);
+
 
     // ==================
     // = CRON SCHEDULES =
@@ -23,8 +24,8 @@ const ScheduleJobs = (server) => {
 
             return FetchCountries.schedule(server)
                 .then(() => FetchCities.schedule(server))
-                .then(() => FetchSections.schedule(server))
-                .catch((err) => server.log('error', 'An error occurred while executing cron' + err));
+                    .then(() => FetchSections.schedule(server))
+                        .catch((err) => server.log('error', 'An error occurred while executing cron' + err));
 
         });
 };

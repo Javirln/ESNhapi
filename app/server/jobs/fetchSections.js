@@ -29,7 +29,7 @@ exports.schedule = (server) => {
                             _id: section._id
                         },
                         OmitEmpty({
-                            url: section.website,
+                            url: section.url,
                             name: section.name,
                             country: section._id.split('-')[0],
                             address: section.address,

@@ -6,7 +6,13 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            reply('List of all the cities');
+            const db = req.server.mongo.db;
+
+            reply(db
+                .collection('cities')
+                .find({})
+                .sort({ _id: 1 })
+                .toArray()).code(200);
         },
         config: {
             tags: ['api', 'swagger']

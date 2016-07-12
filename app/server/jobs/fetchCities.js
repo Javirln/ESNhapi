@@ -4,33 +4,32 @@ const Request = require('request-promise');
 const _ = require('lodash');
 const OmitEmpty = require('omit-empty');
 
-//const CallhomeCountryURL = 'http://satellite.esn.org/callhome/api/country.json';
-const CallhomeCountryURL = 'https://git.esn.org/snippets/14/raw';
+const CallhomeCityURL = 'https://git.esn.org/snippets/15/raw';
 
 exports.schedule = (server) => {
 
-    server.log('info', 'Updating Country List');
+    server.log('info', 'Updating City List');
 
     return Request({
-        uri: CallhomeCountryURL,
+        uri: CallhomeCityURL,
         json: true,
         jar: true // Remember cookies!
     })
         .then(
             (json) => {
 
-                const countries = server.mongo.db
-                    .collection('countries');
+                const cities = server.mongo.db
+                    .collection('cities');
 
-                Promise.all(_.map(json, (country) => {
+                Promise.all(_.map(json, (city) => {
 
-                    return countries.updateOne(
+                    return cities.updateOne(
                         {
-                            _id: country._id
+                            _id: city._id
                         },
                         OmitEmpty({
-                            url: country.url,
-                            name: country.name
+                            country: city.country,
+                            name: city.name
                         }),
                         {
                             upsert: true
@@ -39,11 +38,11 @@ exports.schedule = (server) => {
                     .then(
                         (success) => {
 
-                            server.log('info', 'Successfully updated list of countries');
+                            server.log('info', 'Successfully updated list of cities');
                         },
                         (error) => {
 
-                            server.log('error', 'Error updating list of countries:' + error);
+                            server.log('error', 'Error updating list of cities:' + error);
                         }
                     );
 
@@ -54,4 +53,5 @@ exports.schedule = (server) => {
             }
         );
 };
+
 

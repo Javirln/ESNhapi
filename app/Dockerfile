@@ -7,4 +7,4 @@ ADD package.json /src
 
 EXPOSE 3000
 
-CMD npm install && ./node_modules/.bin/nodemon -L --debug app/index.js
+CMD ./node_modules/.bin/nodemon -L --debug app/index.js

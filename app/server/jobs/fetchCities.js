@@ -29,7 +29,8 @@ exports.schedule = (server) => {
                         },
                         OmitEmpty({
                             country: city.country,
-                            name: city.name
+                            name: city.name,
+                            otherNames: city.otherNames
                         }),
                         {
                             upsert: true

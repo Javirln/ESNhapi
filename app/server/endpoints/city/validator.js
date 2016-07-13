@@ -8,7 +8,9 @@ module.exports = {
             .description('Code of the city'),
         country: Joi.string().length(2).uppercase().required().example('AA')
             .description('Code of the country'),
-        city: Joi.string().required().example('Antartica')
-            .description('City name')
+        name: Joi.string().required().example('Antartica')
+            .description('City name'),
+        otherNames: Joi.array()
+            .description('Other names of the city')
     }
 };

@@ -23,7 +23,6 @@ exports.schedule = (server) => {
                     .collection('sections');
 
                 Promise.all(_.map(json, (section) => {
-
                     return sections.updateOne(
                         {
                             _id: section._id

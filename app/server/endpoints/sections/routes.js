@@ -15,10 +15,11 @@ module.exports = [
             reply(db
                 .collection('sections')
                 .find({})
-                .sort( { _id: 1 } )
+                .sort({ _id: 1 })
                 .toArray()).code(200);
         },
         config: {
+            description: 'Gets all ESN sections',
             tags: ['api', 'swagger']
         }
     },
@@ -37,7 +38,7 @@ module.exports = [
                 )
                 .then((country) => {
 
-                    if (country === 1){
+                    if (country === 1) {
                         return Promise.resolve();
                     }
                     return Promise.reject('Country doesn\'t exist');
@@ -65,7 +66,17 @@ module.exports = [
 
         },
         config: {
+            description: 'Creates a new ESN section',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given payload is malformed, it must follow the given model' },
+                        '404': { 'description': 'The section with the given code does not exist' },
+                        '409': { 'description': 'There is already a section with that index' }
+                    }
+                }
+            },
             validate: require('./validator')
         }
     },
@@ -89,7 +100,16 @@ module.exports = [
                     (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg)));
         },
         config: {
+            description: 'Deletes an ESN section',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given section is malformed, it must follow the pattern AA-AAAA-AAAA' },
+                        '404': { 'description': 'The section with the given code does not exist' }
+                    }
+                }
+            },
             validate: {
                 params: {
                     code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).required().example('AA-AAAA')
@@ -106,7 +126,16 @@ module.exports = [
             reply('Update a section');
         },
         config: {
+            description: 'Replaces an ESN section',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given payload is malformed, it must contains all the fields' },
+                        '404': { 'description': 'The section with the given code does not exist' }
+                    }
+                }
+            },
             validate: {
                 params: {
                     code: Joi.string().length(2).uppercase().required().example('AA')
@@ -123,6 +152,7 @@ module.exports = [
             reply('Update partially a section');
         },
         config: {
+            description: 'Updates an ESN section',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
@@ -149,7 +179,16 @@ module.exports = [
                     (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg)));
         },
         config: {
+            description: 'Gets information from an specific ESN section',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA-AAAA-AAAA' },
+                        '404': { 'description': 'The section with the given code does not exist' }
+                    }
+                }
+            },
             validate: {
                 params: {
                     code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}-[A-Z0-9]{3,4}$/).required().example('AA-AAAA-AAAA')
@@ -166,7 +205,16 @@ module.exports = [
             reply('Aggregated news list of section with code ' + req.params.code);
         },
         config: {
-            tags: ['api', 'swagger']
+            description: 'Gets the news from a specific ESN section',
+            tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA-AAAA-AAAA' },
+                        '404': { 'description': 'The section with the given code does not exist' }
+                    }
+                }
+            }
         }
     },
     {
@@ -177,7 +225,16 @@ module.exports = [
             reply('Aggregated events list of section with code ' + req.params.code);
         },
         config: {
-            tags: ['api', 'swagger']
+            description: 'Gets the events from a specific ESN section',
+            tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA-AAAA-AAAA' },
+                        '404': { 'description': 'The section with the given code does not exist' }
+                    }
+                }
+            }
         }
     },
     {
@@ -188,7 +245,16 @@ module.exports = [
             reply('Aggregated partners list of section with code ' + req.params.code);
         },
         config: {
-            tags: ['api', 'swagger']
+            description: 'Gets the partners found in a specific ESN section',
+            tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA-AAAA-AAAA' },
+                        '404': { 'description': 'The section with the given code does not exist' }
+                    }
+                }
+            }
         }
     }
 ];

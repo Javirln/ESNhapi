@@ -19,6 +19,7 @@ module.exports = [
                 .toArray()).code(200);
         },
         config: {
+            description: 'Gets all ESN countries',
             tags: ['api', 'swagger']
         }
     },
@@ -45,7 +46,17 @@ module.exports = [
                     });
         },
         config: {
+            description: 'Creates a new ESN country',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given payload is malformed, it must follow the given model' },
+                        '404': { 'description': 'The country with the given code does not exist' },
+                        '409': { 'description': 'There is already a country with that index' }
+                    }
+                }
+            },
             validate: require('./validator')
         }
     },
@@ -77,7 +88,16 @@ module.exports = [
 
         },
         config: {
+            description: 'Deletes an ESN country',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given country is malformed, it must follow the pattern AA-AAAA' },
+                        '404': { 'description': 'The country with the given code does not exist' }
+                    }
+                }
+            },
             validate: {
                 params: {
                     code: Joi.string().length(2).uppercase().required().example('AA')
@@ -94,7 +114,16 @@ module.exports = [
             reply('Update a country');
         },
         config: {
-            tags: ['api', 'swagger']
+            description: 'Replaces an ESN country',
+            tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given payload is malformed, it must contains all the fields' },
+                        '404': { 'description': 'The country with the given code does not exist' }
+                    }
+                }
+            }
         }
     },
     {
@@ -105,6 +134,7 @@ module.exports = [
             reply('Update partially a country');
         },
         config: {
+            description: 'Updates an ESN country',
             tags: ['api', 'swagger']
         }
     },
@@ -125,7 +155,16 @@ module.exports = [
 
         },
         config: {
+            description: 'Gets information from a specific ESN country',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA' },
+                        '404': { 'description': 'The country with the given code does not exist' }
+                    }
+                }
+            },
             validate: {
                 params: {
                     code: Joi.string().length(2).uppercase().required().example('AA')
@@ -165,7 +204,16 @@ module.exports = [
                 );
         },
         config: {
+            description: 'Gets the sections belonging to a specific ESN country',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA' },
+                        '404': { 'description': 'The country with the given code does not exist' }
+                    }
+                }
+            },
             validate: {
                 params: {
                     code: Joi.string().length(2).uppercase().required().example('AA')
@@ -182,7 +230,16 @@ module.exports = [
             reply('Cities list of country with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the cities belonging to a specific ESN country',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA' },
+                        '404': { 'description': 'The country with the given code does not exist' }
+                    }
+                }
+            },
             validate: {
                 params: {
                     code: Joi.string().length(2).uppercase().required().example('AA')
@@ -199,7 +256,16 @@ module.exports = [
             reply('Aggregated news list of country with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the news from a specific ESN country',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA' },
+                        '404': { 'description': 'The country with the given code does not exist' }
+                    }
+                }
+            },
             validate: {
                 params: {
                     code: Joi.string().length(2).uppercase().required().example('AA')
@@ -216,7 +282,16 @@ module.exports = [
             reply('Aggregated events list of country with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the events from a specific ESN country',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA' },
+                        '404': { 'description': 'The country with the given code does not exist' }
+                    }
+                }
+            },
             validate: {
                 params: {
                     code: Joi.string().length(2).uppercase().required().example('AA')
@@ -233,7 +308,16 @@ module.exports = [
             reply('Aggregated partners list of country with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the partners found in a specific ESN country',
             tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA' },
+                        '404': { 'description': 'The country with the given code does not exist' }
+                    }
+                }
+            },
             validate: {
                 params: {
                     code: Joi.string().length(2).uppercase().required().example('AA')

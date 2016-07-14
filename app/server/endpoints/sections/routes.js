@@ -19,6 +19,7 @@ module.exports = [
                 .toArray()).code(200);
         },
         config: {
+            description: 'Gets all ESN sections',
             tags: ['api', 'swagger']
         }
     },
@@ -65,6 +66,7 @@ module.exports = [
 
         },
         config: {
+            description: 'Creates a new ESN section',
             tags: ['api', 'swagger'],
             validate: require('./validator')
         }
@@ -89,6 +91,7 @@ module.exports = [
                     (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg)));
         },
         config: {
+            description: 'Deletes an ESN section',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
@@ -106,6 +109,7 @@ module.exports = [
             reply('Update a section');
         },
         config: {
+            description: 'Replaces an ESN section',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
@@ -123,6 +127,7 @@ module.exports = [
             reply('Update partially a section');
         },
         config: {
+            description: 'Updates an ESN section',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
@@ -149,6 +154,7 @@ module.exports = [
                     (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg)));
         },
         config: {
+            description: 'Gets information from an specific ESN section',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
@@ -166,6 +172,7 @@ module.exports = [
             reply('Aggregated news list of section with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the news from a specific ESN section',
             tags: ['api', 'swagger']
         }
     },
@@ -177,6 +184,7 @@ module.exports = [
             reply('Aggregated events list of section with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the events from a specific ESN section',
             tags: ['api', 'swagger']
         }
     },
@@ -188,6 +196,7 @@ module.exports = [
             reply('Aggregated partners list of section with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the partners found in a specific ESN section',
             tags: ['api', 'swagger']
         }
     }

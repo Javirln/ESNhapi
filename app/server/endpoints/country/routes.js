@@ -19,6 +19,7 @@ module.exports = [
                 .toArray()).code(200);
         },
         config: {
+            description: 'Gets all ESN countries',
             tags: ['api', 'swagger']
         }
     },
@@ -45,6 +46,7 @@ module.exports = [
                     });
         },
         config: {
+            description: 'Creates a new ESN country',
             tags: ['api', 'swagger'],
             validate: require('./validator')
         }
@@ -77,6 +79,7 @@ module.exports = [
 
         },
         config: {
+            description: 'Deletes an ESN country',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
@@ -94,6 +97,7 @@ module.exports = [
             reply('Update a country');
         },
         config: {
+            description: 'Replaces an ESN country',
             tags: ['api', 'swagger']
         }
     },
@@ -105,6 +109,7 @@ module.exports = [
             reply('Update partially a country');
         },
         config: {
+            description: 'Updates an ESN country',
             tags: ['api', 'swagger']
         }
     },
@@ -125,6 +130,7 @@ module.exports = [
 
         },
         config: {
+            description: 'Gets information from a specific ESN country',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
@@ -165,6 +171,7 @@ module.exports = [
                 );
         },
         config: {
+            description: 'Gets the sections belonging to a specific ESN country',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
@@ -182,6 +189,7 @@ module.exports = [
             reply('Cities list of country with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the cities belonging to a specific ESN country',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
@@ -199,6 +207,7 @@ module.exports = [
             reply('Aggregated news list of country with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the news from a specific ESN country',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
@@ -216,6 +225,7 @@ module.exports = [
             reply('Aggregated events list of country with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the events from a specific ESN country',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
@@ -233,6 +243,7 @@ module.exports = [
             reply('Aggregated partners list of country with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the partners found in a specific ESN country',
             tags: ['api', 'swagger'],
             validate: {
                 params: {

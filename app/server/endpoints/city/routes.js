@@ -47,6 +47,7 @@ module.exports = [
                     });
         },
         config: {
+            description: 'Creates a new ESN city',
             validate: {
                 payload: Joi.object({
                     _id: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).required().example('AA-AAAA')
@@ -91,7 +92,7 @@ module.exports = [
                     (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg)));
         },
         config: {
-            description: 'Deletes a city',
+            description: 'Deletes an ESN city',
             validate: {
                 params: {
                     code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).required().example('AA-AAAA')
@@ -132,7 +133,7 @@ module.exports = [
                     (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg)));
         },
         config: {
-            description: 'Updates city content',
+            description: 'Replaces an ESN city',
             notes: 'All values must be filled although they are not to be changed',
             validate: {
                 payload: Joi.object({
@@ -165,6 +166,7 @@ module.exports = [
             reply('Update partially a city');
         },
         config: {
+            description: 'Updates an ESN city',
             tags: ['api', 'swagger']
         }
     },
@@ -183,7 +185,7 @@ module.exports = [
                 );
         },
         config: {
-            description: 'Gets all information of a city',
+            description: 'Gets information from an specific ESN city',
             validate: {
                 params: {
                     code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).required().example('AA-AAAA')
@@ -233,7 +235,7 @@ module.exports = [
                 );
         },
         config: {
-            description: 'Gets all sections belonging to a city',
+            description: 'Gets the sections belonging to a specific ESN city',
             validate: {
                 params: {
                     code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).required().example('AA-AAAA')
@@ -262,6 +264,7 @@ module.exports = [
             reply('Aggregated news list of city with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the news from a specific ESN city',
             tags: ['api', 'swagger']
         }
     },
@@ -273,6 +276,7 @@ module.exports = [
             reply('Aggregated events list of city with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the events from a specific ESN city',
             tags: ['api', 'swagger']
         }
     },
@@ -284,6 +288,7 @@ module.exports = [
             reply('Aggregated partners list of city with code ' + req.params.code);
         },
         config: {
+            description: 'Gets the partners found in a specific ESN city',
             tags: ['api', 'swagger']
         }
     }

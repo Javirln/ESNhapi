@@ -25,7 +25,8 @@ describe('Countries', function () {
     beforeEach(function () {
 
         return TestTools.clearCollection('sections')
-            .then(() => TestTools.clearCollection('countries'));
+            .then(() => TestTools.clearCollection('countries')
+                .then(() => TestTools.clearCollection('cities')));
     });
 
     after(function (done) {

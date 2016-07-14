@@ -30,9 +30,44 @@ module.exports = [
         method: 'POST',
         handler: (req, reply) => {
 
-            reply('Create a city');
+            const db = req.server.mongo.db;
+
+            db.collection('cities')
+                .insertOne(req.payload)
+                .then(
+                    (result) => reply('City successfully created').code(201),
+                    (err) => {
+
+                        if (err) {
+                            if (err.code === 11000) {
+                                return reply(Boom.conflict('Duplicated index', err.errmsg));
+                            }
+                            return reply(Boom.internal('Internal MongoDB error', err.errmsg));
+                        }
+                    });
         },
         config: {
+            validate: {
+                payload: Joi.object({
+                    _id: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).required().example('AA-AAAA')
+                        .description('Code of the city'),
+                    country: Joi.string().length(2).uppercase().required().example('AA')
+                        .description('Code of the country'),
+                    name: Joi.string().required().example('Antartica')
+                        .description('City name'),
+                    otherNames: Joi.array()
+                        .description('Other names of the city')
+                }).required().label('City')
+            },
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given payload is malformed, it must follow the given model' },
+                        '404': { 'description': 'The city with the given code does not exist' },
+                        '409': { 'description': 'There is already a city with that index' }
+                    }
+                }
+            },
             tags: ['api', 'swagger']
         }
     },
@@ -66,7 +101,7 @@ module.exports = [
             plugins: {
                 'hapi-swagger': {
                     responses: {
-                        '400': { 'description': 'The given code is malformed, must follow the pattern AA-AAAA' },
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA-AAAA' },
                         '404': { 'description': 'The city with the given code does not exist' }
                     }
                 }
@@ -97,6 +132,8 @@ module.exports = [
                     (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg)));
         },
         config: {
+            description: 'Updates city content',
+            notes: 'All values must be filled although they are not to be changed',
             validate: {
                 payload: Joi.object({
                     _id: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).required().example('AA-AAAA')

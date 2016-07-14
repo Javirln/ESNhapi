@@ -10,6 +10,7 @@ test_api:
   services:
     - mongo
   script:
+    - export NODE_ENV=test
     - npm install --silent > /dev/null
     - node_modules/.bin/_mocha --recursive
 

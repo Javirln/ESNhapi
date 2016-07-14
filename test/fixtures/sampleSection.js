@@ -14,17 +14,21 @@ exports.getSpecific = (section) => {
 };
 
 exports.A = {
-    _id: 'AA-AAAA',
+    _id: 'AA-AAAA-AAAA',
     url: 'http://somewhere.com',
     name: 'ESN Somewhere',
-    country: 'AA'
+    country: 'AA',
+    address: "Street 1",
+    city: "City AA"
 };
 
 exports.B = {
-    _id: 'AA-AABB',
+    _id: 'AA-AABB-AABB',
     url: 'http://bomewhere.com',
     name: 'ESN Bomewhere',
-    country: 'AA'
+    country: 'AA',
+    address: "Street 2",
+    city: "City AB"
 };
 
 exports.create = (section) => {

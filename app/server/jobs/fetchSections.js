@@ -4,7 +4,8 @@ const Request = require('request-promise');
 const _ = require('lodash');
 const OmitEmpty = require('omit-empty');
 
-const CallhomeSectionURL = 'http://satellite.esn.org/callhome/api/section.json';
+//const CallhomeSectionURL = 'http://satellite.esn.org/callhome/api/section.json';
+const CallhomeSectionURL = 'https://git.esn.org/snippets/13/raw';
 
 exports.schedule = (server) => {
 
@@ -25,12 +26,14 @@ exports.schedule = (server) => {
 
                     return sections.updateOne(
                         {
-                            _id: section.code
+                            _id: section._id
                         },
                         OmitEmpty({
-                            url: section.website,
+                            url: section.url,
                             name: section.name,
-                            country: section.code.split('-')[0]
+                            country: section._id.split('-')[0],
+                            address: section.address,
+                            city: section.city
                         }),
                         {
                             upsert: true

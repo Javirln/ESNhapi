@@ -1,6 +1,14 @@
 'use strict';
 
-const mongoURL = 'mongodb://mongo:27017/esnhapi';
+const mongoDB = () => {
+
+    if (process.env.NODE_ENV === 'test') {
+        return 'esnhapi-test';
+    }
+    return 'esnhapi';
+};
+
+const mongoURL = `mongodb://mongo:27017/${mongoDB()}`;
 
 exports.registerGood = {
     plugin: {

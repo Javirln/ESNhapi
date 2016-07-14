@@ -11,9 +11,9 @@ services:
          - "3000:3000"
          - "5858:5858"
         links:
-         - db:mongo
+         - mongo:mongo
         tty: true
-    db:
+    mongo:
         image: mongo
         ports:
          - "27017:27017"
@@ -21,3 +21,22 @@ services:
          - "./data/mongo/configdb:/data/configdb"
          - "./data/mongo/db:/data/db"
         tty: true
+
+    api_test:
+      container_name: esnhapi_test_api
+      build:
+        context: .
+        dockerfile: app/Dockerfile.test
+      tty: true
+      environment:
+        - NODE_ENV=test
+      ports:
+        - "3001:3000"
+        - "5859:5858"
+      volumes:
+           - "./app:/src/app/"
+           - "./test:/src/test/"
+           - "./node_modules:/src/node_modules"
+      links:
+        - mongo:mongo
+

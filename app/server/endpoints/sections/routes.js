@@ -152,7 +152,7 @@ module.exports = [
             tags: ['api', 'swagger'],
             validate: {
                 params: {
-                    code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).required().example('AA-AAAA')
+                    code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}-[A-Z0-9]{3,4}$/).required().example('AA-AAAA-AAAA')
                         .description('Code of the section')
                 }
             }

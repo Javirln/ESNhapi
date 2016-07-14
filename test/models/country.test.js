@@ -4,6 +4,7 @@ const expect = require('chai').expect;   // assertion library
 const TestTools = require('./../test-tools');
 const FakeCountry = require('../fixtures/sampleCountry');
 const FakeSection = require('../fixtures/sampleSection');
+const FakeCity = require('../fixtures/sampleCity');
 
 const Boom = require('boom');
 
@@ -127,6 +128,20 @@ describe('Countries', function () {
             .then((response) => {
 
                 expect(response.result).to.deep.equal([FakeSection.A, FakeSection.B]);
+                expect(response.statusCode).to.equal(200);
+            });
+    });
+
+    it('should be able to fetch the cities of the country', () => {
+
+        return Server
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
+            .then(() => Server.inject(FakeCity.create(FakeCity.B)))
+            .then(() => Server.inject(FakeCountry.getCities(FakeCountry.A)))
+            .then((response) => {
+
+                expect(response.result).to.deep.equal([FakeCity.A, FakeCity.B]);
                 expect(response.statusCode).to.equal(200);
             });
     });

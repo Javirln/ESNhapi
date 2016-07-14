@@ -227,7 +227,30 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            reply('Cities list of country with code ' + req.params.code);
+            const db = req.server.mongo.db;
+
+            Promise
+                .resolve(db
+                    .collection('countries')
+                    .find({ _id: req.params.code })
+                    .count()
+                )
+                .then((country) => {
+
+                    if (country === 1) {
+                        return Promise.resolve();
+                    }
+                    return Promise.reject(Boom.notFound('Country doesn\'t exist'));
+                })
+                .then(() => db
+                    .collection('cities')
+                    .find({ country: req.params.code })
+                    .sort({ _id: 1 })
+                    .toArray())
+                .then(
+                    (success) => reply(success).code(200),
+                    (error) => reply(error)
+                );
         },
         config: {
             description: 'Gets the cities belonging to a specific ESN country',

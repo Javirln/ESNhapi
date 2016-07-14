@@ -21,6 +21,14 @@ exports.getSections = (country) => {
     }
 };
 
+exports.getCities = (country) => {
+
+    return {
+        method: 'GET',
+        url: '/countries/' + country._id + '/cities'
+    }
+};
+
 exports.A = {
     _id: 'AA',
     url: 'http://somewhere.com',

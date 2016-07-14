@@ -30,6 +30,15 @@ exports.A = {
     ]
 };
 
+exports.B = {
+    _id: 'AA-AABB',
+    country: 'AA',
+    name: 'Rocksy',
+    otherNames: [
+        'Rockser'
+    ]
+};
+
 exports.Z = {
     _id: 'AB-AABB',
     country: 'AB',

@@ -33,7 +33,7 @@
     "node-schedule": "^1.1.1",
     "omit-empty": "^0.4.1",
     "request-promise": "^3.0.0",
-    "ping": "latest",
+    "ping": "latest"
   },
   "devDependencies": {
     "chai": "^3.5.0",

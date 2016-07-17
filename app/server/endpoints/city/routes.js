@@ -4,6 +4,8 @@ const Boom = require('boom');
 const Joi = require('joi');
 const CityModel = require('./model');
 const SectionModel = require('../sections/model');
+const NewsModel = require('../news/model');
+const EventsModel = require('../events/model');
 
 module.exports = [
     {
@@ -259,9 +261,50 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            reply('Aggregated news list of city with code ' + req.params.code);
+            const db = req.server.mongo.db;
+
+            Promise
+                .resolve(db
+                    .collection('cities')
+                    .find({ _id: req.params.code })
+                    .count()
+                )
+                .then((city) => {
+
+                    if (city === 1) {
+                        return Promise.resolve();
+                    }
+                    return Promise.reject(Boom.notFound('City doesn\'t exist'));
+                })
+                .then(() => db
+                    .collection('news')
+                    .find({ _id: { $regex: '.*'.concat(req.params.code, '.*') } })
+                    .sort({ _id: 1 })
+                    .toArray())
+                .then(
+                    (success) => reply(success).code(200),
+                    (error) => reply(error)
+                );
         },
         config: {
+            description: 'Gets all news belonging to a city',
+            validate: {
+                params: {
+                    code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).required().example('AA-AAAA')
+                        .description('Code of the city to fetch news from')
+                }
+            },
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA-AAAA' },
+                        '404': { 'description': 'The city with the given code does not exist' }
+                    }
+                }
+            },
+            response: {
+                schema: Joi.array().items(NewsModel).label('News')
+            },
             tags: ['api', 'swagger']
         }
     },
@@ -270,9 +313,50 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            reply('Aggregated events list of city with code ' + req.params.code);
+            const db = req.server.mongo.db;
+
+            Promise
+                .resolve(db
+                    .collection('cities')
+                    .find({ _id: req.params.code })
+                    .count()
+                )
+                .then((city) => {
+
+                    if (city === 1) {
+                        return Promise.resolve();
+                    }
+                    return Promise.reject(Boom.notFound('City doesn\'t exist'));
+                })
+                .then(() => db
+                    .collection('events')
+                    .find({ _id: { $regex: '.*'.concat(req.params.code, '.*') } })
+                    .sort({ _id: 1 })
+                    .toArray())
+                .then(
+                    (success) => reply(success).code(200),
+                    (error) => reply(error)
+                );
         },
         config: {
+            description: 'Gets all news belonging to a city',
+            validate: {
+                params: {
+                    code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).required().example('AA-AAAA')
+                        .description('Code of the city to fetch events from')
+                }
+            },
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '400': { 'description': 'The given code is malformed, it must follow the pattern AA-AAAA' },
+                        '404': { 'description': 'The city with the given code does not exist' }
+                    }
+                }
+            },
+            response: {
+                schema: Joi.array().items(EventsModel).label('Events') //To be implemented
+            },
             tags: ['api', 'swagger']
         }
     },

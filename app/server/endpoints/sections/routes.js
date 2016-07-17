@@ -10,8 +10,6 @@ module.exports = [
         handler: (req, reply) => {
 
             const db = req.server.mongo.db;
-
-
             reply(db
                 .collection('sections')
                 .find({})

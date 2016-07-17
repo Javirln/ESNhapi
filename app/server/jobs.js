@@ -45,6 +45,7 @@ const ScheduleJobs = (server) => {
                 .then(() => FetchSections.schedule(server))
                 .then(() => HeartBeat.schedule(server))
                 .then(() => FetchNews.schedule(server))
+                .then(() => FetchEvents.schedule(server))
                 .catch((err) => server.log('error', 'An error occurred while executing cron' + err));
 
         });

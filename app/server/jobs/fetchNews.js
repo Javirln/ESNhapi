@@ -47,18 +47,37 @@ exports.schedule = (server) => {
                                 }).then(
                                     (response) => {
                                         Promise.all(_.map(response.body, (content_news) => {
-                                            return news.updateOne({
 
-                                                _id: section._id + '-news-' + content_news.nid
-                                            }, {
-                                                title: content_news.title,
-                                                createdOnSatellite: content_news.created,
-                                                content: content_news.content,
-                                                lastUpadted: Date.now()
-                                            }, {
-                                                upsert: true
-                                            });
+                                            const dateNow = new Date();
+                                            const newsDate = new Date(content_news.created);
 
+                                            //Controlling first January and December, since the reduction of their indexes is negative
+                                            if (dateNow.getYear() - newsDate.getYear() === 1 && dateNow.getMonth() - newsDate.getMonth() === -11) {
+                                                return news.updateOne({
+
+                                                    _id: section._id + '-news-' + content_news.nid
+                                                }, {
+                                                    title: content_news.title,
+                                                    createdOnSatellite: content_news.created,
+                                                    content: content_news.content,
+                                                    lastUpdated: Date.now()
+                                                }, {
+                                                    upsert: true
+                                                });
+                                            // Controlling the rest of the months
+                                            } else if (dateNow.getYear() === newsDate.getYear() && dateNow.getMonth() - newsDate.getMonth() === 0 || 1){
+                                                return news.updateOne({
+
+                                                    _id: section._id + '-news-' + content_news.nid
+                                                }, {
+                                                    title: content_news.title,
+                                                    createdOnSatellite: content_news.created,
+                                                    content: content_news.content,
+                                                    lastUpdated: Date.now()
+                                                }, {
+                                                    upsert: true
+                                                });
+                                            }
                                         }))
                                         .then(() => {
                                             server.log('info', 'Successfully updated news');

@@ -5,7 +5,6 @@ const FetchSections = require('./jobs/fetchSections');
 const FetchCities = require('./jobs/fetchCities');
 const FetchNews = require('./jobs/fetchNews');
 const FetchEvents = require('./jobs/fetchEvents');
-const HeartBeat = require('./jobs/utils');
 
 const Schedule = require('node-schedule');
 
@@ -26,7 +25,6 @@ const ScheduleJobs = (server) => {
     FetchCountries.schedule(server)
         .then(() => FetchCities.schedule(server))
         .then(() => FetchSections.schedule(server))
-        .then(() => HeartBeat.schedule(server))
         .then(() => FetchNews.schedule(server))
         .then(() => FetchEvents.schedule(server))
         .catch((err) => server.log('error', 'An error occurred while executing cron' + err));
@@ -43,7 +41,6 @@ const ScheduleJobs = (server) => {
             return FetchCountries.schedule(server)
                 .then(() => FetchCities.schedule(server))
                 .then(() => FetchSections.schedule(server))
-                .then(() => HeartBeat.schedule(server))
                 .then(() => FetchNews.schedule(server))
                 .then(() => FetchEvents.schedule(server))
                 .catch((err) => server.log('error', 'An error occurred while executing cron' + err));

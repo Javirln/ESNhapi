@@ -12,7 +12,7 @@ exports.schedule = (server) => {
     server.mongo.db.createCollection('news');
 
     const sections = server.mongo.db
-        .collection('sections').find({ alive:true }); //Delete alive: true to see the results without taking into consideration the result of the ping
+        .collection('sections').find({});
     Promise.
         all(
         sections.forEach((section) => {
@@ -57,7 +57,7 @@ exports.schedule = (server) => {
                                             title: content_news.title,
                                             createdOnSatellite: content_news.created,
                                             content: content_news.content,
-                                            lastUpdated: Date.now()
+                                            lastUpdate: Date.now()
                                         }, {
                                             upsert: true
                                         });
@@ -71,7 +71,7 @@ exports.schedule = (server) => {
                                             title: content_news.title,
                                             createdOnSatellite: content_news.created,
                                             content: content_news.content,
-                                            lastUpdated: Date.now()
+                                            lastUpdate: Date.now()
                                         }, {
                                             upsert: true
                                         });

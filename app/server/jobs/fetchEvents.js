@@ -12,7 +12,7 @@ exports.schedule = (server) => {
     server.mongo.db.createCollection('events');
 
     const sections = server.mongo.db
-        .collection('sections').find({ alive: true }); //Delete alive: true to see the results without taking into consideration the result of the ping
+        .collection('sections').find({});
 
     Promise.
     all(
@@ -57,7 +57,7 @@ exports.schedule = (server) => {
                                     }, {
                                         title: content_events.title,
                                         dateStarts: content_events.date_starts,
-                                        date_ends: content_events.date_ends,
+                                        dateEnds: content_events.date_ends,
                                         place: content_events.place,
                                         price: content_events.price,
                                         eventType: content_events.event_type,
@@ -79,7 +79,7 @@ exports.schedule = (server) => {
                                     }, {
                                         title: content_events.title,
                                         dateStarts: content_events.date_starts,
-                                        date_ends: content_events.date_ends,
+                                        dateEnds: content_events.date_ends,
                                         place: content_events.place,
                                         price: content_events.price,
                                         eventType: content_events.event_type,

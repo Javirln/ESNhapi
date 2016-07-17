@@ -15,17 +15,17 @@ module.exports = Joi.object({
     dateEnds: Joi.date().example('2016-06-10T12:00:00+02:00')
         .description('The date when the event ends'),
 
-    place: Joi.string().example('Antartica')
+    place: Joi.any().example('Antartica')
         .description('Where the event is taking place'),
 
-    price: Joi.string().example('19,95€')
+    price: Joi.any().example('19,95€')
         .description('Price of the Event'),
 
 
     eventType: Joi.array().items(Joi.string().example('Cultural'))
         .description('Event type'),
 
-    meetingPoint: Joi.string().example('Midtown')
+    meetingPoint: Joi.any().example('Midtown')
         .description('Where is the meeting point'),
 
     moreInformation: Joi.array().items(Joi.string().example('Bar\'s website'))
@@ -34,16 +34,16 @@ module.exports = Joi.object({
     included: Joi.array().items(Joi.string().example('Transport'))
         .description('What\'s included in the price'),
 
-    content: Joi.string().example('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
+    content: Joi.any().example('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
         .description('The description of the event'),
     // Since although filling all fields on an Event on Satellite, we still don't know the types, so Joi.any() will do the trick for the moment
-    address: Joi.object({
+    address: Joi.any({
         country: Joi.any(),
         administrative_area: Joi.any(),
         sub_administrative_area: Joi.any(),
         locality: Joi.any(),
         dependent_locality: Joi.any(),
-        postal_code: Joi.number(),
+        postal_code: Joi.any(),
         thoroughfare: Joi.any(),
         premise: Joi.any(),
         sub_premise: Joi.any(),
@@ -54,7 +54,7 @@ module.exports = Joi.object({
         data: Joi.any()
     }),
 
-    location: Joi.string().example('POINT (-0.1214235 40.6650743)'),
+    location: Joi.any().example('POINT (-0.1214235 40.6650743)'),
 
     lastUpdate: Joi.number().example('1468776265810.0')
         .description('The timestamp about when it was fetched')

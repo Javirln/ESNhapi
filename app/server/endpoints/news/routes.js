@@ -211,7 +211,6 @@ module.exports = [
         //            }
         //        }
         //    },
-            tags: ['api', 'swagger']
         }
     },
     {

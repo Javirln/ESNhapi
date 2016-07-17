@@ -47,13 +47,13 @@ exports.schedule = (server) => {
                                         Promise.all(_.map(response.body, (content_events) => {
 
                                             const dateNow = new Date();
-                                            const eventDate = new Date(content_events.created);
+                                            const eventDate = new Date(content_events.date_starts);
 
                                                 //Controlling first January and December, since the reduction of their indexes is negative
                                             if (dateNow.getYear() - eventDate.getYear() === 1 && dateNow.getMonth() - eventDate.getMonth() === -11) {
                                                 return events.updateOne({
 
-                                                    _id: section._id + '-events-' + content_events.nid
+                                                    _id: valid_section._id + '-events-' + content_events.nid
                                                 }, {
                                                     title: content_events.title,
                                                     dateStarts: content_events.date_starts,
@@ -72,10 +72,10 @@ exports.schedule = (server) => {
                                                     upsert: true
                                                 });
                                                 // Controlling the rest of the months
-                                            } else if  (dateNow.getYear() === newsDate.getYear() && dateNow.getMonth() - eventDate.getMonth() === 0 || 1) {
+                                            } else if  (dateNow.getYear() === eventDate.getYear() && dateNow.getMonth() - eventDate.getMonth() === (0 || 1)) {
                                                 return events.updateOne({
 
-                                                    _id: section._id + '-events-' + content_events.nid
+                                                    _id: valid_section._id + '-events-' + content_events.nid
                                                 }, {
                                                     title: content_events.title,
                                                     dateStarts: content_events.date_starts,

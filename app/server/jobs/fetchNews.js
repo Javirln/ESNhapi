@@ -55,7 +55,7 @@ exports.schedule = (server) => {
                                             if (dateNow.getYear() - newsDate.getYear() === 1 && dateNow.getMonth() - newsDate.getMonth() === -11) {
                                                 return news.updateOne({
 
-                                                    _id: section._id + '-news-' + content_news.nid
+                                                    _id: valid_section._id + '-news-' + content_news.nid
                                                 }, {
                                                     title: content_news.title,
                                                     createdOnSatellite: content_news.created,
@@ -65,10 +65,10 @@ exports.schedule = (server) => {
                                                     upsert: true
                                                 });
                                             // Controlling the rest of the months
-                                            } else if (dateNow.getYear() === newsDate.getYear() && dateNow.getMonth() - newsDate.getMonth() === 0 || 1){
+                                            } else if (dateNow.getYear() === newsDate.getYear() && dateNow.getMonth() - newsDate.getMonth() === (0 || 1)){
                                                 return news.updateOne({
 
-                                                    _id: section._id + '-news-' + content_news.nid
+                                                    _id: valid_section._id + '-news-' + content_news.nid
                                                 }, {
                                                     title: content_news.title,
                                                     createdOnSatellite: content_news.created,

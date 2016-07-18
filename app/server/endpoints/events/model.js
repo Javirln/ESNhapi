@@ -36,8 +36,8 @@ module.exports = Joi.object({
 
     content: Joi.any().example('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
         .description('The description of the event'),
-    // Since although filling all fields on an Event on Satellite, we still don't know the types, so Joi.any() will do the trick for the moment
-    address: Joi.any({
+
+    address: Joi.object({
         country: Joi.any(),
         administrative_area: Joi.any(),
         sub_administrative_area: Joi.any(),

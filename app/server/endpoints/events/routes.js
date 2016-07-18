@@ -1,4 +1,5 @@
 'use strict';
+
 const Joi = require('joi');
 const Boom = require('boom');
 const EventsModel = require('./model');

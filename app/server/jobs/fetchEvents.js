@@ -65,7 +65,7 @@ exports.schedule = (server) => {
                                         moreInformation: content_events.more_information,
                                         included: content_events.included,
                                         content: content_events.content,
-                                        address: content_events.address,
+                                        address: content_events.address.length === 0 ? { } : content_events.address,
                                         location: content_events.location,
                                         lastUpdate: Date.now()
                                     }, {
@@ -87,7 +87,7 @@ exports.schedule = (server) => {
                                         moreInformation: content_events.more_information,
                                         included: content_events.included,
                                         content: content_events.content,
-                                        address: content_events.address,
+                                        address: content_events.address.length === 0 ? { } : content_events.address,
                                         location: content_events.location,
                                         lastUpdate: Date.now()
                                     }, {

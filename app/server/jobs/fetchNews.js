@@ -3,11 +3,17 @@
 const Request = require('request-promise');
 const _ = require('lodash');
 
+const base_dir = './app/logs/';
+const GoodFile = require('good-file');
+
 const BaseUrlNews = 'api/v1/news.json';
+
+const toStore = new GoodFile(base_dir.concat('news.log'));
 
 exports.schedule = (server) => {
 
     server.log('info', 'Getting section data: news');
+    toStore.write(new Date().toString() + ' [INFO] Getting section data: news\n');
 
     server.mongo.db.createCollection('news');
 
@@ -16,7 +22,6 @@ exports.schedule = (server) => {
     Promise.
         all(
         sections.forEach((section) => {
-
             return Request({
                 uri: section.url.concat(section.url.endsWith('/') ? 'api/v1' : '/api/v1'),
                 json: true,
@@ -60,7 +65,7 @@ exports.schedule = (server) => {
                                             lastUpdate: Date.now()
                                         }, {
                                             upsert: true
-                                        });
+                                        }).then(toStore.write(new Date().toString() + ' [INFO] ' + ' [SECTION-CODE] ' + valid_section._id + ' || ' + ' [NEW-ID] ' + content_news.nid + ' created\n'));
                                         // Checking the rest of the months
                                     } else if (dateNow.getUTCFullYear() === newsDate.getUTCFullYear() &&
                                         (dateNow.getUTCMonth() - newsDate.getUTCMonth() === 0 || dateNow.getUTCMonth() - newsDate.getUTCMonth() === 1)){
@@ -74,11 +79,12 @@ exports.schedule = (server) => {
                                             lastUpdate: Date.now()
                                         }, {
                                             upsert: true
-                                        });
+                                        }).then(toStore.write(new Date().toString() + ' [INFO] ' + ' [SECTION-CODE] ' + valid_section._id + ' || ' + ' [NEW-ID] ' + content_news.nid + ' created\n'));
                                     }
                                 }))
                                 .then(() => {
                                     server.log('info', 'Successfully updated news');
+                                    console.log('info', 'Successfully updated news');
                                 },
                                 (error) => {
                                     server.log('error', 'Error updating list of news:' + error);
@@ -87,7 +93,7 @@ exports.schedule = (server) => {
                             //URL de Noticias no valida
                             });
                     })).then(() => {  });
-                }).catch((err) => {
+                }).catch((err, valid_section) => {
                     //URL de API no valida
                 });
         },

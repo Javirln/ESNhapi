@@ -13,13 +13,13 @@ const ScheduleJobs = (server) => {
 
     server.log('info', 'Executing Scheduled Jobs at start');
 
-    /*
-     Promise.all([FetchCountries.schedule(server), FetchCities.schedule(server), FetchSections.schedule(server), HeartBeat.schedule(server)])
-     .then(() => {
-     FetchNews.schedule(server);
-     FetchEvents.schedule(server);
-     });
-     */
+
+    //Promise.all([FetchCountries.schedule(server), FetchCities.schedule(server), FetchSections.schedule(server)])
+    // .then(() => {
+    //     FetchNews.schedule(server);
+    //     FetchEvents.schedule(server);
+    // });
+
 
 
     FetchCountries.schedule(server)

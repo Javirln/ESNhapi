@@ -3,11 +3,17 @@
 const Request = require('request-promise');
 const _ = require('lodash');
 
+const base_dir = './app/logs/';
+const GoodFile = require('good-file');
+
 const BaseUrlEvents = 'api/v1/events.json';
+
+const toStore = new GoodFile(base_dir.concat('events.log'));
 
 exports.schedule = (server) => {
 
     server.log('info', 'Getting section data: events');
+    toStore.write(new Date().toString() + ' [INFO] Getting section data: events\n');
 
     server.mongo.db.createCollection('events');
 
@@ -70,7 +76,7 @@ exports.schedule = (server) => {
                                         lastUpdate: Date.now()
                                     }, {
                                         upsert: true
-                                    });
+                                    }).then(toStore.write(new Date().toString() + '[INFO]' + ' [SECTION-CODE] ' + valid_section._id + ' || ' + ' [EVENT-ID] ' + content_events.nid + ' created\n'));
                                     // Checking the rest of the months
                                 } else if (dateNow.getUTCFullYear() === eventsDate.getUTCFullYear() &&
                                     (dateNow.getUTCMonth() - eventsDate.getUTCMonth() === 0 || eventsDate.getUTCMonth() - eventsDate.getUTCMonth() === 1)){
@@ -92,7 +98,7 @@ exports.schedule = (server) => {
                                         lastUpdate: Date.now()
                                     }, {
                                         upsert: true
-                                    });
+                                    }).then(toStore.write(new Date().toString() + '[INFO]' + ' [SECTION-CODE] ' + valid_section._id + ' || ' + ' [EVENT-ID] ' + content_events.nid + ' created\n'));
                                 }
                             }))
                                 .then(() => {

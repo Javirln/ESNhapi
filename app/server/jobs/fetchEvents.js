@@ -19,7 +19,6 @@ exports.schedule = (server) => {
 
     const sections = server.mongo.db
         .collection('sections').find({});
-
     Promise.
     all(
         sections.forEach((section) => {

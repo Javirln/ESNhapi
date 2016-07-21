@@ -131,14 +131,14 @@ module.exports = [
         }
     },
     {
-        path: '/events/{_id}',
+        path: '/events/{id}',
         method: 'DELETE',
         handler: (req, reply) => {
 
             const db = req.server.mongo.db;
 
             db.collection('events')
-                .deleteOne({ _id: req.params._id })
+                .deleteOne({ _id: req.params.id })
                 .then(
                     (result) => {
 
@@ -153,8 +153,8 @@ module.exports = [
             description: 'Deletes an event',
             validate: {
                 params: {
-                    _id: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}-[A-Z0-9]{3,4}-events-[0-9]+$/).required().example('AA-AAAA-AAA-events-1234')
-                        .description('Code of the events')
+                    id: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}-[A-Z0-9]{3,4}-events-[0-9]+$/).required().example('AA-AAAA-AAA-events-1234')
+                        .description('Code of the event')
                 }
             },
             plugins: {
@@ -232,14 +232,14 @@ module.exports = [
         }
     },
     {
-        path: '/events/{_id}',
+        path: '/events/{id}',
         method: 'GET',
         handler: (req, reply) => {
 
             const db = req.server.mongo.db;
 
             db.collection('events')
-                .findOne({ _id: req.params._id })
+                .findOne({ _id: req.params.id })
                 .then(
                     (result) => {
                         if (result === null){
@@ -254,7 +254,7 @@ module.exports = [
             description: 'Gets all the information of a event',
             validate:{
                 params: {
-                    _id: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}-[A-Z0-9]{3,4}-events-[0-9]+$/).required().example('AA-AAAA-AAA-events-1234')
+                    id: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}-[A-Z0-9]{3,4}-events-[0-9]+$/).required().example('AA-AAAA-AAA-events-1234')
                         .description('Code of the event to fetch')
                 }
             },

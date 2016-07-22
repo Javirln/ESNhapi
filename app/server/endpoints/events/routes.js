@@ -12,6 +12,9 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
+            db.collection('events').find({}).sort({ _id: 1 }).toArray()
+                .then((result) => console.log(result));
+
             reply(db
                 .collection('events')
                 .find({})
@@ -20,7 +23,7 @@ module.exports = [
         },
         config: {
             description: 'Gets all events',
-            response: { schema: Joi.array().items(EventsModel).label('Events') },
+            //response: { schema: Joi.array().items(EventsModel).label('Events') },
             tags: ['api', 'swagger']
         }
     },

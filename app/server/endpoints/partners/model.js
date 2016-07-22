@@ -15,7 +15,7 @@ module.exports = Joi.object({
     moreInformation: Joi.any().example('Bar\'s website')
         .description('Links to more information'),
 
-    lastUpdate: Joi.number().example('1468776265810.0')
+    lastUpdate: Joi.date().timestamp().example('1468776265810')
         .description('The timestamp about when it was fetched')
 
 }).label('Partner');

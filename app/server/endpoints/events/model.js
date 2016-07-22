@@ -12,26 +12,26 @@ module.exports = Joi.object({
     dateStarts: Joi.date().required().example('2016-06-05T12:32:35+02:00')
         .description('The date when the event starts'),
 
-    dateEnds: Joi.date().example('2016-06-10T12:00:00+02:00')
+    dateEnds: Joi.date().optional().example('2016-06-10T12:00:00+02:00')
         .description('The date when the event ends'),
 
-    place: Joi.any().example('Antartica')
+    place: Joi.any().optional().example('Antartica')
         .description('Where the event is taking place'),
 
-    price: Joi.any().example('19,95€')
+    price: Joi.any().optional().example('19,95€')
         .description('Price of the Event'),
 
 
     eventType: Joi.array().items(Joi.string().example('Cultural'))
         .description('Event type'),
 
-    meetingPoint: Joi.any().example('Midtown')
+    meetingPoint: Joi.any().optional().example('Midtown')
         .description('Where is the meeting point'),
 
-    moreInformation: Joi.array().items(Joi.string().example('Bar\'s website'))
+    moreInformation: Joi.array().optional().items(Joi.string().example('Bar\'s website'))
         .description('Links to more information'),
 
-    included: Joi.array().items(Joi.string().example('Transport'))
+    included: Joi.array().optional().items(Joi.string().example('Transport'))
         .description('What\'s included in the price'),
 
     content: Joi.any().example('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')

@@ -81,18 +81,18 @@ exports.schedule = (server) => {
 
                                             _id: valid_section._id + '-events-' + content_events.nid
                                         }, {
-                                            title: content_events.title,
-                                            dateStarts: content_events.date_starts,
-                                            dateEnds: content_events.date_ends,
-                                            place: content_events.place,
-                                            price: content_events.price,
-                                            eventType: content_events.event_type,
-                                            meetingPoint: content_events.meeting_point,
-                                            moreInformation: content_events.more_information,
-                                            included: content_events.included,
-                                            content: content_events.content,
-                                            address: content_events.address.length === 0 ? { } : content_events.address,
-                                            location: content_events.location,
+                                            title: content_events.title || undefined,
+                                            dateStarts: content_events.date_starts || undefined,
+                                            dateEnds: content_events.date_ends || undefined,
+                                            place: content_events.place || undefined,
+                                            price: content_events.price || undefined,
+                                            eventType: content_events.event_type || undefined,
+                                            meetingPoint: content_events.meeting_point || undefined,
+                                            moreInformation: content_events.more_information || undefined,
+                                            included: content_events.included || undefined,
+                                            content: content_events.content || undefined,
+                                            address: content_events.address.length === 0 ? undefined : content_events.address,
+                                            location: content_events.location || undefined,
                                             lastUpdate: Date.now()
                                         }, {
                                             upsert: true

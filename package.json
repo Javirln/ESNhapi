@@ -32,8 +32,9 @@
     "lodash": "^4.13.1",
     "node-schedule": "^1.1.1",
     "omit-empty": "^0.4.1",
+    "ping": "^0.1.10",
     "request-promise": "^3.0.0",
-    "ping": "latest"
+    "vision": "^4.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

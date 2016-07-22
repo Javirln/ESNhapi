@@ -24,7 +24,22 @@ exports.registerGood = {
                     args: [{ log: '*', response: '*' }]
                 }, {
                     module: 'good-console'
-                }, 'stdout']
+                }, 'stdout'],
+                file: [{
+                    module: 'good-squeeze',
+                    name: 'Squeeze',
+                    args: [{ log: '*', response: '*', ops: '*', error: '*', request: '*' }]
+                },{
+                    module: 'good-squeeze',
+                    name: 'SafeJson',
+                    args: [
+                        null,
+                        { separator: '\n' }
+                    ]
+                }, {
+                    module: 'good-file',
+                    args: ['./app/logs/general.log']
+                }]
             }
         }
     }
@@ -75,12 +90,10 @@ exports.registerMongoDB = {
         register: 'hapi-mongodb',
         options: {
             url: mongoURL,
+            decorate: true,
             settings: {
-                db: {
-                    native_parser: false
-                }
-            },
-            decorate: true
+                promiseLibrary: 'bluebird'
+            }
         }
     }
 };

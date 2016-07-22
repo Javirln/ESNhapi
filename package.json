@@ -16,7 +16,9 @@
   "license": "ISC",
   "dependencies": {
     "blipp": "^2.3.0",
+    "bluebird": "^3.4.1",
     "boom": "^3.1.2",
+    "date-extended": "0.0.6",
     "glue": "^3.3.0",
     "good": "^7.0.0",
     "good-console": "^6.1.1",
@@ -32,6 +34,7 @@
     "lodash": "^4.13.1",
     "node-schedule": "^1.1.1",
     "omit-empty": "^0.4.1",
+    "ping": "^0.1.10",
     "request-promise": "^3.0.0",
     "vision": "^4.1.0"
   },

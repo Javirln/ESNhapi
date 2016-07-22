@@ -12,9 +12,6 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            db.collection('events').find({}).sort({ _id: 1 }).toArray()
-                .then((result) => console.log(result));
-
             reply(db
                 .collection('events')
                 .find({})

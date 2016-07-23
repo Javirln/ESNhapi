@@ -126,6 +126,8 @@ describe('Countries', function () {
 
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
+            .then(() => Server.injectThen(FakeCity.create(FakeCity.B)))
             .then(() => Server.inject(FakeSection.create(FakeSection.A)))
             .then(() => Server.inject(FakeSection.create(FakeSection.B)))
             .then(() => Server.inject(FakeCountry.getSections(FakeCountry.A)))

@@ -50,7 +50,7 @@ describe('Cities', function () {
 
     });
 
-    it('should be able to create a single city', () => {
+    it('should be able to create a single city', function () {
 
         return Server
             // Create country A
@@ -73,7 +73,7 @@ describe('Cities', function () {
 
     });
 
-    it('should throw a duplicate error when creating if it already exists', () => {
+    it('should throw a duplicate error when creating if it already exists', function () {
         return Server
         // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
@@ -87,7 +87,7 @@ describe('Cities', function () {
             });
     });
 
-    it('should throw a bad request error if the parent country doesn\'t exist', () => {
+    it('should throw a bad request error if the parent country doesn\'t exist', function () {
 
         const parentCountry = FakeCity.A.country;
 
@@ -100,7 +100,7 @@ describe('Cities', function () {
             });
     });
 
-    it('should be able to fetch a specific city', () => {
+    it('should be able to fetch a specific city', function () {
 
         return Server
         // Create country A
@@ -115,7 +115,7 @@ describe('Cities', function () {
             });
     });
 
-    it('should be able to delete a city ', () => {
+    it('should be able to delete a city ', function () {
 
         return Server
         // Create country A

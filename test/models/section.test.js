@@ -50,7 +50,7 @@ describe('Sections', function () {
 
     });
 
-    it('should be able to create a single section', () => {
+    it('should be able to create a single section', function () {
 
         return Server
             // Create country A
@@ -72,7 +72,7 @@ describe('Sections', function () {
             });
     });
 
-    it('should throw a duplicate error when creating if it already exists', () => {
+    it('should throw a duplicate error when creating if it already exists', function () {
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
             .then(() => Server.inject(FakeSection.create(FakeSection.A)))
@@ -84,7 +84,7 @@ describe('Sections', function () {
             });
     });
 
-    it('should not allow to create one if a parent country does not exist', () => {
+    it('should not allow to create one if a parent country does not exist', function () {
         return Server
             .injectThen(FakeSection.create(FakeSection.A))
             .then((response) => {
@@ -110,7 +110,7 @@ describe('Sections', function () {
             });
     });
 
-    xit('should be able to delete a section and all the resources underneath', () => {
+    xit('should be able to delete a section and all the resources underneath', function () {
         throw new Error('To be implemented');
     });
 

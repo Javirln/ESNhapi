@@ -17,17 +17,19 @@ describe('Countries', function () {
     // SETUP
     // =====
 
-    before(() => {
+    before(function () {
+        this.timeout(0);
 
         return TestTools.setup()
             .then((server) => Server = server);
     });
 
     beforeEach(function () {
+        this.timeout(0);
 
-        return TestTools.clearCollection('sections')
-            .then(() => TestTools.clearCollection('countries')
-                .then(() => TestTools.clearCollection('cities')));
+        return TestTools.clearCollection('countries')
+            .then(() => TestTools.clearCollection('cities'))
+            .then(() => TestTools.clearCollection('sections'));
     });
 
     after(function (done) {

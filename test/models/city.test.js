@@ -97,8 +97,8 @@ describe('Cities', function () {
             .injectThen(FakeCity.create(FakeCity.A))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(Boom.badRequest(`The parent country ${parentCountry} doesn't exist`).output.payload);
-                expect(response.statusCode).to.equal(400);
+                expect(response.result).to.deep.equal(Boom.forbidden(`The parent country ${parentCountry} doesn't exist`).output.payload);
+                expect(response.statusCode).to.equal(403);
             });
     });
 

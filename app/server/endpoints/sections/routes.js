@@ -28,39 +28,43 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            Promise
-                .resolve(db
-                    .collection('countries')
-                    .find({ _id: req.payload.country })
-                    .count()
-                )
+            db
+                .collection('countries')
+                .find({ _id: req.payload.country })
+                .count()
                 .then((country) => {
 
-                    if (country === 1) {
-                        return Promise.resolve();
+                    if (country !== 1) {
+                        reply(Boom.forbidden(`The parent country ${req.payload.country} doesn't exist`));
+                        return Promise.reject();
                     }
-                    return Promise.reject('Country doesn\'t exist');
+                })
+                .then(() => db
+                    .collection('cities')
+                    .find({ name: req.payload.city })
+                    .count()
+                )
+                .then((city) => {
+
+                    if (city !== 1) {
+                        reply(Boom.forbidden(`The parent city ${req.payload.city} doesn't exist`));
+                        return Promise.reject();
+                    }
                 })
                 .then(() => db
                     .collection('sections')
                     .insertOne(req.payload)
                 )
-                .then(
-                    (success) => reply(success.result).code(201),
-                    (error) => {
+                .then((success) => reply(success.result).code(201))
+                .catch((err) => {
 
-                        if (error) {
-                            if (error.code === 11000) {
-                                return reply(Boom.conflict('Duplicated index', error));
-                            }
-                            if (error.errmsg) {
-                                return reply(Boom.internal('Internal MongoDB error', error));
-                            }
-                            return reply(Boom.forbidden('Country doesn\'t exist', error));
-
+                    if (err) {
+                        if (err.code === 11000) {
+                            return reply(Boom.conflict('Duplicated index', err.errmsg));
                         }
+                        return reply(Boom.internal('Internal MongoDB error', err.errmsg));
                     }
-                );
+                });
 
         },
         config: {

@@ -24,27 +24,27 @@ exports.getCities = (city) => {
 exports.A = {
     _id: 'AA-AAAA',
     country: 'AA',
-    name: 'Focksy',
+    name: 'City AA',
     otherNames: [
-        'Fockser'
+        'City AAelse'
     ]
 };
 
 exports.B = {
     _id: 'AA-AABB',
     country: 'AA',
-    name: 'Rocksy',
+    name: 'City AB',
     otherNames: [
-        'Rockser'
+        'City AAelse'
     ]
 };
 
 exports.Z = {
-    _id: 'AB-AABB',
-    country: 'AB',
-    name: 'Brox',
+    _id: 'ZZ-ZZZZ',
+    country: 'ZZ',
+    name: 'City ZZ',
     otherNames: [
-        'Broxers'
+        'City ZZelse'
     ]
 };
 

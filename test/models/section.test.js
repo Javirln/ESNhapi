@@ -3,6 +3,7 @@
 const expect = require('chai').expect;   // assertion library
 const TestTools = require('./../test-tools');
 const FakeSection = require('../fixtures/sampleSection');
+const FakeCity = require('../fixtures/sampleCity');
 const FakeCountry = require('../fixtures/sampleCountry');
 
 const Boom = require('boom');
@@ -57,6 +58,8 @@ describe('Sections', function () {
         return Server
             // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
+            // Create City A
+            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
             // Create section A
             .then(() => Server.injectThen(FakeSection.create(FakeSection.A)))
             .then((response) => {
@@ -77,6 +80,7 @@ describe('Sections', function () {
     it('should throw a duplicate error when creating if it already exists', function () {
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
             .then(() => Server.inject(FakeSection.create(FakeSection.A)))
             .then(() => Server.inject(FakeSection.create(FakeSection.A)))
             .then((response) => {
@@ -87,11 +91,27 @@ describe('Sections', function () {
     });
 
     it('should not allow to create one if a parent country does not exist', function () {
+
+        const parentCountry = FakeCity.A.country;
+
         return Server
             .injectThen(FakeSection.create(FakeSection.A))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(Boom.forbidden('Country doesn\'t exist').output.payload);
+                expect(response.result).to.deep.equal(Boom.forbidden(`The parent country ${parentCountry} doesn't exist`).output.payload);
+                expect(response.statusCode).to.equal(403);
+            });
+    });
+
+    it('should not allow to create one if a parent city does not exist', function () {
+        const parentCity = FakeCity.A.name;
+
+        return Server
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
+            .then((response) => {
+
+                expect(response.result).to.deep.equal(Boom.forbidden(`The parent city ${parentCity} doesn't exist`).output.payload);
                 expect(response.statusCode).to.equal(403);
             });
     });
@@ -101,6 +121,8 @@ describe('Sections', function () {
         return Server
             // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
+            .then(() => Server.injectThen(FakeCity.create(FakeCity.B)))
             // Create section A
             .then(() => Server.injectThen(FakeSection.create(FakeSection.A)))
             // Get section A

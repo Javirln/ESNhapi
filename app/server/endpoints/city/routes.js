@@ -35,10 +35,11 @@ module.exports = [
             const db = req.server.mongo.db;
 
             db.collection('countries')
-                .find({ _id: req.payload.country }).toArray()
-                .then((result) => {
-                    if (result.length === 0) {
-                        reply(Boom.badRequest(`The parent country ${req.payload.country} doesn't exist`));
+                .find({ _id: req.payload.country })
+                .count()
+                .then((country) => {
+                    if (country !== 1) {
+                        reply(Boom.forbidden(`The parent country ${req.payload.country} doesn't exist`));
                         return Promise.reject();
                     }
                 })

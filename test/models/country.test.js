@@ -17,17 +17,19 @@ describe('Countries', function () {
     // SETUP
     // =====
 
-    before(() => {
+    before(function () {
+        this.timeout(0);
 
         return TestTools.setup()
             .then((server) => Server = server);
     });
 
     beforeEach(function () {
+        this.timeout(0);
 
-        return TestTools.clearCollection('sections')
-            .then(() => TestTools.clearCollection('countries')
-                .then(() => TestTools.clearCollection('cities')));
+        return TestTools.clearCollection('countries')
+            .then(() => TestTools.clearCollection('cities'))
+            .then(() => TestTools.clearCollection('sections'));
     });
 
     after(function (done) {
@@ -50,7 +52,7 @@ describe('Countries', function () {
 
     });
 
-    it('should be able to create a single country', () => {
+    it('should be able to create a single country', function () {
 
         return Server
         // Create country A
@@ -70,7 +72,7 @@ describe('Countries', function () {
             });
     });
 
-    it('should throw a duplicate error when creating if it already exists', () => {
+    it('should throw a duplicate error when creating if it already exists', function () {
 
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
@@ -94,7 +96,7 @@ describe('Countries', function () {
             });
     });
 
-    it('should be able to delete a country and all the resources underneath', () => {
+    it('should be able to delete a country and all the resources underneath', function () {
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
             .then(() => Server.inject(FakeSection.create(FakeSection.A)))
@@ -118,7 +120,7 @@ describe('Countries', function () {
             });
     });
 
-    it('should be able to fetch the sections of the country', () => {
+    it('should be able to fetch the sections of the country', function () {
 
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
@@ -132,7 +134,7 @@ describe('Countries', function () {
             });
     });
 
-    it('should be able to fetch the cities of the country', () => {
+    it('should be able to fetch the cities of the country', function () {
 
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))

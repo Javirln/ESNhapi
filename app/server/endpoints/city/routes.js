@@ -34,19 +34,25 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            db.collection('cities')
-                .insertOne(req.payload)
-                .then(
-                    (result) => reply('City successfully created').code(201),
-                    (err) => {
+            db.collection('countries')
+                .find({ _id: req.payload.country }).toArray()
+                .then((result) => {
+                    if (result.length === 0) {
+                        reply(Boom.badRequest(`The parent country ${req.payload.country} doesn't exist`));
+                        return Promise.reject();
+                    }
+                })
+                .then(() => db.collection('cities').insertOne(req.payload))
+                .then((result) => reply('City successfully created').code(201))
+                .catch((err) => {
 
-                        if (err) {
-                            if (err.code === 11000) {
-                                return reply(Boom.conflict('Duplicated index', err.errmsg));
-                            }
-                            return reply(Boom.internal('Internal MongoDB error', err.errmsg));
+                    if (err) {
+                        if (err.code === 11000) {
+                            return reply(Boom.conflict('Duplicated index', err.errmsg));
                         }
-                    });
+                        return reply(Boom.internal('Internal MongoDB error', err.errmsg));
+                    }
+                });
         },
         config: {
             description: 'Creates a new ESN city',

@@ -53,8 +53,10 @@ describe('Cities', function () {
     it('should be able to create a single city', () => {
 
         return Server
+            // Create country A
+            .injectThen(FakeCountry.create(FakeCountry.A))
         // Create city A
-            .injectThen(FakeCity.create(FakeCity.A))
+            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
             .then((response) => {
 
                 expect(response.result).to.deep.equal('City successfully created');
@@ -73,8 +75,10 @@ describe('Cities', function () {
 
     it('should throw a duplicate error when creating if it already exists', () => {
         return Server
-            .injectThen(FakeCity.create(FakeCity.A))
-            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
+        // Create country A
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            // Create city A
+            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
             .then(() => Server.inject(FakeCity.create(FakeCity.A)))
             .then((response) => {
 
@@ -83,10 +87,26 @@ describe('Cities', function () {
             });
     });
 
-    it('should be able to fetch a specific city', () => {
+    it('should throw a bad request error if the parent country doesn\'t exist', () => {
+
+        const parentCountry = FakeCity.A.country;
 
         return Server
             .injectThen(FakeCity.create(FakeCity.A))
+            .then((response) => {
+
+                expect(response.result).to.deep.equal(Boom.badRequest(`The parent country ${parentCountry} doesn't exist`).output.payload);
+                expect(response.statusCode).to.equal(400);
+            });
+    });
+
+    it('should be able to fetch a specific city', () => {
+
+        return Server
+        // Create country A
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            // Create city A
+            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
             .then(() => Server.inject(FakeCity.getSpecific(FakeCity.A)))
             .then((response) => {
 
@@ -98,8 +118,10 @@ describe('Cities', function () {
     it('should be able to delete a city ', () => {
 
         return Server
-        // Create city A
-            .injectThen(FakeCity.create(FakeCity.A))
+        // Create country A
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            // Create city A
+            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
             .then((response) => {
 
                 expect(response.result).to.deep.equal('City successfully created');

@@ -11,6 +11,8 @@ let Server;
 
 describe('Sections', function () {
 
+    this.timeout(5000);
+
     // =====
     // SETUP
     // =====

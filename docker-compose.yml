@@ -37,6 +37,7 @@ services:
            - "./app:/src/app/"
            - "./test:/src/test/"
            - "./node_modules:/src/node_modules"
+           - "./coverage:/src/coverage"
       links:
         - mongo:mongo
 

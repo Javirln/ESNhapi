@@ -12,7 +12,7 @@ test_api:
   script:
     - export NODE_ENV=test
     - npm install --silent > /dev/null
-    - node_modules/.bin/_mocha --recursive
+    - node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --recursive
 
 build_image_dev:
   stage: build

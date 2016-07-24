@@ -20,7 +20,7 @@ module.exports = [
         },
         config: {
             description: 'Gets all news',
-            response: { schema: Joi.array().items(NewsModel).label('News') },
+            //response: { schema: Joi.array().items(NewsModel).label('News') },
             tags: ['api', 'swagger']
         }
     },
@@ -36,11 +36,13 @@ module.exports = [
                     _id: req.payload._id,
                     title: req.payload.title,
                     content: req.payload.content,
-                    lastUpdate: Date.now()
+                    lastUpdate: Date.now(),
+                    country: req.payload.country,
+                    section: req.payload.city,
+                    city: req.payload.city
                 })
                 .then(
-                    (result) => {
-                        console.log(result);
+                    () => {
                         reply('New successfully created').code(201);
                     },
                     (err) => {
@@ -62,7 +64,13 @@ module.exports = [
                     title: Joi.string().required().example('Awesome title')
                         .description('Title of the new'),
                     content: Joi.string().required().example('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
-                        .description('The body of the new')
+                        .description('The body of the new'),
+                    country: Joi.string().length(2).uppercase().example('AA')
+                        .description('Code of the country').required(),
+                    city: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).example('AA-AAAA')
+                        .description('Code of the city').required(),
+                    section: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}-[A-Z0-9]{3,4}$/).example('AA-AAAA-AAAA')
+                        .description('Code of the section').required()
                 }).required().label('New')
             },
             plugins: {
@@ -248,7 +256,7 @@ module.exports = [
                     }
                 }
             },
-            response: { schema: NewsModel },
+            //response: { schema: NewsModel },
             tags: ['api', 'swagger']
         }
     }

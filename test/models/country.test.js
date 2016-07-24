@@ -5,6 +5,7 @@ const TestTools = require('./../test-tools');
 const FakeCountry = require('../fixtures/sampleCountry');
 const FakeSection = require('../fixtures/sampleSection');
 const FakeCity = require('../fixtures/sampleCity');
+const FakeNews = require('../fixtures/sampleNews');
 
 const Boom = require('boom');
 
@@ -31,7 +32,9 @@ describe('Countries', function () {
 
         return TestTools.clearCollection('countries')
             .then(() => TestTools.clearCollection('cities'))
-            .then(() => TestTools.clearCollection('sections'));
+            .then(() => TestTools.clearCollection('sections'))
+            .then(() => TestTools.clearCollection('news'));
+
     });
 
     after(function (done) {
@@ -175,6 +178,31 @@ describe('Countries', function () {
 
         return Server
             .injectThen(FakeCountry.getCities(FakeCountry.A))
+            .then((response) => {
+
+                expect(response.statusCode).to.equal(404);
+            });
+    });
+
+    it('should be able to fetch the news of the country', function () {
+
+        return Server
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
+            .then(() => Server.inject(FakeNews.create(FakeNews.A)))
+            .then(() => Server.inject(FakeCountry.getNews(FakeCountry.A)))
+            .then((response) => {
+
+                expect(response.result[0].title).to.equal(FakeNews.A.title);
+                expect(response.statusCode).to.equal(200);
+            });
+    });
+
+    it('should return an error if the country can\'t be found while fetching the news', function () {
+
+        return Server
+            .injectThen(FakeCountry.getNews(FakeCountry.A))
             .then((response) => {
 
                 expect(response.statusCode).to.equal(404);

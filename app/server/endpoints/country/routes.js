@@ -276,7 +276,30 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            reply('Aggregated news list of country with code ' + req.params.code);
+            const db = req.server.mongo.db;
+
+            return Promise
+                .resolve(
+                    db
+                        .collection('countries')
+                        .find({ _id: req.params.code })
+                        .count()
+                )
+                .then((country) => {
+
+                    if (country === 1) {
+                        return Promise.resolve();
+                    }
+                    Promise.reject(reply(Boom.notFound('Country doesn\'t exist')));
+                })
+                .then(() =>
+
+                    db
+                        .collection('news')
+                        .find({ country: req.params.code })
+                        .sort({ _id: 1 })
+                        .toArray())
+                .then((success) => reply(success).code(200));
         },
         config: {
             description: 'Gets the news from a specific ESN country',
@@ -302,7 +325,30 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            reply('Aggregated events list of country with code ' + req.params.code);
+            const db = req.server.mongo.db;
+
+            return Promise
+                .resolve(
+                    db
+                        .collection('countries')
+                        .find({ _id: req.params.code })
+                        .count()
+                )
+                .then((country) => {
+
+                    if (country === 1) {
+                        return Promise.resolve();
+                    }
+                    Promise.reject(reply(Boom.notFound('Country doesn\'t exist')));
+                })
+                .then(() =>
+
+                    db
+                        .collection('events')
+                        .find({ country: req.params.code })
+                        .sort({ _id: 1 })
+                        .toArray())
+                .then((success) => reply(success).code(200));
         },
         config: {
             description: 'Gets the events from a specific ESN country',
@@ -328,8 +374,30 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            reply('Aggregated partners list of country with code ' + req.params.code);
-        },
+            const db = req.server.mongo.db;
+
+            return Promise
+                .resolve(
+                    db
+                        .collection('countries')
+                        .find({ _id: req.params.code })
+                        .count()
+                )
+                .then((country) => {
+
+                    if (country === 1) {
+                        return Promise.resolve();
+                    }
+                    Promise.reject(reply(Boom.notFound('Country doesn\'t exist')));
+                })
+                .then(() =>
+
+                    db
+                        .collection('partners')
+                        .find({ country: req.params.code })
+                        .sort({ _id: 1 })
+                        .toArray())
+                .then((success) => reply(success).code(200));        },
         config: {
             description: 'Gets the partners found in a specific ESN country',
             tags: ['api', 'swagger'],

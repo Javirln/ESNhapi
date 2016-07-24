@@ -16,6 +16,15 @@ module.exports = Joi.object({
         .description('The body of the new'),
 
     lastUpdate: Joi.number().example('1468776265810.0')
-        .description('The timestamp about when it was fetched')
+        .description('The timestamp about when it was fetched'),
+
+    country: Joi.string().length(2).uppercase().example('AA')
+        .description('Code of the country'),
+
+    city: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/).example('AA-AAAA')
+        .description('Code of the city'),
+
+    section: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}-[A-Z0-9]{3,4}$/).example('AA-AAAA-AAAA')
+        .description('Code of the section'),
 
 }).label('New');

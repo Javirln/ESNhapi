@@ -29,6 +29,14 @@ exports.getCities = (country) => {
     }
 };
 
+exports.getNews = (country) => {
+
+    return {
+        method: 'GET',
+        url: '/countries/' + country._id + '/news'
+    }
+};
+
 exports.A = {
     _id: 'AA',
     url: 'http://somewhere.com',

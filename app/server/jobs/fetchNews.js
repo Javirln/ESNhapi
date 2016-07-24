@@ -84,6 +84,9 @@ exports.schedule = (server) => {
                                             title: content_news.title,
                                             createdOnSatellite: content_news.created,
                                             content: content_news.content,
+                                            country:valid_section.country,
+                                            city: valid_section.city,
+                                            section: valid_section._id,
                                             lastUpdate: Date.now()
                                         }, {
                                             upsert: true

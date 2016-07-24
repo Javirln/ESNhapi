@@ -11,7 +11,7 @@ let Server;
 
 describe('Cities', function () {
 
-    this.timeout(5000);
+    this.timeout(10000);
 
     // =====
     // SETUP

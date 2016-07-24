@@ -122,6 +122,15 @@ describe('Countries', function () {
             });
     });
 
+    it('should return an error if a country to delete can\'t be found', function () {
+        return Server
+            .injectThen(FakeCountry.delete(FakeCountry.A))
+            .then((response) => {
+
+                expect(response.statusCode).to.equal(404);
+            });
+    });
+
     it('should be able to fetch the sections of the country', function () {
 
         return Server
@@ -138,6 +147,16 @@ describe('Countries', function () {
             });
     });
 
+    it('should return an error if the country can\'t be found while fetching the sections', function () {
+
+        return Server
+            .injectThen(FakeCountry.getSections(FakeCountry.A))
+            .then((response) => {
+
+                expect(response.statusCode).to.equal(404);
+            });
+    });
+
     it('should be able to fetch the cities of the country', function () {
 
         return Server
@@ -151,5 +170,17 @@ describe('Countries', function () {
                 expect(response.statusCode).to.equal(200);
             });
     });
+
+    it('should return an error if the country can\'t be found while fetching the cities', function () {
+
+        return Server
+            .injectThen(FakeCountry.getCities(FakeCountry.A))
+            .then((response) => {
+
+                expect(response.statusCode).to.equal(404);
+            });
+    });
+
+
 
 });

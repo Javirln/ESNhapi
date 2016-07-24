@@ -11,12 +11,12 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-
-            reply(db
-                .collection('countries')
-                .find({})
-                .sort({ _id: 1 })
-                .toArray()).code(200);
+            reply(
+                db
+                    .collection('countries')
+                    .find({})
+                    .sort({ _id: 1 })
+                    .toArray()).code(200);
         },
         config: {
             description: 'Gets all ESN countries',
@@ -30,20 +30,17 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            db
+            return db
                 .collection('countries')
                 .insertOne(req.payload)
-                .then(
-                    (result) => reply(result.result).code(201),
-                    (err) => {
+                .then((result) => reply(result.result).code(201))
+                .catch((err) => {
 
-                        if (err) {
-                            if (err.code === 11000) {
-                                return reply(Boom.conflict('Duplicated index', err.errmsg));
-                            }
-                            return reply(Boom.internal('Internal MongoDB error', err.errmsg));
-                        }
-                    });
+                    /* istanbul ignore else  */
+                    if (err.code === 11000) {
+                        return reply(Boom.conflict('Duplicated index', err.errmsg));
+                    }
+                });
         },
         config: {
             description: 'Creates a new ESN country',
@@ -67,24 +64,28 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            Promise
-            // Delete the sections underneath the country
-                .resolve(db
-                    .collection('sections')
-                    .deleteMany({ country: req.params.code })
+            return Promise
+                .resolve(
+                    db
+                        .collection('sections')
+                        .deleteMany({ country: req.params.code })
                 )
-                .then(() => db
-                    .collection('countries')
-                    .deleteOne({ _id: req.params.code })
-                    .then(
-                        (result) => {
+                .then(() =>
 
-                            if (result.result.n === 0) {
-                                reply(result).code(404); // If no items deleted, return a 404
-                            }
-                            reply(result).code(200);
-                        },
-                        (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg))));
+                    db
+                        .collection('countries')
+                        .deleteOne({ _id: req.params.code })
+                        .then(
+                            (result) => {
+
+                                if (result.result.n === 0) {
+                                    reply(result).code(404); // If no items deleted, return a 404
+                                }
+                                else {
+                                    reply(result).code(200);
+                                }
+                            })
+                );
 
         },
         config: {
@@ -145,13 +146,12 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            db
+            return db
                 .collection('countries')
-                .findOne({ _id: req.params.code })
-                .then(
-                    (result) => reply(result).code(200),
-                    (err) => reply(Boom.internal('Internal MongoDB error', err.errmsg))
-                );
+                .find({ _id: req.params.code })
+                .limit(1)
+                .toArray()
+                .then((result) => reply(result[0]).code(200));
 
         },
         config: {
@@ -180,28 +180,28 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            Promise
-                .resolve(db
-                    .collection('countries')
-                    .find({ _id: req.params.code })
-                    .count()
+            return Promise
+                .resolve(
+                    db
+                        .collection('countries')
+                        .find({ _id: req.params.code })
+                        .count()
                 )
                 .then((country) => {
 
                     if (country === 1) {
                         return Promise.resolve();
                     }
-                    return Promise.reject(Boom.notFound('Country doesn\'t exist'));
+                    Promise.reject(reply(Boom.notFound('Country doesn\'t exist')));
                 })
-                .then(() => db
-                    .collection('sections')
-                    .find({ country: req.params.code })
-                    .sort({ _id: 1 })
-                    .toArray())
-                .then(
-                    (success) => reply(success).code(200),
-                    (error) => reply(error)
-                );
+                .then(() =>
+
+                    db
+                        .collection('sections')
+                        .find({ country: req.params.code })
+                        .sort({ _id: 1 })
+                        .toArray())
+                .then((success) => reply(success).code(200));
         },
         config: {
             description: 'Gets the sections belonging to a specific ESN country',
@@ -229,28 +229,28 @@ module.exports = [
 
             const db = req.server.mongo.db;
 
-            Promise
-                .resolve(db
-                    .collection('countries')
-                    .find({ _id: req.params.code })
-                    .count()
+            return Promise
+                .resolve(
+                    db
+                        .collection('countries')
+                        .find({ _id: req.params.code })
+                        .count()
                 )
                 .then((country) => {
 
                     if (country === 1) {
                         return Promise.resolve();
                     }
-                    return Promise.reject(Boom.notFound('Country doesn\'t exist'));
+                    Promise.reject(reply(Boom.notFound('Country doesn\'t exist')));
                 })
-                .then(() => db
-                    .collection('cities')
-                    .find({ country: req.params.code })
-                    .sort({ _id: 1 })
-                    .toArray())
-                .then(
-                    (success) => reply(success).code(200),
-                    (error) => reply(error)
-                );
+                .then(() =>
+
+                    db
+                        .collection('cities')
+                        .find({ country: req.params.code })
+                        .sort({ _id: 1 })
+                        .toArray())
+                .then((success) => reply(success).code(200));
         },
         config: {
             description: 'Gets the cities belonging to a specific ESN country',

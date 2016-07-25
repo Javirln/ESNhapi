@@ -4,8 +4,10 @@
   "description": "An API for ESN content",
   "main": "app/index.js",
   "scripts": {
-    "start": "docker-compose up --build",
-    "create-image": "docker build --file='app/Dockerfile.prod' -t git.esn.org:4567/sturgelose/esnhapi:dev ."
+    "build": "docker-compose build",
+    "start": "docker-compose up mongo api",
+    "create-image": "docker build --file='app/Dockerfile.prod' -t git.esn.org:4567/sturgelose/esnhapi:dev .",
+    "test": "docker-compose up api_test"
   },
   "keywords": [
     "api",

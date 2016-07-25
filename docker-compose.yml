@@ -31,7 +31,6 @@ services:
       environment:
         - NODE_ENV=test
       ports:
-        - "3001:3000"
         - "5859:5858"
       volumes:
            - "./app:/src/app/"

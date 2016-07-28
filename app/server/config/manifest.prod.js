@@ -15,8 +15,7 @@ const manifest = {
         Plugins.registerRouter,
         Plugins.registerInert,
         Plugins.registerVision,
-        Plugins.registerSwagger,
-        Plugins.registerMongoDB
+        Plugins.registerSwagger
     ]
 };
 

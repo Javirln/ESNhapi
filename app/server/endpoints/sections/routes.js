@@ -2,6 +2,7 @@
 
 const Boom = require('boom');
 const Joi = require('joi');
+const Sections = require('../../models/section.mongoose');
 
 module.exports = [
     {
@@ -9,12 +10,9 @@ module.exports = [
         method: 'GET',
         handler: (req, reply) => {
 
-            const db = req.server.mongo.db;
-            reply(db
-                .collection('sections')
-                .find({})
-                .sort({ _id: 1 })
-                .toArray()).code(200);
+            Sections.find({})
+                .then((result) => reply(result).code(201))
+                .catch((error) => reply(Boom.internal(error.errmsg)));
         },
         config: {
             description: 'Gets all ESN sections',

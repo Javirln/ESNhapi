@@ -28,18 +28,12 @@ describe('Countries', function () {
     });
 
     beforeEach(function () {
-        this.timeout(0);
-
-        return TestTools.clearCollection('countries')
-            .then(() => TestTools.clearCollection('cities'))
-            .then(() => TestTools.clearCollection('sections'))
-            .then(() => TestTools.clearCollection('news'));
-
+        return TestTools.clearDatabase();
     });
 
-    after(function (done) {
+    after(function () {
 
-        TestTools.teardown(done);
+        return TestTools.teardown()
     });
 
     // =====
@@ -48,12 +42,13 @@ describe('Countries', function () {
 
     it('should have an existing endpoint', function () {
 
-        return Server
-            .injectThen(FakeCountry.get, function (response) {
+        Server.injectThen(FakeCountry.get)
+            .then((response) => {
 
                 expect(response.result).to.be.a('array');
                 expect(response.statusCode).to.equal(200);
-            });
+            })
+            .catch((error) => console.log(error));
 
     });
 
@@ -64,7 +59,7 @@ describe('Countries', function () {
             .injectThen(FakeCountry.create(FakeCountry.A))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(FakeCountry.successPOST);
+                expect(response.headers.location).to.equal('/countries/' + FakeCountry.A.code);
                 expect(response.statusCode).to.equal(201);
             })
             // Get country A
@@ -73,7 +68,7 @@ describe('Countries', function () {
 
                 expect(response.result).to.be.a('array');
                 expect(response.result.length).to.equal(1);
-                expect(response.result[0]).to.deep.equal(FakeCountry.A);
+                expect(response.result[0].toObject()).to.deep.equal(FakeCountry.A);
             });
     });
 
@@ -84,7 +79,6 @@ describe('Countries', function () {
             .then(() => Server.inject(FakeCountry.create(FakeCountry.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(Boom.conflict('Duplicated index').output.payload);
                 expect(response.statusCode).to.equal(409);
             });
     });
@@ -93,10 +87,10 @@ describe('Countries', function () {
 
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
-            .then(() => Server.inject(FakeCountry.getSpecific(FakeCountry.A)))
+            .then(() => Server.inject(FakeCountry.getOne(FakeCountry.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(FakeCountry.A);
+                expect(response.result.toObject()).to.deep.equal(FakeCountry.A);
                 expect(response.statusCode).to.equal(200);
             });
     });
@@ -208,7 +202,6 @@ describe('Countries', function () {
                 expect(response.statusCode).to.equal(404);
             });
     });
-
 
 
 });

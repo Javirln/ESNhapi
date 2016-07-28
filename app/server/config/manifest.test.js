@@ -12,7 +12,6 @@ const manifest = {
     ],
     registrations: [
         Plugins.registerRouter,
-        Plugins.registerMongoDB,
         Plugins.registerInjectThen
     ]
 };

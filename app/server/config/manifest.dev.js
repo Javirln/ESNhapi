@@ -16,7 +16,6 @@ const manifest = {
         Plugins.registerInert,
         Plugins.registerVision,
         Plugins.registerSwagger,
-        Plugins.registerMongoDB,
         Plugins.registerBlipp
     ]
 };

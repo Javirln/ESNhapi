@@ -5,11 +5,11 @@ exports.get = {
     url: '/countries'
 };
 
-exports.getSpecific = (country) => {
+exports.getOne = (country) => {
 
     return {
         method: 'GET',
-        url: '/countries/' + country._id
+        url: '/countries/' + country.code
     }
 };
 
@@ -25,7 +25,7 @@ exports.getCities = (country) => {
 
     return {
         method: 'GET',
-        url: '/countries/' + country._id + '/cities'
+        url: '/countries/' + country.code + '/cities'
     }
 };
 
@@ -33,18 +33,18 @@ exports.getNews = (country) => {
 
     return {
         method: 'GET',
-        url: '/countries/' + country._id + '/news'
+        url: '/countries/' + country.code + '/news'
     }
 };
 
 exports.A = {
-    _id: 'AA',
+    code: 'AA',
     url: 'http://somewhere.com',
     name: 'ESN Somewhere'
 };
 
 exports.Z = {
-    _id: 'ZZ',
+    code: 'ZZ',
     url: 'http://zigzag.com',
     name: 'ESN ZigZag'
 };
@@ -60,11 +60,6 @@ exports.create = (country) => {
 exports.delete = (country) => {
     return {
         method: 'DELETE',
-        url: '/countries/' + country._id
+        url: '/countries/' + country.code
     }
-};
-
-exports.successPOST = {
-    ok: 1,
-    n: 1
 };

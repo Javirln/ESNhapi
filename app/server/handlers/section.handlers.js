@@ -19,13 +19,13 @@ exports.create = (req, reply) => {
         .then((result) => reply().code(201).location('/sections/' + req.payload.code))
         .catch((error) => {
 
-            if (error.code === 11000 || error.code === 11001) {
+            if (error.code === 11000) {
                 reply(Boom.conflict(error.errmsg, error.data));
             }
-            else if (error.errors.country.name === 'ValidatorError') {
+            else if (error.errors.country) {
                 reply(Boom.badRequest(error.errors.country.message));
             }
-            else if (error.errors.country.name === 'ValidatorError') {
+            else if (error.errors.city) {
                 reply(Boom.badRequest(error.errors.city.message));
             }
             else {

@@ -2,27 +2,28 @@
 
 const Promise = require('bluebird');
 const Boom = require('boom');
-const _ = require('lodash')
 
-const Country = require('../models/country.mongoose.js').Model;
 const City = require('../models/city.mongoose.js').Model;
 const Section = require('../models/section.mongoose.js').Model;
 
 exports.getAll = (req, reply) => {
 
-    Country.find({})
+    City.find({})
         .then((result) => reply(result).code(200))
         .catch((error) => reply(Boom.internal(error.errmsg)));
 };
 
 exports.create = (req, reply) => {
 
-    new Country(req.payload).save()
+    new City(req.payload).save()
         .then((result) => reply().code(201).location('/countries/' + req.payload.code))
         .catch((error) => {
 
             if (error.code === 11000) {
                 reply(Boom.conflict(error.errmsg, error.data));
+            }
+            else if (error.errors.country) {
+                reply(Boom.badRequest(error.errors.country.message));
             }
             else {
                 reply(Boom.internal(error.errmsg));
@@ -32,11 +33,11 @@ exports.create = (req, reply) => {
 
 exports.delete = (req, reply) => {
 
-    Country.findOne({ code: req.params.code })
+    City.findOne({ code: req.params.code })
         .catch((error) => Promise.reject(Boom.internal(error.errmsg)))
         .then((result) => {
 
-            if (_.isEmpty(result)) {
+            if (result === null) {
                 return Promise.reject(Boom.notFound());
             }
             return result.remove();
@@ -63,12 +64,12 @@ exports.update = (req, reply) => {
 
 exports.getOne = (req, reply) => {
 
-    Country.findOne({ code: req.params.code })
+    City.findOne({ code: req.params.code })
         .sort([['_id', 'ascending']])
         .catch((error) => Promise.reject(Boom.internal(error.errmsg)))
         .then((result) => {
 
-            if (_.isEmpty(result)) {
+            if (result === null) {
                 return Promise.reject(Boom.notFound());
             }
             reply(result);
@@ -80,7 +81,7 @@ exports.getOne = (req, reply) => {
 
 exports.getSections = (req, reply) => {
 
-    Country.find({ code: req.params.code })
+    City.find({ code: req.params.code })
         .catch((error) => Boom.internal(error.errmsg))
         .then((result) => {
 
@@ -101,30 +102,6 @@ exports.getSections = (req, reply) => {
         })
         .catch((error) => reply(error));
 
-};
-
-exports.getCities = (req, reply) => {
-
-    Country.find({ code: req.params.code })
-        .catch((error) => Boom.internal(error.errmsg))
-        .then((result) => {
-
-            if (_.isEmpty(result)) {
-                return Promise.reject(Boom.notFound());
-            }
-        })
-        .then(() =>
-            City
-                .find({ country: req.params.code })
-                .catch((error) => Boom.internal(error.errmsg)))
-        .then((result) => {
-
-            if (_.isEmpty(result)) {
-                return Promise.reject(Boom.notFound());
-            }
-            reply(result).code(200);
-        })
-        .catch((error) => reply(error));
 };
 
 exports.getNews = (req, reply) => {

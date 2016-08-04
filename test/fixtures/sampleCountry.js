@@ -17,7 +17,7 @@ exports.getSections = (country) => {
 
     return {
         method: 'GET',
-        url: '/countries/' + country._id + '/sections'
+        url: '/countries/' + country.code + '/sections'
     }
 };
 

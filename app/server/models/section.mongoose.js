@@ -10,6 +10,7 @@ const createModel = () => {
 // Extend Schema
     Schema.code.unique = true;
     Schema.country = require('./country.mongoose').countryField;
+    Schema.city = require('./city.mongoose').cityField;
 
 
 // Create model

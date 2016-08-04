@@ -11,13 +11,14 @@ const MongooseHidden = require('mongoose-hidden')();
 const createModel = () => {
 
     // Convert it from Joi schema
-    const Schema = Joigoose.convert(require('./country.joi').base);
+    const Schema = Joigoose.convert(require('./city.joi').base);
 
     // Extend the schema
     Schema.code.unique = true;
+    Schema.country = require('./country.mongoose').countryField;
 
     // Create model
-    const Model = Mongoose.model('Country', new Mongoose.Schema(Schema));
+    const Model = Mongoose.model('City', new Mongoose.Schema(Schema));
     Model.schema.plugin(MongooseHidden);
 
     // Create indexes
@@ -42,15 +43,15 @@ exports.Model = createModel();
  * Creates a country field with validation
  * that the country previously exists
  */
-exports.countryField = {
+exports.cityField = {
     type: String,
-    ref: 'Country',
+    ref: 'City',
     index: true,
     validate: {
         validator: (value, done) => {
 
-            const Country = require('./country.mongoose').Model;
-            Country.find({ code: value })
+            const City = require('./city.mongoose').Model;
+            City.find({ code: value })
                 .then((result) => {
 
                     if (result.length === 1) {
@@ -62,6 +63,6 @@ exports.countryField = {
                 })
                 .catch(() => done(false));
         },
-        message: '{VALUE} is not an existing Country code'
+        message: '{VALUE} is not an existing City code'
     }
 };

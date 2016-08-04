@@ -45,7 +45,7 @@ describe('Countries', function () {
         Server.injectThen(FakeCountry.get)
             .then((response) => {
 
-                expect(response.result).to.be.a('array');
+                expect(JSON.parse(response.payload)).to.be.a('array');
                 expect(response.statusCode).to.equal(200);
             })
             .catch((error) => console.log(error));
@@ -68,7 +68,7 @@ describe('Countries', function () {
 
                 expect(response.result).to.be.a('array');
                 expect(response.result.length).to.equal(1);
-                expect(response.result[0].toObject()).to.deep.equal(FakeCountry.A);
+                expect(JSON.parse(response.payload)[0]).to.deep.equal(FakeCountry.A);
             });
     });
 
@@ -90,7 +90,7 @@ describe('Countries', function () {
             .then(() => Server.inject(FakeCountry.getOne(FakeCountry.A)))
             .then((response) => {
 
-                expect(response.result.toObject()).to.deep.equal(FakeCountry.A);
+                expect(JSON.parse(response.payload)).to.deep.equal(FakeCountry.A);
                 expect(response.statusCode).to.equal(200);
             });
     });
@@ -132,14 +132,14 @@ describe('Countries', function () {
 
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.B)))
-            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
-            .then(() => Server.inject(FakeSection.create(FakeSection.B)))
-            .then(() => Server.inject(FakeCountry.getSections(FakeCountry.A)))
+            .then((response) => Server.injectThen(FakeCity.create(FakeCity.A)))
+            .then((response) => Server.injectThen(FakeCity.create(FakeCity.B)))
+            .then((response) => Server.inject(FakeSection.create(FakeSection.A)))
+            .then((response) => Server.inject(FakeSection.create(FakeSection.B)))
+            .then((response) => Server.inject(FakeCountry.getSections(FakeCountry.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal([FakeSection.A, FakeSection.B]);
+                expect(JSON.parse(response.payload)).to.deep.equal([FakeSection.A, FakeSection.B]);
                 expect(response.statusCode).to.equal(200);
             });
     });
@@ -163,7 +163,7 @@ describe('Countries', function () {
             .then(() => Server.inject(FakeCountry.getCities(FakeCountry.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal([FakeCity.A, FakeCity.B]);
+                expect(JSON.parse(response.payload)).to.deep.equal([FakeCity.A, FakeCity.B]);
                 expect(response.statusCode).to.equal(200);
             });
     });

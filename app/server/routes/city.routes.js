@@ -1,22 +1,22 @@
 'use strict';
 
-const SectionHandlers = require('../handlers/section.handlers');
-const SectionSchema = require('../models/section.joi.js');
+const CityHanlders = require('../handlers/city.handlers');
+const CitySchema = require('../models/city.joi.js');
 const Errors = require('../models/errors').errors;
 const Error200 = require('../models/errors').generate200;
 
 module.exports = [
     {
-        path: '/sections',
+        path: '/cities',
         method: 'GET',
-        handler: SectionHandlers.getAll,
+        handler: CityHanlders.getAll,
         config: {
-            description: 'Gets all ESN sections',
+            description: 'Gets all ESN cities',
             tags: ['api', 'swagger'],
             plugins: {
                 'hapi-swagger': {
                     responses: {
-                        '200': Error200(SectionSchema.base, true),
+                        '200': Error200(CitySchema.base, true),
                         '500': Errors.HTTP500
                     }
                 }
@@ -24,11 +24,11 @@ module.exports = [
         }
     },
     {
-        path: '/sections',
+        path: '/cities',
         method: 'POST',
-        handler: SectionHandlers.create,
+        handler: CityHanlders.create,
         config: {
-            description: 'Creates a new ESN country',
+            description: 'Creates a new ESN city',
             tags: ['api', 'swagger'],
             plugins: {
                 'hapi-swagger': {
@@ -40,18 +40,18 @@ module.exports = [
                 }
             },
             validate: {
-                payload: SectionSchema.base
+                payload: CitySchema.base
                     .requiredKeys('code', 'name')
-                    .optionalKeys('url')
+                    .optionalKeys('otherNames')
             }
         }
     },
     {
-        path: '/sections/{code}',
+        path: '/cities/{code}',
         method: 'DELETE',
-        handler: SectionHandlers.delete,
+        handler: CityHanlders.delete,
         config: {
-            description: 'Deletes an ESN section',
+            description: 'Deletes an ESN city',
             tags: ['api', 'swagger'],
             plugins: {
                 'hapi-swagger': {
@@ -64,123 +64,145 @@ module.exports = [
             },
             validate: {
                 params: {
-                    code: SectionSchema.code
+                    code: CitySchema.code
                 }
             }
         }
     },
     {
-        path: '/sections/{code}',
+        path: '/cities/{code}',
         method: 'PUT',
-        handler: SectionHandlers.replace,
+        handler: CityHanlders.replace,
         config: {
-            description: 'Replaces an ESN section',
+            description: 'Replaces an ESN city',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
-                    code: SectionSchema.code
+                    code: CitySchema.code
                 }
             }
         }
     },
     {
-        path: '/sections/{code}',
+        path: '/cities/{code}',
         method: 'PATCH',
-        handler: SectionHandlers.update,
+        handler: CityHanlders.update,
         config: {
-            description: 'Updates an ESN section',
+            description: 'Updates an ESN city',
             tags: ['api', 'swagger'],
             validate: {
                 params: {
-                    code: SectionSchema.code
+                    code: CitySchema.code
                 }
             }
         }
     },
     {
-        path: '/sections/{code}',
+        path: '/cities/{code}',
         method: 'GET',
-        handler: SectionHandlers.getOne,
+        handler: CityHanlders.getOne,
         config: {
-            description: 'Gets information from a specific ESN section',
+            description: 'Gets information from a specific ESN city',
             tags: ['api', 'swagger'],
             plugins: {
                 'hapi-swagger': {
                     responses: {
-                        '200': Error200(SectionSchema.base, false),
+                        '200': Error200(CitySchema.base, false),
                         '500': Errors.HTTP500
                     }
                 }
             },
             validate: {
                 params: {
-                    code: SectionSchema.code
+                    code: CitySchema.code
                 }
             }
         }
     },
     {
-        path: '/sections/{code}/news',
+        path: '/cities/{code}/sections',
         method: 'GET',
-        handler: SectionHandlers.getNews,
+        handler: CityHanlders.getSections,
         config: {
-            description: 'Gets the news from a specific ESN section',
+            description: 'Gets the sections belonging to a specific ESN city',
             tags: ['api', 'swagger'],
             plugins: {
                 'hapi-swagger': {
                     responses: {
-                        '200': Error200(SectionSchema.base, true),
+                        '200': Error200(CitySchema.base, true),
                         '500': Errors.HTTP500
                     }
                 }
             },
             validate: {
                 params: {
-                    code: SectionSchema.code
+                    code: CitySchema.code
                 }
             }
         }
     },
     {
-        path: '/sections/{code}/events',
+        path: '/cities/{code}/news',
         method: 'GET',
-        handler: SectionHandlers.getEvents,
+        handler: CityHanlders.getNews,
         config: {
-            description: 'Gets the events from a specific ESN section',
+            description: 'Gets the news from a specific ESN city',
             tags: ['api', 'swagger'],
             plugins: {
                 'hapi-swagger': {
                     responses: {
-                        '200': Error200(SectionSchema.base, true),
+                        '200': Error200(CitySchema.base, true),
                         '500': Errors.HTTP500
                     }
                 }
             },
             validate: {
                 params: {
-                    code: SectionSchema.code
+                    code: CitySchema.code
                 }
             }
         }
     },
     {
-        path: '/sections/{code}/partners',
+        path: '/cities/{code}/events',
         method: 'GET',
-        handler: SectionHandlers.getPartners,
+        handler: CityHanlders.getEvents,
         config: {
-            description: 'Gets the partners found in a specific ESN section',
+            description: 'Gets the events from a specific ESN city',
             tags: ['api', 'swagger'],
             plugins: {
                 'hapi-swagger': {
                     responses: {
-                        '200': Error200(SectionSchema.base, true),
+                        '200': Error200(CitySchema.base, true),
                         '500': Errors.HTTP500
                     }
                 }
             },
             validate: {
                 params: {
-                    code: SectionSchema.code
+                    code: CitySchema.code
+                }
+            }
+        }
+    },
+    {
+        path: '/cities/{code}/partners',
+        method: 'GET',
+        handler: CityHanlders.getPartners,
+        config: {
+            description: 'Gets the partners found in a specific ESN city',
+            tags: ['api', 'swagger'],
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '200': Error200(CitySchema.base, true),
+                        '500': Errors.HTTP500
+                    }
+                }
+            },
+            validate: {
+                params: {
+                    code: CitySchema.code
                 }
             }
         }

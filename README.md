@@ -27,7 +27,7 @@ options just with a command and 0 configuration.
     * Install Docker Native
        * Mac OS: https://download.docker.com/mac/beta/Docker.dmg
        * Windows: https://download.docker.com/win/beta/InstallDocker.msi 
-       (with Hyper-V enabled machines only. Otherwise skip)
+       (with Hyper-V enabled machines only. Otherwise install Docker Toolbox for Windows)
     
     1.2 Linux:
     * Install docker-engine: https://docs.docker.com/engine/installation/

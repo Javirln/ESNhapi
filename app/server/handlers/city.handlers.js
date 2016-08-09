@@ -10,6 +10,7 @@ const Section = require('../models/section.mongoose.js').Model;
 exports.getAll = (req, reply) => {
 
     City.find({})
+        .exec()
         .then((result) => reply(result).code(200))
         .catch((error) => reply(Boom.internal(error.errmsg)));
 };
@@ -17,7 +18,7 @@ exports.getAll = (req, reply) => {
 exports.create = (req, reply) => {
 
     new City(req.payload).save()
-        .then((result) => reply().code(201).location('/countries/' + req.payload.code))
+        .then((result) => reply().code(201).location('/cities/' + req.payload.code))
         .catch((error) => {
 
             if (error.code === 11000) {
@@ -38,15 +39,12 @@ exports.delete = (req, reply) => {
         .catch((error) => Promise.reject(Boom.internal(error.errmsg)))
         .then((result) => {
 
-            if (result === null) {
-                return Promise.reject(Boom.notFound());
+            if (result) {
+                return result.remove();
             }
-            return result.remove();
-
+            return Promise.reject(Boom.notFound());
         })
-        .then(
-            (result) => reply().code(204)
-        )
+        .then((result) => reply().code(204))
         .catch((error) => reply(error));
 
 };
@@ -67,6 +65,7 @@ exports.getOne = (req, reply) => {
 
     City.findOne({ code: req.params.code })
         .sort([['_id', 'ascending']])
+        .exec()
         .catch((error) => Promise.reject(Boom.internal(error.errmsg)))
         .then((result) => {
 
@@ -83,6 +82,7 @@ exports.getOne = (req, reply) => {
 exports.getSections = (req, reply) => {
 
     City.find({ code: req.params.code })
+        .exec()
         .catch((error) => Boom.internal(error.errmsg))
         .then((result) => {
 

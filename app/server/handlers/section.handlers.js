@@ -40,15 +40,12 @@ exports.delete = (req, reply) => {
         .catch((error) => Promise.reject(Boom.internal(error.errmsg)))
         .then((result) => {
 
-            if (result === null) {
-                return Promise.reject(Boom.notFound());
+            if (result) {
+                return result.remove();
             }
-            return result.remove();
-
+            return Promise.reject(Boom.notFound());
         })
-        .then(
-            (result) => reply().code(204)
-        )
+        .then((result) => reply().code(204))
         .catch((error) => reply(error));
 
 };

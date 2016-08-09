@@ -7,9 +7,6 @@ const FakeSection = require('../fixtures/sampleSection');
 const FakeCity = require('../fixtures/sampleCity');
 const FakeNews = require('../fixtures/sampleNews');
 
-const Boom = require('boom');
-
-
 let Server;
 
 describe('Countries', function () {
@@ -98,6 +95,7 @@ describe('Countries', function () {
     it('should be able to delete a country and all the resources underneath', function () {
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
             .then(() => Server.inject(FakeSection.create(FakeSection.A)))
             .then(() => Server.inject(FakeSection.create(FakeSection.B)))
             .then(() => Server.inject(FakeCountry.delete(FakeCountry.A)))

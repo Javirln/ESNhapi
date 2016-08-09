@@ -1,7 +1,8 @@
 'use strict';
 
 const Mongoose = require('mongoose');
-Mongoose.Promise = require('bluebird');
+const Promise = require('bluebird');
+Mongoose.Promise = Promise;
 const Joigoose = require('joigoose')(Mongoose);
 const MongooseHidden = require('mongoose-hidden')();
 
@@ -28,9 +29,17 @@ const createModel = () => {
     // Cascade delete children when removing
     Model.schema.pre('remove', function (next) {
 
-        const Section = require('./section.mongoose');
-        Section.remove({ country: this.code }).exec();
-        next();
+        const Section = require('./section.mongoose').Model;
+
+        Section.find({ city: this.code })
+            .then((result) => {
+
+                if (result.length !== 0) {
+                    Promise.map(result, (section) => section.remove())
+                        .then(() => next());
+                }
+                next();
+            });
     });
 
     return Model;

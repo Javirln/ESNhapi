@@ -32,18 +32,14 @@ exports.create = (req, reply) => {
 
 exports.delete = (req, reply) => {
 
-    Country.find({ code: req.params.code })
-        .remove()
-        .exec()
+    Country.findOne({ code: req.params.code })
         .catch((error) => Promise.reject(Boom.internal(error.errmsg)))
         .then((result) => {
 
-            if (!result.result.ok) {
-                return Promise.reject(Boom.internal());
+            if (result) {
+                return result.remove();
             }
-            else if (result.result.n === 0) {
-                return Promise.reject(Boom.notFound());
-            }
+            return Promise.reject(Boom.notFound());
         })
         .then((result) => reply().code(204))
         .catch((error) => reply(error));
@@ -65,7 +61,6 @@ exports.update = (req, reply) => {
 exports.getOne = (req, reply) => {
 
     Country.findOne({ code: req.params.code })
-        .sort([['code', 'ascending']])
         .catch((error) => Promise.reject(Boom.internal(error.errmsg)))
         .then((result) => {
 
@@ -82,6 +77,7 @@ exports.getOne = (req, reply) => {
 exports.getSections = (req, reply) => {
 
     Country.find({ code: req.params.code })
+        .sort([['code', 'ascending']])
         .catch((error) => Boom.internal(error.errmsg))
         .then((result) => {
 
@@ -108,6 +104,7 @@ exports.getSections = (req, reply) => {
 exports.getCities = (req, reply) => {
 
     Country.find({ code: req.params.code })
+        .sort([['code', 'ascending']])
         .catch((error) => Boom.internal(error.errmsg))
         .then((result) => {
 

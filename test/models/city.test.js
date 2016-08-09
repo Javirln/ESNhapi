@@ -4,8 +4,8 @@ const expect = require('chai').expect;   // assertion library
 const TestTools = require('./../test-tools');
 const FakeCountry = require('../fixtures/sampleCountry');
 const FakeCity = require('../fixtures/sampleCity');
+const FakeSection = require('../fixtures/sampleSection');
 
-const Boom = require('boom');
 
 let Server;
 
@@ -25,16 +25,12 @@ describe('Cities', function () {
     });
 
     beforeEach(function () {
-        this.timeout(0);
-
-        return TestTools.clearCollection('countries')
-            .then(() => TestTools.clearCollection('cities'))
-            .then(() => TestTools.clearCollection('sections'));
+        return TestTools.clearDatabase();
     });
 
-    after(function (done) {
+    after(function () {
 
-        TestTools.teardown(done);
+        return TestTools.teardown()
     });
 
     // =====
@@ -61,7 +57,7 @@ describe('Cities', function () {
             .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal('City successfully created');
+                expect(response.headers.location).to.equal('/cities/' + FakeCity.A.code);
                 expect(response.statusCode).to.equal(201);
             })
             // Get city A
@@ -70,7 +66,7 @@ describe('Cities', function () {
 
                 expect(response.result).to.be.a('array');
                 expect(response.result.length).to.equal(1);
-                expect(response.result[0]).to.deep.equal(FakeCity.A);
+                expect(JSON.parse(response.payload)[0]).to.deep.equal(FakeCity.A);
             });
 
     });
@@ -84,7 +80,6 @@ describe('Cities', function () {
             .then(() => Server.inject(FakeCity.create(FakeCity.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(Boom.conflict('Duplicated index').output.payload);
                 expect(response.statusCode).to.equal(409);
             });
     });
@@ -97,8 +92,7 @@ describe('Cities', function () {
             .injectThen(FakeCity.create(FakeCity.A))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(Boom.forbidden(`The parent country ${parentCountry} doesn't exist`).output.payload);
-                expect(response.statusCode).to.equal(403);
+                expect(response.statusCode).to.equal(400);
             });
     });
 
@@ -112,39 +106,31 @@ describe('Cities', function () {
             .then(() => Server.inject(FakeCity.getSpecific(FakeCity.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(FakeCity.A);
+                expect(JSON.parse(response.payload)).to.deep.equal(FakeCity.A);
                 expect(response.statusCode).to.equal(200);
             });
     });
 
-    it('should be able to delete a city ', function () {
-
+    it('should be able to delete a city and all the resources underneath', function () {
         return Server
-        // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
-            // Create city A
             .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
-            .then((response) => {
-
-                expect(response.result).to.deep.equal('City successfully created');
-                expect(response.statusCode).to.equal(201);
-            })
-            // Get city A
-            .then(() => Server.injectThen(FakeCity.get))
-            .then((cities) => {
-
-                expect(cities.result).to.be.a('array');
-                expect(cities.result.length).to.equal(1);
-                expect(cities.result[0]).to.deep.equal(FakeCity.A);
-            })
-            // Delete city A
+            .then(() => Server.injectThen(FakeSection.create(FakeSection.A)))
+            .then(() => Server.injectThen(FakeSection.create(FakeSection.B)))
             .then(() => Server.injectThen(FakeCity.delete(FakeCity.A)))
             .then((response) => {
 
+                expect(response.statusCode).to.equal(204);
+            })
+            .then(() => Server.inject(FakeCity.get))
+            .then((response) => {
+
+                expect(response.result).to.deep.equal([]);
                 expect(response.statusCode).to.equal(200);
             })
-            .then(() => Server.injectThen(FakeCity.get))
+            .then(() => Server.inject(FakeSection.get))
             .then((response) => {
+
                 expect(response.result).to.deep.equal([]);
                 expect(response.statusCode).to.equal(200);
             });

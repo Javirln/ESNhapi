@@ -2,11 +2,10 @@
 
 const expect = require('chai').expect;   // assertion library
 const TestTools = require('./../test-tools');
+const FakeCountry = require('../fixtures/sampleCountry');
 const FakeSection = require('../fixtures/sampleSection');
 const FakeCity = require('../fixtures/sampleCity');
-const FakeCountry = require('../fixtures/sampleCountry');
-
-const Boom = require('boom');
+const FakeNews = require('../fixtures/sampleNews');
 
 let Server;
 
@@ -26,16 +25,12 @@ describe('Sections', function () {
     });
 
     beforeEach(function () {
-        this.timeout(0);
-
-        return TestTools.clearCollection('countries')
-            .then(() => TestTools.clearCollection('cities'))
-            .then(() => TestTools.clearCollection('sections'));
+        return TestTools.clearDatabase();
     });
 
-    after(function (done) {
+    after(function () {
 
-        TestTools.teardown(done);
+        return TestTools.teardown()
     });
 
     // =====
@@ -64,7 +59,7 @@ describe('Sections', function () {
             .then(() => Server.injectThen(FakeSection.create(FakeSection.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(FakeSection.successPOST);
+                expect(response.headers.location).to.equal('/sections/' + FakeSection.A.code);
                 expect(response.statusCode).to.equal(201);
             })
             // Get section A
@@ -73,11 +68,12 @@ describe('Sections', function () {
 
                 expect(response.result).to.be.a('array');
                 expect(response.result.length).to.equal(1);
-                expect(response.result[0]).to.deep.equal(FakeSection.A);
+                expect(JSON.parse(response.payload)[0]).to.deep.equal(FakeSection.A);
             });
     });
 
     it('should throw a duplicate error when creating if it already exists', function () {
+
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
             .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))

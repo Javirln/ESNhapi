@@ -2,6 +2,7 @@
 
 const Promise = require('bluebird');
 const Boom = require('boom');
+const _ = require('lodash');
 
 const City = require('../models/city.mongoose.js').Model;
 const Section = require('../models/section.mongoose.js').Model;
@@ -90,6 +91,7 @@ exports.getSections = (req, reply) => {
             }
         })
         .then(() =>
+
             Section
                 .find({ country: req.params.code })
                 .catch((error) => Boom.internal(error.errmsg)))

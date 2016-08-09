@@ -103,7 +103,7 @@ describe('Countries', function () {
             .then(() => Server.inject(FakeCountry.delete(FakeCountry.A)))
             .then((response) => {
 
-                expect(response.statusCode).to.equal(200);
+                expect(response.statusCode).to.equal(204);
             })
             .then(() => Server.inject(FakeCountry.get))
             .then((response) => {

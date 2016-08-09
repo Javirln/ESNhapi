@@ -2,7 +2,7 @@
 
 const Promise = require('bluebird');
 const Boom = require('boom');
-const _ = require('lodash')
+const _ = require('lodash');
 
 const Country = require('../models/country.mongoose.js').Model;
 const City = require('../models/city.mongoose.js').Model;
@@ -32,19 +32,20 @@ exports.create = (req, reply) => {
 
 exports.delete = (req, reply) => {
 
-    Country.findOne({ code: req.params.code })
+    Country.find({ code: req.params.code })
+        .remove()
+        .exec()
         .catch((error) => Promise.reject(Boom.internal(error.errmsg)))
         .then((result) => {
 
-            if (_.isEmpty(result)) {
+            if (!result.result.ok) {
+                return Promise.reject(Boom.internal());
+            }
+            else if (result.result.n === 0) {
                 return Promise.reject(Boom.notFound());
             }
-            return result.remove();
-
         })
-        .then(
-            (result) => reply().code(204)
-        )
+        .then((result) => reply().code(204))
         .catch((error) => reply(error));
 
 };
@@ -64,7 +65,7 @@ exports.update = (req, reply) => {
 exports.getOne = (req, reply) => {
 
     Country.findOne({ code: req.params.code })
-        .sort([['_id', 'ascending']])
+        .sort([['code', 'ascending']])
         .catch((error) => Promise.reject(Boom.internal(error.errmsg)))
         .then((result) => {
 
@@ -89,6 +90,7 @@ exports.getSections = (req, reply) => {
             }
         })
         .then(() =>
+
             Section
                 .find({ country: req.params.code })
                 .catch((error) => Boom.internal(error.errmsg)))
@@ -114,6 +116,7 @@ exports.getCities = (req, reply) => {
             }
         })
         .then(() =>
+
             City
                 .find({ country: req.params.code })
                 .catch((error) => Boom.internal(error.errmsg)))

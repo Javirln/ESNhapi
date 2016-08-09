@@ -76,12 +76,11 @@ describe('Sections', function () {
 
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
             .then(() => Server.inject(FakeSection.create(FakeSection.A)))
             .then(() => Server.inject(FakeSection.create(FakeSection.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(Boom.conflict('Duplicated index').output.payload);
                 expect(response.statusCode).to.equal(409);
             });
     });
@@ -94,8 +93,7 @@ describe('Sections', function () {
             .injectThen(FakeSection.create(FakeSection.A))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(Boom.forbidden(`The parent country ${parentCountry} doesn't exist`).output.payload);
-                expect(response.statusCode).to.equal(403);
+                expect(response.statusCode).to.equal(400);
             });
     });
 
@@ -107,8 +105,7 @@ describe('Sections', function () {
             .then(() => Server.inject(FakeSection.create(FakeSection.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(Boom.forbidden(`The parent city ${parentCity} doesn't exist`).output.payload);
-                expect(response.statusCode).to.equal(403);
+                expect(response.statusCode).to.equal(400);
             });
     });
 
@@ -118,14 +115,13 @@ describe('Sections', function () {
             // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
             .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.B)))
             // Create section A
             .then(() => Server.injectThen(FakeSection.create(FakeSection.A)))
             // Get section A
             .then(() => Server.injectThen(FakeSection.getSpecific(FakeSection.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(FakeSection.A);
+                expect(JSON.parse(response.payload)).to.deep.equal(FakeSection.A);
                 expect(response.statusCode).to.equal(200);
             });
     });

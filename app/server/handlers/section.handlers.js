@@ -2,6 +2,7 @@
 
 const Promise = require('bluebird');
 const Boom = require('boom');
+const _ = require('lodash');
 
 const Section = require('../models/section.mongoose.js').Model;
 
@@ -65,14 +66,13 @@ exports.update = (req, reply) => {
 exports.getOne = (req, reply) => {
 
     Section.findOne({ code: req.params.code })
-        .sort([['_id', 'ascending']])
         .catch((error) => Promise.reject(Boom.internal(error.errmsg)))
         .then((result) => {
 
-            if (result === null) {
+            if (_.isEmpty(result)) {
                 return Promise.reject(Boom.notFound());
             }
-            reply(result.lean());
+            reply(result);
 
         })
         .catch((error) => reply(error));

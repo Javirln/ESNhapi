@@ -76,7 +76,7 @@ exports.getOne = (req, reply) => {
 
 exports.getSections = (req, reply) => {
 
-    Country.find({ code: req.params.code })
+    Country.findOne({ code: req.params.code })
         .sort([['code', 'ascending']])
         .catch((error) => Boom.internal(error.errmsg))
         .then((result) => {
@@ -103,7 +103,7 @@ exports.getSections = (req, reply) => {
 
 exports.getCities = (req, reply) => {
 
-    Country.find({ code: req.params.code })
+    Country.findOne({ code: req.params.code })
         .sort([['code', 'ascending']])
         .catch((error) => Boom.internal(error.errmsg))
         .then((result) => {

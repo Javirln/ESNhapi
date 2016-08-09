@@ -9,7 +9,7 @@ exports.getSpecific = (section) => {
 
     return {
         method: 'GET',
-        url: '/sections/' + section._id
+        url: '/sections/' + section.code
     }
 };
 

@@ -54,14 +54,14 @@ describe('Cities', function () {
             // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
         // Create city A
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
             .then((response) => {
 
                 expect(response.headers.location).to.equal('/cities/' + FakeCity.A.code);
                 expect(response.statusCode).to.equal(201);
             })
             // Get city A
-            .then(() => Server.injectThen(FakeCity.get))
+            .then(() => Server.inject(FakeCity.get))
             .then((response) => {
 
                 expect(response.result).to.be.a('array');
@@ -76,7 +76,7 @@ describe('Cities', function () {
         // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
             // Create city A
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
             .then(() => Server.inject(FakeCity.create(FakeCity.A)))
             .then((response) => {
 
@@ -102,7 +102,7 @@ describe('Cities', function () {
         // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
             // Create city A
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
             .then(() => Server.inject(FakeCity.getSpecific(FakeCity.A)))
             .then((response) => {
 
@@ -114,10 +114,10 @@ describe('Cities', function () {
     it('should be able to delete a city and all the resources underneath', function () {
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
-            .then(() => Server.injectThen(FakeSection.create(FakeSection.A)))
-            .then(() => Server.injectThen(FakeSection.create(FakeSection.B)))
-            .then(() => Server.injectThen(FakeCity.delete(FakeCity.A)))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
+            .then(() => Server.inject(FakeSection.create(FakeSection.B)))
+            .then(() => Server.inject(FakeCity.delete(FakeCity.A)))
             .then((response) => {
 
                 expect(response.statusCode).to.equal(204);

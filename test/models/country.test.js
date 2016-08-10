@@ -60,7 +60,7 @@ describe('Countries', function () {
                 expect(response.statusCode).to.equal(201);
             })
             // Get country A
-            .then(() => Server.injectThen(FakeCountry.get))
+            .then(() => Server.inject(FakeCountry.get))
             .then((response) => {
 
                 expect(response.result).to.be.a('array');
@@ -130,8 +130,8 @@ describe('Countries', function () {
 
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
-            .then((response) => Server.injectThen(FakeCity.create(FakeCity.A)))
-            .then((response) => Server.injectThen(FakeCity.create(FakeCity.B)))
+            .then((response) => Server.inject(FakeCity.create(FakeCity.A)))
+            .then((response) => Server.inject(FakeCity.create(FakeCity.B)))
             .then((response) => Server.inject(FakeSection.create(FakeSection.A)))
             .then((response) => Server.inject(FakeSection.create(FakeSection.B)))
             .then((response) => Server.inject(FakeCountry.getSections(FakeCountry.A)))

@@ -54,16 +54,16 @@ describe('Sections', function () {
             // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
             // Create City A
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
             // Create section A
-            .then(() => Server.injectThen(FakeSection.create(FakeSection.A)))
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
             .then((response) => {
 
                 expect(response.headers.location).to.equal('/sections/' + FakeSection.A.code);
                 expect(response.statusCode).to.equal(201);
             })
             // Get section A
-            .then(() => Server.injectThen(FakeSection.get))
+            .then(() => Server.inject(FakeSection.get))
             .then((response) => {
 
                 expect(response.result).to.be.a('array');
@@ -114,11 +114,11 @@ describe('Sections', function () {
         return Server
             // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
             // Create section A
-            .then(() => Server.injectThen(FakeSection.create(FakeSection.A)))
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
             // Get section A
-            .then(() => Server.injectThen(FakeSection.getSpecific(FakeSection.A)))
+            .then(() => Server.inject(FakeSection.getSpecific(FakeSection.A)))
             .then((response) => {
 
                 expect(JSON.parse(response.payload)).to.deep.equal(FakeSection.A);

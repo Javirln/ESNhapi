@@ -23,13 +23,13 @@ const ScheduleJobs = (server) => {
 
 
 
-    //FetchCountries.schedule(server)
-        //.then(() => FetchCities.schedule(server))
-        //.then(() => FetchSections.schedule(server))
+    FetchCountries.schedule(server)
+        .then(() => FetchCities.schedule(server))
+        .then(() => FetchSections.schedule(server))
         //.then(() => FetchNews.schedule(server))
         //.then(() => FetchEvents.schedule(server))
         //.then(() => FetchPartners.schedule(server))
-        //.catch((err) => server.log('error', 'An error occurred while executing cron' + err));
+        .catch((err) => server.log('error', 'An error occurred while executing cron' + err));
 
 
     // ==================

@@ -28,6 +28,7 @@ const createModel = () => {
     // Create indexes
     Model.schema.index({ code: 1, type: 1 });
 
+    return Model;
 };
 
 exports.Model = createModel();

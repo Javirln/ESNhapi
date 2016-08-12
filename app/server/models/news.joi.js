@@ -25,7 +25,7 @@ const BaseSchema = Joi.object({
     city: CityCode,
     section: SectionCode
 })
-    .label('New')
+    .label('News')
     .requiredKeys('code', 'title', 'content', 'country', 'city', 'section', 'createdOnSatellite', 'lastUpdate');
 
 exports.base = BaseSchema;

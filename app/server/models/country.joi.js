@@ -13,6 +13,7 @@ const BaseSchema = Joi.object({
         .example('ESN Antartica')
         .description('Full name of the country')
 })
+    .label('country')
     .requiredKeys('code', 'name')
     .optionalKeys('url');
 

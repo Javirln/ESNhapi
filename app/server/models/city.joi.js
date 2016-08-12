@@ -14,6 +14,7 @@ const BaseSchema = Joi.object({
     otherNames: Joi.array()
         .description('Other names of the city')
 })
+    .label('city')
     .requiredKeys('code', 'name', 'country')
     .optionalKeys('otherNames');
 

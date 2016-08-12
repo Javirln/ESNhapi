@@ -20,6 +20,7 @@ const BaseSchema = Joi.object({
         .description('Street address of the section'),
     city: CityCode
 })
+    .label('section')
     .requiredKeys('code', 'name', 'country', 'city')
     .optionalKeys('address', 'url');
 

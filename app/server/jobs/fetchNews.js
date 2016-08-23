@@ -14,8 +14,8 @@ const toStore = new GoodFile(base_dir.concat('news.log'));
 
 exports.schedule = (server) => {
 
-    server.log('info', 'Updating News List');
-    toStore.write(new Date().toString() + ' [INFO] Updating News list from Galaxy endpoint\n');
+    server.log('info', 'Updating Partner List');
+    toStore.write(new Date().toString() + ' [INFO] Updating Partner list from Galaxy endpoint\n');
 
     server.log('info', 'Getting section data: news');
     toStore.write(new Date().toString() + ' [INFO] Getting section data: news\n');
@@ -23,7 +23,7 @@ exports.schedule = (server) => {
 
     return getValidNews(server)
         .then((validNews) => processValidNews(validNews, server))
-        .then((result) => server.log('info', 'News updated'));
+        .then((result) => server.log('info', 'Partner updated'));
 };
 
 // Find sections that are online and with API
@@ -115,7 +115,7 @@ const processValidNews = (valid_sections, server) => {
                         }
                     })
                 )
-                .catch((error) => server.log('error', `Error updating list of news in section ${valid_section._id}. Error code ${error.statusCode}`))
+                .catch((error) => server.log('error', `Error updating list of news in section ${valid_section.code}. Error code ${error.statusCode}`))
     );
 };
 

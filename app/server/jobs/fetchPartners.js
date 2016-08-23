@@ -75,7 +75,7 @@ exports.schedule = (server) => {
                                 return partners
                                     .updateOne({
 
-                                        _id: valid_section._id + '-partners-' + content_partners.nid
+                                        code: valid_section._id + '-partners-' + content_partners.nid
                                     }, {
                                         name: content_partners.title,
                                         moreInformation: content_partners.more_info.length === 0 ? [] : content_partners.more_info,

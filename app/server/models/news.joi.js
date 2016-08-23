@@ -6,9 +6,9 @@ const CityCode = require('./city.joi').code;
 const SectionCode = require('./section.joi').code;
 
 const BaseSchema = Joi.object({
-    code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}-[A-Z0-9]{3,4}$/)
-        .example('AA-AAAA-AAAA')
-        .description('Code of the section'),
+    code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}-[A-Z0-9]{3,4}-news-[0-9]+$/)
+        .example('AA-AAAA-AAA-news-1234')
+        .description('Code of the new'),
     title: Joi.string()
         .example('Awesome title')
         .description('Title of the new'),

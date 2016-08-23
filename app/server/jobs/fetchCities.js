@@ -40,25 +40,21 @@ exports.schedule = (server) => {
                         .exec()
                         .then((created) => toStore.write(`${new Date().toString()} [INFO] [CITY-CODE] ${created._doc.code} created\n`))
                         .catch((error) => console.log(error))
-                )
+                    )
                     .then(
                         () => {
 
                             toStore.write(new Date().toString() + ' [INFO] Successfully updated list of cities\n');
                             server.log('info', 'Successfully updated list of cities');
-                        },
-                        (error) => {
-
-                            toStore.write(new Date().toString() + ' [ERROR] Error updating list of cities:' + error + '\n');
-                            server.log('error', 'Error updating list of cities:' + error);
                         }
                     )
-            ,
-            (error) => {
+                    .catch((error) => {
 
-                console.log(error);
-            }
-        );
+                        toStore.write(new Date().toString() + ' [ERROR] Error updating list of cities:' + error + '\n');
+                        server.log('error', 'Error updating list of cities:' + error);
+                    })
+        )
+        .catch((error) => console.log(error));
 };
 
 

@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 const Boom = require('boom');
 const _ = require('lodash');
 
-const News = require('../models/events.mongoose.js').Model;
+const News = require('../models/event.mongoose.js').Model;
 
 exports.getAll = (req, reply) => {
 

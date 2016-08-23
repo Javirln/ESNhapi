@@ -12,7 +12,7 @@ const MongooseHidden = require('mongoose-hidden')();
 const createModel = () => {
 
     // Convert it from Joi schema
-    const Schema = Joigoose.convert(require('./partners.joi').base);
+    const Schema = Joigoose.convert(require('./event.joi.js').base);
 
     // Extend the schema
     Schema.code.unique = true;
@@ -22,7 +22,7 @@ const createModel = () => {
 
 
     // Create model
-    const Model = Mongoose.model('Partners', Schema);
+    const Model = Mongoose.model('Events', Schema);
     Model.schema.plugin(MongooseHidden);
 
     // Create indexes

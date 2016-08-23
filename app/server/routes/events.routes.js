@@ -1,7 +1,7 @@
 'use strict';
 
-const EventsHandlers = require('../handlers/events.handlers');
-const EventsSchema = require('../models/events.joi.js');
+const EventsHandlers = require('../handlers/event.handlers.js');
+const EventsSchema = require('../models/event.joi.js');
 const Errors = require('../models/errors').errors;
 const Error200 = require('../models/errors').generate200;
 

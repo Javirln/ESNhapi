@@ -79,7 +79,7 @@ exports.schedule = (server) => {
                                     return events
                                         .updateOne({
 
-                                            _id: valid_section._id + '-events-' + content_events.nid
+                                            code: valid_section._id + '-events-' + content_events.nid
                                         }, {
                                             title: content_events.title || undefined,
                                             dateStarts: content_events.date_starts || undefined,

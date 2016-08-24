@@ -13,6 +13,14 @@ exports.getSpecific = (section) => {
     }
 };
 
+exports.getNews = (section) => {
+
+    return {
+        method: 'GET',
+        url: '/sections/' + section.code + '/news'
+    }
+};
+
 exports.A = {
     code: 'AA-AAAA-AAAA',
     url: 'http://somewhere.com',
@@ -43,3 +51,11 @@ exports.successPOST = {
     ok: 1,
     n: 1
 };
+
+exports.delete = (section) => {
+    return {
+        method: 'DELETE',
+        url: '/sections/' + section.code
+    }
+};
+

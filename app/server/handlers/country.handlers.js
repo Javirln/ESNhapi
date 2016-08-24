@@ -7,6 +7,9 @@ const _ = require('lodash');
 const Country = require('../models/country.mongoose.js').Model;
 const City = require('../models/city.mongoose.js').Model;
 const Section = require('../models/section.mongoose.js').Model;
+const New = require('../models/news.mongoose.js').Model;
+const Partner = require('../models/partner.mongoose.js').Model;
+const Event = require('../models/event.mongoose.js').Model;
 
 exports.getAll = (req, reply) => {
 
@@ -129,18 +132,78 @@ exports.getCities = (req, reply) => {
 
 exports.getNews = (req, reply) => {
 
-    // TODO Needs to be implemented
-    reply(Boom.notImplemented());
+    Country.findOne({ code: req.params.code })
+        .sort([['code', 'ascending']])
+        .catch((error) => Boom.internal(error.errmsg))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+        })
+        .then(() =>
+
+            New
+                .find({ country: req.params.code })
+                .catch((error) => Boom.internal(error.errmsg)))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+            reply(result).code(200);
+        })
+        .catch((error) => reply(error));
 };
 
 exports.getEvents = (req, reply) => {
 
-    // TODO Needs to be implemented
-    reply(Boom.notImplemented());
+    Country.findOne({ code: req.params.code })
+        .sort([['code', 'ascending']])
+        .catch((error) => Boom.internal(error.errmsg))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+        })
+        .then(() =>
+
+            Event
+                .find({ country: req.params.code })
+                .catch((error) => Boom.internal(error.errmsg)))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+            reply(result).code(200);
+        })
+        .catch((error) => reply(error));
 };
 
 exports.getPartners = (req, reply) => {
 
-    // TODO Needs to be implemented
-    reply(Boom.notImplemented());
+    Country.findOne({ code: req.params.code })
+        .sort([['code', 'ascending']])
+        .catch((error) => Boom.internal(error.errmsg))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+        })
+        .then(() =>
+
+            Partner
+                .find({ country: req.params.code })
+                .catch((error) => Boom.internal(error.errmsg)))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+            reply(result).code(200);
+        })
+        .catch((error) => reply(error));
 };

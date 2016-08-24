@@ -26,7 +26,7 @@ const BaseSchema = Joi.object({
     section: SectionCode
 })
     .label('Partner')
-    .requiredKeys('code', 'name', 'content', 'country', 'city', 'section', 'moreInformation', 'lastUpdate');
+    .requiredKeys('code', 'name', 'content', 'country', 'city', 'section');
 
 exports.base = BaseSchema;
 exports.code = Joi.reach(BaseSchema, 'code');

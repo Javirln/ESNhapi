@@ -53,7 +53,7 @@ const BaseSchema = Joi.object({
     section: SectionCode
 })
     .label('Event')
-    .requiredKeys('code', 'title', 'dateStarts', 'country', 'city', 'section', 'lastUpdate');
+    .requiredKeys('code', 'title', 'dateStarts', 'country', 'city', 'section');
 
 exports.base = BaseSchema;
 exports.code = Joi.reach(BaseSchema, 'code');

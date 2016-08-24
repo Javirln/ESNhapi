@@ -21,7 +21,7 @@ const createModel = () => {
 
 
 // Create model
-    const Model = Mongoose.model('Section', Schema);
+    const Model = Mongoose.model('Section', new Mongoose.Schema(Schema));
     Model.schema.plugin(MongooseHidden);
 
 // Create indexes
@@ -29,10 +29,20 @@ const createModel = () => {
 
 
 // Cascade delete children when removing
-    Model.schema.pre('remove', (next) => {
-        // 'this' is the client being removed. Provide callbacks here if you want
-        // to be notified of the calls' result.
-        next();
+    Model.schema.pre('remove', function (next) {
+
+        const New = require('./news.mongoose').Model;
+
+        New.find({ section: this.code })
+            .then((result) => {
+
+                if (result !== 0){
+                    Promise.map(result, (singleNew) => New.remove( { code: singleNew.code } ))
+                        .catch((err) => console.log(err))
+                    .then(() => next());
+                }
+            })
+            .catch((err) => console.log(err));
     });
 
     return Model;

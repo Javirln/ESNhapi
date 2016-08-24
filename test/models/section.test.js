@@ -109,6 +109,15 @@ describe('Sections', function () {
             });
     });
 
+    it('should return an error if a section to delete can\'t be found', function () {
+        return Server
+            .injectThen(FakeSection.delete(FakeSection.A))
+            .then((response) => {
+
+                expect(response.statusCode).to.equal(404);
+            });
+    });
+
     it('should be able to fetch a specific section', () => {
 
         return Server
@@ -126,8 +135,98 @@ describe('Sections', function () {
             });
     });
 
-    xit('should be able to delete a section and all the resources underneath', function () {
-        throw new Error('To be implemented');
+    it('should be able to fetch the news of a specific section', () => {
+        return Server
+        // Create country A
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
+            // Create section A
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
+            // Create new A
+            .then(() => Server.inject(FakeNews.create(FakeNews.A)))
+            // Get News of A
+            .then(() => Server.inject(FakeSection.getNews(FakeSection.A)))
+            .then((response) => {
+
+                expect(response.result[0].title).to.equal(FakeNews.A.title);
+                expect(response.statusCode).to.equal(200);
+            });
+
+    });
+
+    xit('should be able to fetch the partners of a specific section', () => {
+        return Server
+        // Create country A
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
+            // Create section A
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
+            // Create partner A
+            .then(() => Server.inject(FakePartner.create(FakePartner.A)))
+            // Get Partners of A
+            .then(() => Server.inject(FakeSection.getNews(FakeSection.A)))
+            .then((response) => {
+
+                expect(response.result[0].title).to.equal(FakePartner.A.code);
+                expect(response.statusCode).to.equal(200);
+            });
+
+    });
+
+    xit('should be able to fetch the events of a specific section', () => {
+        return Server
+        // Create country A
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
+            // Create section A
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
+            // Create event A
+            .then(() => Server.inject(FakeEvent.create(FakeEvent.A)))
+            // Get Events of A
+            .then(() => Server.inject(FakeSection.getNews(FakeSection.A)))
+            .then((response) => {
+
+                expect(response.result[0].title).to.equal(FakeEvent.A.code);
+                expect(response.statusCode).to.equal(200);
+            });
+
+    });
+
+    it('should be able to delete a section and all the resources underneath', function () {
+        return Server
+            .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
+            .then((response) => {
+
+                expect(response.statusCode).to.equal(201)
+            })
+            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
+            .then((response) => {
+
+                expect(response.statusCode).to.equal(201)
+            })
+            .then(() => Server.inject(FakeNews.create(FakeNews.A)))
+            .then((response) => {
+
+                expect(response.statusCode).to.equal(201)
+            })
+            .then(() => Server.inject(FakeSection.delete(FakeSection.A)))
+            .then((response) => {
+
+                expect(response.statusCode).to.equal(204);
+            })
+            .then(() => Server.inject(FakeSection.get))
+            .then((response) => {
+
+                expect(response.result).to.deep.equal([]);
+                expect(response.statusCode).to.equal(200);
+            })
+            .then(() => Server.inject(FakeNews.getAll))
+            .then((response) => {
+
+                expect(response.result).to.deep.equal([]);
+                expect(response.statusCode).to.equal(200);
+            });
     });
 
 });

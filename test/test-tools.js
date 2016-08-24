@@ -36,6 +36,7 @@ exports.clearDatabase = () => {
     return require('../app/server/models/country.mongoose').Model.remove({})
         .then(() => require('../app/server/models/section.mongoose').Model.remove({}) )
         .then(() => require('../app/server/models/city.mongoose').Model.remove({}) )
+        .then(() => require('../app/server/models/news.mongoose').Model.remove({}) )
 };
 
 

@@ -26,7 +26,8 @@ const BaseSchema = Joi.object({
     section: SectionCode
 })
     .label('News')
-    .requiredKeys('code', 'title', 'content', 'country', 'city', 'section');
+    .requiredKeys('code', 'title', 'content', 'country', 'city', 'section')
+    .optionalKeys('createdOnSatellite', 'lastUpdate');
 
 exports.base = BaseSchema;
 exports.code = Joi.reach(BaseSchema, 'code');

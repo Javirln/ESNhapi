@@ -1,6 +1,6 @@
 'use strict';
 
-const CityHanlders = require('../handlers/city.handlers');
+const CityHandlers = require('../handlers/city.handlers');
 const CitySchema = require('../models/city.joi.js');
 const Errors = require('../models/errors').errors;
 const Error200 = require('../models/errors').generate200;
@@ -9,7 +9,7 @@ module.exports = [
     {
         path: '/cities',
         method: 'GET',
-        handler: CityHanlders.getAll,
+        handler: CityHandlers.getAll,
         config: {
             description: 'Gets all ESN cities',
             tags: ['api', 'swagger'],
@@ -26,7 +26,7 @@ module.exports = [
     {
         path: '/cities',
         method: 'POST',
-        handler: CityHanlders.create,
+        handler: CityHandlers.create,
         config: {
             description: 'Creates a new ESN city',
             tags: ['api', 'swagger'],
@@ -49,7 +49,7 @@ module.exports = [
     {
         path: '/cities/{code}',
         method: 'DELETE',
-        handler: CityHanlders.delete,
+        handler: CityHandlers.delete,
         config: {
             description: 'Deletes an ESN city',
             tags: ['api', 'swagger'],
@@ -72,7 +72,7 @@ module.exports = [
     {
         path: '/cities/{code}',
         method: 'PUT',
-        handler: CityHanlders.replace,
+        handler: CityHandlers.replace,
         config: {
             description: 'Replaces an ESN city',
             tags: ['api', 'swagger'],
@@ -86,7 +86,7 @@ module.exports = [
     {
         path: '/cities/{code}',
         method: 'PATCH',
-        handler: CityHanlders.update,
+        handler: CityHandlers.update,
         config: {
             description: 'Updates an ESN city',
             tags: ['api', 'swagger'],
@@ -100,7 +100,7 @@ module.exports = [
     {
         path: '/cities/{code}',
         method: 'GET',
-        handler: CityHanlders.getOne,
+        handler: CityHandlers.getOne,
         config: {
             description: 'Gets information from a specific ESN city',
             tags: ['api', 'swagger'],
@@ -122,7 +122,7 @@ module.exports = [
     {
         path: '/cities/{code}/sections',
         method: 'GET',
-        handler: CityHanlders.getSections,
+        handler: CityHandlers.getSections,
         config: {
             description: 'Gets the sections belonging to a specific ESN city',
             tags: ['api', 'swagger'],
@@ -144,7 +144,7 @@ module.exports = [
     {
         path: '/cities/{code}/news',
         method: 'GET',
-        handler: CityHanlders.getNews,
+        handler: CityHandlers.getNews,
         config: {
             description: 'Gets the news from a specific ESN city',
             tags: ['api', 'swagger'],
@@ -166,7 +166,7 @@ module.exports = [
     {
         path: '/cities/{code}/events',
         method: 'GET',
-        handler: CityHanlders.getEvents,
+        handler: CityHandlers.getEvents,
         config: {
             description: 'Gets the events from a specific ESN city',
             tags: ['api', 'swagger'],
@@ -188,7 +188,7 @@ module.exports = [
     {
         path: '/cities/{code}/partners',
         method: 'GET',
-        handler: CityHanlders.getPartners,
+        handler: CityHandlers.getPartners,
         config: {
             description: 'Gets the partners found in a specific ESN city',
             tags: ['api', 'swagger'],

@@ -9,12 +9,12 @@ exports.getSpecific = (news) => {
 
     return {
         method: 'GET',
-        url: '/news/' + news._id
+        url: '/news/' + news.code
     }
 };
 
 exports.A = {
-    "_id": "AA-AAAA-AAAA-news-00",
+    "code": "AA-AAAA-AAAA-news-00",
     "title": "Title for news A",
     "content": "Sample content",
     "country": "AA",
@@ -23,7 +23,7 @@ exports.A = {
 };
 
 exports.B = {
-    "_id": "AA-AABB-AABB-news-00",
+    "code": "AA-AABB-AABB-news-00",
     "title": "Title for news B",
     "content": "Sample content",
     "country": "AA",

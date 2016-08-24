@@ -5,6 +5,9 @@ const Boom = require('boom');
 const _ = require('lodash');
 
 const Section = require('../models/section.mongoose.js').Model;
+const New = require('../models/news.mongoose.js').Model;
+const Partner = require('../models/partner.mongoose.js').Model;
+const Event = require('../models/event.mongoose.js').Model;
 
 exports.getAll = (req, reply) => {
 
@@ -81,18 +84,78 @@ exports.getOne = (req, reply) => {
 
 exports.getNews = (req, reply) => {
 
-    // TODO Needs to be implemented
-    reply(Boom.notImplemented());
+    Section.findOne({ code: req.params.code })
+        .sort([['code', 'ascending']])
+        .catch((error) => Boom.internal(error.errmsg))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+        })
+        .then(() =>
+
+            New
+                .find({ section: req.params.code })
+                .catch((error) => Boom.internal(error.errmsg)))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+            reply(result).code(200);
+        })
+        .catch((error) => reply(error));
 };
 
 exports.getEvents = (req, reply) => {
 
-    // TODO Needs to be implemented
-    reply(Boom.notImplemented());
+    Section.findOne({ code: req.params.code })
+        .sort([['code', 'ascending']])
+        .catch((error) => Boom.internal(error.errmsg))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+        })
+        .then(() =>
+
+            Event
+                .find({ section: req.params.code })
+                .catch((error) => Boom.internal(error.errmsg)))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+            reply(result).code(200);
+        })
+        .catch((error) => reply(error));
 };
 
 exports.getPartners = (req, reply) => {
 
-    // TODO Needs to be implemented
-    reply(Boom.notImplemented());
+    Section.findOne({ code: req.params.code })
+        .sort([['code', 'ascending']])
+        .catch((error) => Boom.internal(error.errmsg))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+        })
+        .then(() =>
+
+            Partner
+                .find({ section: req.params.code })
+                .catch((error) => Boom.internal(error.errmsg)))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+            reply(result).code(200);
+        })
+        .catch((error) => reply(error));
 };

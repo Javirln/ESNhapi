@@ -6,6 +6,9 @@ const _ = require('lodash');
 
 const City = require('../models/city.mongoose.js').Model;
 const Section = require('../models/section.mongoose.js').Model;
+const New = require('../models/news.mongoose.js').Model;
+const Partner = require('../models/partner.mongoose.js').Model;
+const Event = require('../models/event.mongoose.js').Model;
 
 exports.getAll = (req, reply) => {
 
@@ -93,7 +96,7 @@ exports.getSections = (req, reply) => {
         .then(() =>
 
             Section
-                .find({ country: req.params.code })
+                .find({ city: req.params.code })
                 .catch((error) => Boom.internal(error.errmsg)))
         .then((result) => {
 
@@ -108,18 +111,78 @@ exports.getSections = (req, reply) => {
 
 exports.getNews = (req, reply) => {
 
-    // TODO Needs to be implemented
-    reply(Boom.notImplemented());
+    City.find({ code: req.params.code })
+        .exec()
+        .catch((error) => Boom.internal(error.errmsg))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+        })
+        .then(() =>
+
+            New
+                .find({ city: req.params.code })
+                .catch((error) => Boom.internal(error.errmsg)))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+            reply(result).code(200);
+        })
+        .catch((error) => reply(error));
 };
 
 exports.getEvents = (req, reply) => {
 
-    // TODO Needs to be implemented
-    reply(Boom.notImplemented());
+    City.find({ code: req.params.code })
+        .exec()
+        .catch((error) => Boom.internal(error.errmsg))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+        })
+        .then(() =>
+
+            Event
+                .find({ city: req.params.code })
+                .catch((error) => Boom.internal(error.errmsg)))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+            reply(result).code(200);
+        })
+        .catch((error) => reply(error));
 };
 
 exports.getPartners = (req, reply) => {
 
-    // TODO Needs to be implemented
-    reply(Boom.notImplemented());
+    City.find({ code: req.params.code })
+        .exec()
+        .catch((error) => Boom.internal(error.errmsg))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+        })
+        .then(() =>
+
+            Partner
+                .find({ city: req.params.code })
+                .catch((error) => Boom.internal(error.errmsg)))
+        .then((result) => {
+
+            if (_.isEmpty(result)) {
+                return Promise.reject(Boom.notFound());
+            }
+            reply(result).code(200);
+        })
+        .catch((error) => reply(error));
 };

@@ -6,6 +6,8 @@ const FakeCountry = require('../fixtures/sampleCountry');
 const FakeSection = require('../fixtures/sampleSection');
 const FakeCity = require('../fixtures/sampleCity');
 const FakeNews = require('../fixtures/sampleNews');
+const FakePartner = require('../fixtures/samplePartner');
+const FakeEvent = require('../fixtures/sampleEvent');
 
 let Server;
 
@@ -154,7 +156,7 @@ describe('Sections', function () {
 
     });
 
-    xit('should be able to fetch the partners of a specific section', () => {
+    it('should be able to fetch the partners of a specific section', () => {
         return Server
         // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
@@ -164,16 +166,16 @@ describe('Sections', function () {
             // Create partner A
             .then(() => Server.inject(FakePartner.create(FakePartner.A)))
             // Get Partners of A
-            .then(() => Server.inject(FakeSection.getNews(FakeSection.A)))
+            .then(() => Server.inject(FakeSection.getPartners(FakeSection.A)))
             .then((response) => {
 
-                expect(response.result[0].title).to.equal(FakePartner.A.code);
+                expect(response.result[0].code).to.equal(FakePartner.A.code);
                 expect(response.statusCode).to.equal(200);
             });
 
     });
 
-    xit('should be able to fetch the events of a specific section', () => {
+    it('should be able to fetch the events of a specific section', () => {
         return Server
         // Create country A
             .injectThen(FakeCountry.create(FakeCountry.A))
@@ -183,10 +185,10 @@ describe('Sections', function () {
             // Create event A
             .then(() => Server.inject(FakeEvent.create(FakeEvent.A)))
             // Get Events of A
-            .then(() => Server.inject(FakeSection.getNews(FakeSection.A)))
+            .then(() => Server.inject(FakeSection.getEvents(FakeSection.A)))
             .then((response) => {
 
-                expect(response.result[0].title).to.equal(FakeEvent.A.code);
+                expect(response.result[0].code).to.equal(FakeEvent.A.code);
                 expect(response.statusCode).to.equal(200);
             });
 

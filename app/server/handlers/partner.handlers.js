@@ -29,6 +29,9 @@ exports.create = (req, reply) => {
             else if (error.errors.city) {
                 reply(Boom.badRequest(error.errors.city.message));
             }
+            else if (error.errors.section) {
+                reply(Boom.badRequest(error.errors.section.message));
+            }
             else {
                 reply(Boom.internal(error.errmsg));
             }

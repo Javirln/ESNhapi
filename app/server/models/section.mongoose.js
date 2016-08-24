@@ -30,7 +30,7 @@ const createModel = () => {
 
 // Cascade delete children when removing
     Model.schema.pre('remove', function (next) {
-
+        // All this should be wrapped in something like Promise.all()
         const New = require('./news.mongoose').Model;
 
         New.find({ section: this.code })
@@ -40,6 +40,19 @@ const createModel = () => {
                     Promise.map(result, (singleNew) => New.remove( { code: singleNew.code } ))
                         .catch((err) => console.log(err))
                     .then(() => next());
+                }
+            })
+            .catch((err) => console.log(err));
+
+        const Partner = require('./partner.mongoose').Model;
+
+        Partner.find({ section: this.code })
+            .then((result) => {
+
+                if (result !== 0){
+                    Promise.map(result, (partner) => Partner.remove( { code: partner.code } ))
+                        .catch((err) => console.log(err))
+                        .then(() => next());
                 }
             })
             .catch((err) => console.log(err));

@@ -21,6 +21,22 @@ exports.getNews = (section) => {
     }
 };
 
+exports.getPartners = (section) => {
+
+    return {
+        method: 'GET',
+        url: '/sections/' + section.code + '/partners'
+    }
+};
+
+exports.getEvents = (section) => {
+
+    return {
+        method: 'GET',
+        url: '/sections/' + section.code + '/events'
+    }
+};
+
 exports.A = {
     code: 'AA-AAAA-AAAA',
     url: 'http://somewhere.com',

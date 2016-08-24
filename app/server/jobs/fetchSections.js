@@ -33,7 +33,7 @@ exports.schedule = (server) => {
                                 name: section.name,
                                 country: section._id.split('-')[0],
                                 address: section.address,
-                                city: section.city
+                                city: section._id.split('-')[0] + '-' + section._id.split('-')[1]
                             }
                         },
                         {

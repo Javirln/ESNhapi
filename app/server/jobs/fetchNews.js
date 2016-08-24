@@ -102,7 +102,7 @@ const processValidNews = (valid_sections, server) => {
                                     createdOnSatellite: content_news.created,
                                     content: content_news.content,
                                     country: valid_section.country,
-                                    city: valid_section.city,
+                                    city: valid_section.code.split('-')[0] + '-' + valid_section.code.split('-')[1],
                                     section: valid_section.code,
                                     lastUpdate: Date.now()
                                 }, {

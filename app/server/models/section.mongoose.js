@@ -56,6 +56,19 @@ const createModel = () => {
                 }
             })
             .catch((err) => console.log(err));
+
+        const Event = require('./event.mongoose').Model;
+
+        Event.find({ section: this.code })
+            .then((result) => {
+
+                if (result !== 0){
+                    Promise.map(result, (partner) => Partner.remove( { code: partner.code } ))
+                        .catch((err) => console.log(err))
+                        .then(() => next());
+                }
+            })
+            .catch((err) => console.log(err));
     });
 
     return Model;

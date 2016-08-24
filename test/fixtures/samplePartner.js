@@ -23,7 +23,7 @@ exports.A = {
 };
 
 exports.B = {
-    "code": "AA-AAAA-AAA-partners-1234",
+    "code": "AA-AABB-AABB-partners-1234",
     "name": "Awesome partner name",
     "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "moreInformation": "Bar's website",

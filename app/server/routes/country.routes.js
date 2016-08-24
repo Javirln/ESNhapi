@@ -2,6 +2,11 @@
 
 const CountryHandlers = require('../handlers/country.handlers');
 const CountrySchema = require('../models/country.joi.js');
+const NewsSchema = require('../models/news.joi.js');
+const EventSchema = require('../models/event.joi.js');
+const PartnerSchema = require('../models/partner.joi.js');
+const SectionSchema = require('../models/section.joi.js');
+const CitySchema = require('../models/city.joi.js');
 const Errors = require('../models/errors').errors;
 const Error200 = require('../models/errors').generate200;
 
@@ -129,7 +134,7 @@ module.exports = [
             plugins: {
                 'hapi-swagger': {
                     responses: {
-                        '200': Error200(CountrySchema.base, true),
+                        '200': Error200(SectionSchema.base, true),
                         '500': Errors.HTTP500
                     }
                 }
@@ -151,7 +156,7 @@ module.exports = [
             plugins: {
                 'hapi-swagger': {
                     responses: {
-                        '200': Error200(CountrySchema.base, true),
+                        '200': Error200(CitySchema.base, true),
                         '500': Errors.HTTP500
                     }
                 }
@@ -173,7 +178,7 @@ module.exports = [
             plugins: {
                 'hapi-swagger': {
                     responses: {
-                        '200': Error200(CountrySchema.base, true),
+                        '200': Error200(NewsSchema.base, true),
                         '500': Errors.HTTP500
                     }
                 }
@@ -195,7 +200,7 @@ module.exports = [
             plugins: {
                 'hapi-swagger': {
                     responses: {
-                        '200': Error200(CountrySchema.base, true),
+                        '200': Error200(EventSchema.base, true),
                         '500': Errors.HTTP500
                     }
                 }
@@ -217,7 +222,7 @@ module.exports = [
             plugins: {
                 'hapi-swagger': {
                     responses: {
-                        '200': Error200(CountrySchema.base, true),
+                        '200': Error200(PartnerSchema.base, true),
                         '500': Errors.HTTP500
                     }
                 }

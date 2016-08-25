@@ -1,4 +1,5 @@
-Dev build: [![build status](https://git.esn.org/sturgelose/ESNhapi/badges/develop/build.svg)](https://git.esn.org/sturgelose/ESNhapi/commits/develop)
+[![build status](https://git.esn.org/mobile-apps/ESNhapi/badges/develop/build.svg)](https://git.esn.org/mobile-apps/ESNhapi/commits/develop)
+[![coverage report](https://git.esn.org/mobile-apps/ESNhapi/badges/develop/coverage.svg)](https://git.esn.org/mobile-apps/ESNhapi/commits/develop)
 
 <a href="http://hapijs.com/"><img src="https://raw.github.com/hapijs/hapi/master/images/hapi.png" /></a>
 

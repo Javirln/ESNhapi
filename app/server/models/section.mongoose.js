@@ -63,7 +63,7 @@ const createModel = () => {
             .then((result) => {
 
                 if (result !== 0){
-                    Promise.map(result, (partner) => Partner.remove( { code: partner.code } ))
+                    Promise.map(result, (event) => Event.remove( { code: event.code } ))
                         .catch((err) => console.log(err))
                         .then(() => next());
                 }

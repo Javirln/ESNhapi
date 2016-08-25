@@ -212,6 +212,16 @@ describe('Sections', function () {
 
                 expect(response.statusCode).to.equal(201)
             })
+            .then(() => Server.inject(FakePartner.create(FakePartner.A)))
+            .then((response) => {
+
+                expect(response.statusCode).to.equal(201)
+            })
+            .then(() => Server.inject(FakeEvent.create(FakeEvent.A)))
+            .then((response) => {
+
+                expect(response.statusCode).to.equal(201)
+            })
             .then(() => Server.inject(FakeSection.delete(FakeSection.A)))
             .then((response) => {
 
@@ -220,13 +230,25 @@ describe('Sections', function () {
             .then(() => Server.inject(FakeSection.get))
             .then((response) => {
 
-                expect(response.result).to.deep.equal([]);
+                expect(response.result.length).to.equal(0);
                 expect(response.statusCode).to.equal(200);
             })
             .then(() => Server.inject(FakeNews.getAll))
             .then((response) => {
 
-                expect(response.result).to.deep.equal([]);
+                expect(response.result.length).to.equal(0);
+                expect(response.statusCode).to.equal(200);
+            })
+            .then(() => Server.inject(FakePartner.getAll))
+            .then((response) => {
+
+                expect(response.result.length).to.equal(0);
+                expect(response.statusCode).to.equal(200);
+            })
+            .then(() => Server.inject(FakeEvent.getAll))
+            .then((response) => {
+
+                expect(response.result.length).to.equal(0);
                 expect(response.statusCode).to.equal(200);
             });
     });

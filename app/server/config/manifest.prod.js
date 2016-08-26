@@ -4,6 +4,13 @@ const Plugins = require('./plugins');
 
 const manifest = {
     server: {
+        connections: {
+            router: {
+                stripTrailingSlash: true,
+                // Although it's a bad practise, but can avoid future problems
+                isCaseSensitive: false
+            }
+        }
     },
     connections: [
         {

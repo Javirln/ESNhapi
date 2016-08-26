@@ -40,7 +40,7 @@ describe('Partners', function () {
     it('should have an existing endpoint', function () {
 
         return Server
-            .injectThen(FakeSection.get, function (response) {
+            .injectThen(FakeSection.getAll, function (response) {
 
                 expect(response.result).to.be.a('array');
                 expect(response.statusCode).to.equal(200);

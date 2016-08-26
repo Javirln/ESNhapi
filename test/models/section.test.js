@@ -42,7 +42,7 @@ describe('Sections', function () {
     it('should have an existing endpoint', function () {
 
         return Server
-            .injectThen(FakeSection.get, function (response) {
+            .injectThen(FakeSection.getAll, function (response) {
 
                 expect(response.result).to.be.a('array');
                 expect(response.statusCode).to.equal(200);
@@ -65,7 +65,7 @@ describe('Sections', function () {
                 expect(response.statusCode).to.equal(201);
             })
             // Get section A
-            .then(() => Server.inject(FakeSection.get))
+            .then(() => Server.inject(FakeSection.getAll))
             .then((response) => {
 
                 expect(response.result).to.be.a('array');
@@ -129,7 +129,7 @@ describe('Sections', function () {
             // Create section A
             .then(() => Server.inject(FakeSection.create(FakeSection.A)))
             // Get section A
-            .then(() => Server.inject(FakeSection.getSpecific(FakeSection.A)))
+            .then(() => Server.inject(FakeSection.get(FakeSection.A)))
             .then((response) => {
 
                 expect(JSON.parse(response.payload)).to.deep.equal(FakeSection.A);
@@ -227,7 +227,7 @@ describe('Sections', function () {
 
                 expect(response.statusCode).to.equal(204);
             })
-            .then(() => Server.inject(FakeSection.get))
+            .then(() => Server.inject(FakeSection.getAll))
             .then((response) => {
 
                 expect(response.result.length).to.equal(0);

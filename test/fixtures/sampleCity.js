@@ -1,11 +1,11 @@
 'use strict';
 
-exports.get = {
+exports.getAll = {
     method: 'GET',
     url: '/cities'
 };
 
-exports.getSpecific = (city) => {
+exports.get = (city) => {
 
     return {
         method: 'GET',

@@ -1,11 +1,11 @@
 'use strict';
 
-exports.get = {
+exports.getAll = {
     method: 'GET',
     url: '/sections'
 };
 
-exports.getSpecific = (section) => {
+exports.get = (section) => {
 
     return {
         method: 'GET',

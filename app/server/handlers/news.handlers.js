@@ -15,6 +15,7 @@ exports.getAll = (req, reply) => {
 };
 
 exports.create = (req, reply) => {
+
     new News(req.payload).save()
         .then((result) => reply().code(201).location('/news/' + req.payload.code))
         .catch((error) => {

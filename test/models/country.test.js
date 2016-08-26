@@ -39,7 +39,7 @@ describe('Countries', function () {
 
     it('should have an existing endpoint', function () {
 
-        Server.injectThen(FakeCountry.get)
+        Server.injectThen(FakeCountry.getAll)
             .then((response) => {
 
                 expect(JSON.parse(response.payload)).to.be.a('array');
@@ -60,7 +60,7 @@ describe('Countries', function () {
                 expect(response.statusCode).to.equal(201);
             })
             // Get country A
-            .then(() => Server.inject(FakeCountry.get))
+            .then(() => Server.inject(FakeCountry.getAll))
             .then((response) => {
 
                 expect(response.result).to.be.a('array');
@@ -84,7 +84,7 @@ describe('Countries', function () {
 
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
-            .then(() => Server.inject(FakeCountry.getOne(FakeCountry.A)))
+            .then(() => Server.inject(FakeCountry.get(FakeCountry.A)))
             .then((response) => {
 
                 expect(JSON.parse(response.payload)).to.deep.equal(FakeCountry.A);
@@ -103,13 +103,13 @@ describe('Countries', function () {
 
                 expect(response.statusCode).to.equal(204);
             })
-            .then(() => Server.inject(FakeCountry.get))
+            .then(() => Server.inject(FakeCountry.getAll))
             .then((response) => {
 
                 expect(response.result).to.deep.equal([]);
                 expect(response.statusCode).to.equal(200);
             })
-            .then(() => Server.inject(FakeSection.get))
+            .then(() => Server.inject(FakeSection.getAll))
             .then((response) => {
 
                 expect(response.result).to.deep.equal([]);

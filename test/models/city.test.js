@@ -40,7 +40,7 @@ describe('Cities', function () {
     it('should have an existing endpoint', function () {
 
         return Server
-            .injectThen(FakeCity.get, function (response) {
+            .injectThen(FakeCity.getAll, function (response) {
 
                 expect(response.result).to.be.a('array');
                 expect(response.statusCode).to.equal(200);
@@ -61,7 +61,7 @@ describe('Cities', function () {
                 expect(response.statusCode).to.equal(201);
             })
             // Get city A
-            .then(() => Server.inject(FakeCity.get))
+            .then(() => Server.inject(FakeCity.getAll))
             .then((response) => {
 
                 expect(response.result).to.be.a('array');
@@ -103,7 +103,7 @@ describe('Cities', function () {
             .injectThen(FakeCountry.create(FakeCountry.A))
             // Create city A
             .then(() => Server.inject(FakeCity.create(FakeCity.A)))
-            .then(() => Server.inject(FakeCity.getSpecific(FakeCity.A)))
+            .then(() => Server.inject(FakeCity.get(FakeCity.A)))
             .then((response) => {
 
                 expect(JSON.parse(response.payload)).to.deep.equal(FakeCity.A);
@@ -122,13 +122,13 @@ describe('Cities', function () {
 
                 expect(response.statusCode).to.equal(204);
             })
-            .then(() => Server.inject(FakeCity.get))
+            .then(() => Server.inject(FakeCity.getAll))
             .then((response) => {
 
                 expect(response.result).to.deep.equal([]);
                 expect(response.statusCode).to.equal(200);
             })
-            .then(() => Server.inject(FakeSection.get))
+            .then(() => Server.inject(FakeSection.getAll))
             .then((response) => {
 
                 expect(response.result).to.deep.equal([]);

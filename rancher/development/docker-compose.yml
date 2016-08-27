@@ -2,7 +2,7 @@ API:
   labels:
     io.rancher.container.pull_image: always
   tty: true
-  image: git.esn.org:4567/sturgelose/esnhapi:dev
+  image: git.esn.org:4567/mobile-apps/esnhapi:dev
   links:
   - db:mongo
   stdin_open: true

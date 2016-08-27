@@ -24,7 +24,7 @@ build_image_dev:
   image: gitlab/dind
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN git.esn.org:4567
-    - docker build --file="app/Dockerfile.prod" -t git.esn.org:4567/mobile-apps/esnhapi .
+    - docker build --file="app/Dockerfile.prod" -t git.esn.org:4567/mobile-apps/esnhapi:dev .
     - docker push git.esn.org:4567/mobile-apps/esnhapi:dev
   only:
     - develop

@@ -12,6 +12,8 @@ let Server = {};
 
 exports.setup = () => {
 
+    require('../app/server/config/db');
+
     return new Promise((resolve) => {
 
         Glue.compose(ManifestTest, glueOptions, (err, server) => {
@@ -29,8 +31,18 @@ exports.setup = () => {
 
 };
 
+exports.clearDatabase = () => {
 
-exports.clearCollection = (collectionName) => {
+    return require('../app/server/models/country.mongoose').Model.remove({})
+        .then(() => require('../app/server/models/section.mongoose').Model.remove({}) )
+        .then(() => require('../app/server/models/city.mongoose').Model.remove({}) )
+        .then(() => require('../app/server/models/news.mongoose').Model.remove({}) )
+        .then(() => require('../app/server/models/partner.mongoose').Model.remove({}) )
+        .then(() => require('../app/server/models/event.mongoose').Model.remove({}) )
+};
+
+
+exports.teardown = () => {
 
     return new Promise(( resolve, error) => {
 
@@ -39,19 +51,9 @@ exports.clearCollection = (collectionName) => {
             if (err) {
                 error(err);
             }
-            db.dropCollection(collectionName, () => {
-
-                db.close();
-                resolve();
-            });
+            Server.stop();
+            resolve();
         });
     });
-};
-
-
-exports.teardown = (done) => {
-    // Close the server after all tests
-    Server.stop();
-    done();
 };
 

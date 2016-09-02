@@ -4,6 +4,12 @@ const Plugins = require('./plugins');
 
 const manifest = {
     server: {
+        connections: {
+            router: {
+                stripTrailingSlash: true,
+                isCaseSensitive: false
+            }
+        }
     },
     connections: [
         {
@@ -12,7 +18,6 @@ const manifest = {
     ],
     registrations: [
         Plugins.registerRouter,
-        Plugins.registerMongoDB,
         Plugins.registerInjectThen
     ]
 };

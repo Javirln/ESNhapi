@@ -1,8 +1,8 @@
 'use strict';
 
-const ping = require('ping');
-const dns = require('dns');
-const url = require('url');
+const Ping = require('ping');
+const DNS = require('dns');
+const URL = require('url');
 
 exports.schedule = (server) => {
 
@@ -15,11 +15,11 @@ exports.schedule = (server) => {
 
     sections.forEach((section) => {
 
-        const urlObject = url.parse(section.url);
+        const urlObject = URL.parse(section.url);
         const interna = [];
 
-        dns.lookup(urlObject.host, function onLookup(err, address){
-            ping.sys.probe(address, function(isAlive){
+        DNS.lookup(urlObject.host, function onLookup(err, address){
+            Ping.sys.probe(address, function(isAlive){
                 if (isAlive){
                     updateSection.updateOne({
                         _id: section._id

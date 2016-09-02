@@ -4,6 +4,13 @@ const Plugins = require('./plugins');
 
 const manifest = {
     server: {
+        connections: {
+            router: {
+                stripTrailingSlash: true,
+                // Although it's a bad practise, but can avoid future problems
+                isCaseSensitive: false
+            }
+        }
     },
     connections: [
         {
@@ -15,8 +22,7 @@ const manifest = {
         Plugins.registerRouter,
         Plugins.registerInert,
         Plugins.registerVision,
-        Plugins.registerSwagger,
-        Plugins.registerMongoDB
+        Plugins.registerSwagger
     ]
 };
 

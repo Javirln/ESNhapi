@@ -1,34 +1,58 @@
 'use strict';
 
-exports.get = {
+exports.getAll = {
     method: 'GET',
     url: '/sections'
 };
 
-exports.getSpecific = (section) => {
+exports.get = (section) => {
 
     return {
         method: 'GET',
-        url: '/sections/' + section._id
+        url: '/sections/' + section.code
+    }
+};
+
+exports.getNews = (section) => {
+
+    return {
+        method: 'GET',
+        url: '/sections/' + section.code + '/news'
+    }
+};
+
+exports.getPartners = (section) => {
+
+    return {
+        method: 'GET',
+        url: '/sections/' + section.code + '/partners'
+    }
+};
+
+exports.getEvents = (section) => {
+
+    return {
+        method: 'GET',
+        url: '/sections/' + section.code + '/events'
     }
 };
 
 exports.A = {
-    _id: 'AA-AAAA-AAAA',
+    code: 'AA-AAAA-AAAA',
     url: 'http://somewhere.com',
     name: 'ESN Somewhere',
     country: 'AA',
     address: "Street 1",
-    city: "City AA"
+    city: "AA-AAAA"
 };
 
 exports.B = {
-    _id: 'AA-AABB-AABB',
+    code: 'AA-AABB-AABB',
     url: 'http://bomewhere.com',
     name: 'ESN Bomewhere',
     country: 'AA',
     address: "Street 2",
-    city: "City AB"
+    city: "AA-AABB"
 };
 
 exports.create = (section) => {
@@ -43,3 +67,11 @@ exports.successPOST = {
     ok: 1,
     n: 1
 };
+
+exports.delete = (section) => {
+    return {
+        method: 'DELETE',
+        url: '/sections/' + section.code
+    }
+};
+

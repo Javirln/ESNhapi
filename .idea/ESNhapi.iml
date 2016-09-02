@@ -4,9 +4,10 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="ESNhapi node_modules" level="project" />
     <orderEntry type="library" name="mocha-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="mongodb-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="mpromise-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="joi-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="mongoose-DefinitelyTyped" level="application" />
   </component>
 </module>

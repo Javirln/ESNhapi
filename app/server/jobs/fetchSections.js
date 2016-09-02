@@ -1,8 +1,8 @@
 'use strict';
 
 const Request = require('request-promise');
-const _ = require('lodash');
-const OmitEmpty = require('omit-empty');
+const Section = require('../models/section.mongoose').Model;
+const Promise = require('bluebird');
 
 //const CallhomeSectionURL = 'http://satellite.esn.org/callhome/api/section.json';
 const CallhomeSectionURL = 'https://git.esn.org/snippets/13/raw';
@@ -21,42 +21,44 @@ exports.schedule = (server) => {
         json: true,
         jar: true // Remember cookies!
     })
-        .then(
-            (json) => {
+        .then((json) =>
 
-                const sections = server.mongo.db
-                    .collection('sections');
+                Promise.map(json, (section) =>
 
-                Promise.all(_.map(json, (section) => {
-                    return sections.updateOne(
+                    Section.findOneAndUpdate(
+                        { code: section._id },
                         {
-                            _id: section._id
+                            $set: {
+                                url: section.url,
+                                name: section.name,
+                                country: section._id.split('-')[0],
+                                address: section.address,
+                                city: section._id.split('-')[0] + '-' + section._id.split('-')[1]
+                            }
                         },
-                        OmitEmpty({
-                            url: section.url,
-                            name: section.name,
-                            country: section._id.split('-')[0],
-                            address: section.address,
-                            city: section.city
-                        }),
                         {
+                            new: true,
                             upsert: true
-                        }).then(toStore.write(new Date().toString() + ' [INFO] ' + ' [SECTION-CODE] ' + section._id + ' created\n'));
-                }))
+                        })
+                        .exec()
+                        .then((created) => toStore.write(`${new Date().toString()} [INFO] [SECTION-CODE] ${created._doc.code} created\n`))
+                        .catch((error) => console.log(error))
+                )
                     .then(
-                        (success) => {
+                        () => {
+
                             toStore.write(new Date().toString() + ' [INFO] Successfully updated list of sections\n');
                             server.log('info', 'Successfully updated list of sections');
                         },
                         (error) => {
+
                             toStore.write(new Date().toString() + ' [ERROR] Error updating list of sections:' + error + '\n');
                             server.log('error', 'Error updating list of sections:' + error);
                         }
-                    );
-
-
-            },
+                    )
+            ,
             (error) => {
+
                 console.log(error);
             }
         );

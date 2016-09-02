@@ -4,9 +4,10 @@ const Glue = require('glue');
 const ManifestDev = require('./server/config/manifest.dev');
 const ManifestProd = require('./server/config/manifest.prod');
 const Jobs = require('./server/jobs');
+require('./server/config/db');
 
 let Manifest = '';
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
     Manifest = ManifestProd;
 }
 else {

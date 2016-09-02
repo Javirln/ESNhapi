@@ -7,9 +7,6 @@ const FakeSection = require('../fixtures/sampleSection');
 const FakeCity = require('../fixtures/sampleCity');
 const FakeNews = require('../fixtures/sampleNews');
 
-const Boom = require('boom');
-
-
 let Server;
 
 describe('Countries', function () {
@@ -28,18 +25,12 @@ describe('Countries', function () {
     });
 
     beforeEach(function () {
-        this.timeout(0);
-
-        return TestTools.clearCollection('countries')
-            .then(() => TestTools.clearCollection('cities'))
-            .then(() => TestTools.clearCollection('sections'))
-            .then(() => TestTools.clearCollection('news'));
-
+        return TestTools.clearDatabase();
     });
 
-    after(function (done) {
+    after(function () {
 
-        TestTools.teardown(done);
+        return TestTools.teardown()
     });
 
     // =====
@@ -48,12 +39,13 @@ describe('Countries', function () {
 
     it('should have an existing endpoint', function () {
 
-        return Server
-            .injectThen(FakeCountry.get, function (response) {
+        Server.injectThen(FakeCountry.getAll)
+            .then((response) => {
 
-                expect(response.result).to.be.a('array');
+                expect(JSON.parse(response.payload)).to.be.a('array');
                 expect(response.statusCode).to.equal(200);
-            });
+            })
+            .catch((error) => console.log(error));
 
     });
 
@@ -64,16 +56,16 @@ describe('Countries', function () {
             .injectThen(FakeCountry.create(FakeCountry.A))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(FakeCountry.successPOST);
+                expect(response.headers.location).to.equal('/countries/' + FakeCountry.A.code);
                 expect(response.statusCode).to.equal(201);
             })
             // Get country A
-            .then(() => Server.injectThen(FakeCountry.get))
+            .then(() => Server.inject(FakeCountry.getAll))
             .then((response) => {
 
                 expect(response.result).to.be.a('array');
                 expect(response.result.length).to.equal(1);
-                expect(response.result[0]).to.deep.equal(FakeCountry.A);
+                expect(JSON.parse(response.payload)[0]).to.deep.equal(FakeCountry.A);
             });
     });
 
@@ -84,7 +76,6 @@ describe('Countries', function () {
             .then(() => Server.inject(FakeCountry.create(FakeCountry.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(Boom.conflict('Duplicated index').output.payload);
                 expect(response.statusCode).to.equal(409);
             });
     });
@@ -93,10 +84,10 @@ describe('Countries', function () {
 
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
-            .then(() => Server.inject(FakeCountry.getSpecific(FakeCountry.A)))
+            .then(() => Server.inject(FakeCountry.get(FakeCountry.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal(FakeCountry.A);
+                expect(JSON.parse(response.payload)).to.deep.equal(FakeCountry.A);
                 expect(response.statusCode).to.equal(200);
             });
     });
@@ -104,20 +95,21 @@ describe('Countries', function () {
     it('should be able to delete a country and all the resources underneath', function () {
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
+            .then(() => Server.inject(FakeCity.create(FakeCity.A)))
             .then(() => Server.inject(FakeSection.create(FakeSection.A)))
             .then(() => Server.inject(FakeSection.create(FakeSection.B)))
             .then(() => Server.inject(FakeCountry.delete(FakeCountry.A)))
             .then((response) => {
 
-                expect(response.statusCode).to.equal(200);
+                expect(response.statusCode).to.equal(204);
             })
-            .then(() => Server.inject(FakeCountry.get))
+            .then(() => Server.inject(FakeCountry.getAll))
             .then((response) => {
 
                 expect(response.result).to.deep.equal([]);
                 expect(response.statusCode).to.equal(200);
             })
-            .then(() => Server.inject(FakeSection.get))
+            .then(() => Server.inject(FakeSection.getAll))
             .then((response) => {
 
                 expect(response.result).to.deep.equal([]);
@@ -138,14 +130,14 @@ describe('Countries', function () {
 
         return Server
             .injectThen(FakeCountry.create(FakeCountry.A))
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.A)))
-            .then(() => Server.injectThen(FakeCity.create(FakeCity.B)))
-            .then(() => Server.inject(FakeSection.create(FakeSection.A)))
-            .then(() => Server.inject(FakeSection.create(FakeSection.B)))
-            .then(() => Server.inject(FakeCountry.getSections(FakeCountry.A)))
+            .then((response) => Server.inject(FakeCity.create(FakeCity.A)))
+            .then((response) => Server.inject(FakeCity.create(FakeCity.B)))
+            .then((response) => Server.inject(FakeSection.create(FakeSection.A)))
+            .then((response) => Server.inject(FakeSection.create(FakeSection.B)))
+            .then((response) => Server.inject(FakeCountry.getSections(FakeCountry.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal([FakeSection.A, FakeSection.B]);
+                expect(JSON.parse(response.payload)).to.deep.equal([FakeSection.A, FakeSection.B]);
                 expect(response.statusCode).to.equal(200);
             });
     });
@@ -169,7 +161,7 @@ describe('Countries', function () {
             .then(() => Server.inject(FakeCountry.getCities(FakeCountry.A)))
             .then((response) => {
 
-                expect(response.result).to.deep.equal([FakeCity.A, FakeCity.B]);
+                expect(JSON.parse(response.payload)).to.deep.equal([FakeCity.A, FakeCity.B]);
                 expect(response.statusCode).to.equal(200);
             });
     });
@@ -208,7 +200,6 @@ describe('Countries', function () {
                 expect(response.statusCode).to.equal(404);
             });
     });
-
 
 
 });

@@ -1,15 +1,15 @@
 'use strict';
 
-exports.get = {
+exports.getAll = {
     method: 'GET',
     url: '/cities'
 };
 
-exports.getSpecific = (city) => {
+exports.get = (city) => {
 
     return {
         method: 'GET',
-        url: '/cities/' + city._id
+        url: '/cities/' + city.code
     }
 };
 
@@ -17,12 +17,12 @@ exports.getCities = (city) => {
 
     return {
         method: 'GET',
-        url: '/cities/' + city._id + '/sections'
+        url: '/cities/' + city.code + '/sections'
     }
 };
 
 exports.A = {
-    _id: 'AA-AAAA',
+    code: 'AA-AAAA',
     country: 'AA',
     name: 'City AA',
     otherNames: [
@@ -31,7 +31,7 @@ exports.A = {
 };
 
 exports.B = {
-    _id: 'AA-AABB',
+    code: 'AA-AABB',
     country: 'AA',
     name: 'City AB',
     otherNames: [
@@ -40,7 +40,7 @@ exports.B = {
 };
 
 exports.Z = {
-    _id: 'ZZ-ZZZZ',
+    code: 'ZZ-ZZZZ',
     country: 'ZZ',
     name: 'City ZZ',
     otherNames: [
@@ -59,7 +59,7 @@ exports.create = (city) => {
 exports.delete = (city) => {
     return {
         method: 'DELETE',
-        url: '/cities/' + city._id
+        url: '/cities/' + city.code
     }
 };
 

@@ -28,6 +28,7 @@
     "good-http": "^6.0.1",
     "good-squeeze": "^3.0.1",
     "hapi": "^13.3.0",
+    "hapi-auth-bearer-token": "^4.3.0",
     "hapi-mongodb": "^6.0.0",
     "hapi-mongoose": "^1.0.1",
     "hapi-mongoose-models": "^1.0.3",

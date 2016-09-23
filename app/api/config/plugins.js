@@ -37,7 +37,7 @@ exports.registerGood = {
 
 exports.registerRouter = {
     plugin: {
-        register: 'hapi-router',
+        register: require('hapi-router'),
         options: {
             routes: 'app/api/routes/*.routes.js' // uses glob to include files and starts where the process is started
         }
@@ -66,5 +66,11 @@ exports.registerVision = {
 exports.registerSwagger = {
     plugin: {
         register: 'hapi-swagger'
+    }
+};
+
+exports.authSimpleToken = {
+    plugin: {
+        register: 'hapi-auth-bearer-token'
     }
 };

@@ -9,6 +9,8 @@ const SectionSchema = require('../../_common/models/section.joi.js');
 const CitySchema = require('../../_common/models/city.joi.js');
 const Errors = require('../../_common/models/errors').errors;
 const Error200 = require('../../_common/models/errors').generate200;
+const SimpleTokenAuth = require('../config/auth/auth-simple-token').schema;
+const Joi = require('joi');
 
 module.exports = [
     {
@@ -16,6 +18,7 @@ module.exports = [
         method: 'GET',
         handler: CountryHandlers.getAll,
         config: {
+            auth: 'simple',
             description: 'Gets all ESN countries',
             tags: ['api', 'swagger'],
             plugins: {
@@ -25,6 +28,9 @@ module.exports = [
                         '500': Errors.HTTP500
                     }
                 }
+            },
+            validate: {
+                headers: SimpleTokenAuth
             }
         }
     },

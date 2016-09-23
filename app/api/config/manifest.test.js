@@ -18,7 +18,7 @@ const manifest = {
         }
     ],
     registrations: [
-        Plugins.registerRouter,
+        Plugins.authSimpleToken,
         GlobPlugins.registerInjectThen
     ]
 };

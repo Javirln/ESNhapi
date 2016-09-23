@@ -18,8 +18,8 @@ const manifest = {
         }
     ],
     registrations: [
+        Plugins.authSimpleToken,
         Plugins.registerGood,
-        Plugins.registerRouter,
         Plugins.registerInert,
         Plugins.registerVision,
         Plugins.registerSwagger,

@@ -2,41 +2,65 @@ version: '2'
 services:
     api:
         build:
-          context: .
-          dockerfile: app/Dockerfile
+            context: .
+            dockerfile: app/api/Dockerfile
         volumes:
-         - "./app:/src/app"
-         - "./node_modules:/src/node_modules"
+            - "./app:/src/app"
+            - "./node_modules:/src/node_modules"
         ports:
-         - "3000:3000"
-         - "5858:5858"
-        links:
-         - mongo:mongo
-        tty: true
-    mongo:
-        image: mongo
-        ports:
-         - "27017:27017"
-        volumes:
-         - "./data/mongo/configdb:/data/configdb"
-         - "./data/mongo/db:/data/db"
+            - "3000:3000"
+            - "5858:5858"
         tty: true
 
     api_test:
-      container_name: esnhapi_test_api
-      build:
-        context: .
-        dockerfile: app/Dockerfile.test
-      tty: true
-      environment:
-        - NODE_ENV=test
-      ports:
-        - "5859:5858"
-      volumes:
-           - "./app:/src/app/"
-           - "./test:/src/test/"
-           - "./node_modules:/src/node_modules"
-           - "./coverage:/src/coverage"
-      links:
-        - mongo:mongo
+        container_name: esnhapi_test_api
+        build:
+            context: .
+            dockerfile: app/api/Dockerfile.test
+        tty: true
+        environment:
+            - NODE_ENV=test
+        ports:
+            - "5859:5858"
+        volumes:
+            - "./app:/src/app/"
+            - "./test:/src/test/"
+            - "./node_modules:/src/node_modules"
+            - "./coverage:/src/coverage"
+
+    fetcher:
+        build:
+            context: .
+            dockerfile: app/fetcher/Dockerfile
+        volumes:
+            - "./app:/src/app"
+            - "./node_modules:/src/node_modules"
+        ports:
+            - "5860:5858"
+        tty: true
+
+    fetcher_test:
+        container_name: esnhapi_test_fetcher
+        build:
+            context: .
+            dockerfile: app/fetcher/Dockerfile.test
+        tty: true
+        environment:
+            - NODE_ENV=test
+        ports:
+            - "5861:5858"
+        volumes:
+            - "./app:/src/app/"
+            - "./test:/src/test/"
+            - "./node_modules:/src/node_modules"
+            - "./coverage:/src/coverage"
+
+    mongo:
+        image: mongo
+        ports:
+            - "27017:27017"
+        volumes:
+            - "./data/mongo/configdb:/data/configdb"
+            - "./data/mongo/db:/data/db"
+        tty: true
 

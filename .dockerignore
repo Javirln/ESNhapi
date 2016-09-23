@@ -4,3 +4,5 @@ data
 README.md
 docker-compose.*
 node_modules
+Dockerfile.*
+Dockerfile

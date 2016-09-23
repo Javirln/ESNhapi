@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run Local" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" path-to-js-file="app/index.js" working-dir="$PROJECT_DIR$/">
+  <configuration default="false" name="Run Local" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" path-to-js-file="$PROJECT_DIR$/app/api/index.js" working-dir="$PROJECT_DIR$/">
     <profiling v8-profiler-path="" />
     <EXTENSION ID="com.jetbrains.nodejs.run.NodeJSProfilingRunConfigurationExtension">
       <profiling v8-profiler-path="" />

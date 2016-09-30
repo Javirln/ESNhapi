@@ -3,10 +3,9 @@
 const Request = require('request-promise');
 const Country = require('../../_common/models/country.mongoose').Model;
 const Promise = require('bluebird');
+const Cheerio = require('cheerio');
 
-//const CallhomeCountryURL = 'http://satellite.esn.org/callhome/api/country.json';
-const CallhomeCountryURL = 'https://git.esn.org/snippets/14/raw';
-
+const CallhomeCountryURL = 'http://galaxy.esn.org/countries/xml';
 
 // Logging
 const Path = require('path');
@@ -21,8 +20,23 @@ exports.schedule = () => {
 
     return Request({
         uri: CallhomeCountryURL,
-        json: true,
-        jar: true // Remember cookies!
+        jar: true, // Remember cookies!
+        transform: function (response){
+            const $ = Cheerio.load(response, {
+                xmlMode: true,
+                normalizeWhitespace: true
+            });
+            const dict = $('countries');
+            const countries = [];
+            for (let i = 0; i < dict[0].children.length; i++){
+                countries.push({
+                    _id: dict[0].children[i].children[0].children[0].data,
+                    name: dict[0].children[i].children[1].children[0].children[0].data,
+                    url: dict[0].children[i].children[2].children[0].children[0].data
+                });
+            }
+            return countries;
+        }
     })
         .then((json) =>
 

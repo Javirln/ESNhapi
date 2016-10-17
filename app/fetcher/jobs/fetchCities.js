@@ -3,6 +3,7 @@
 const Request = require('request-promise');
 const City = require('../../_common/models/city.mongoose').Model;
 const Promise = require('bluebird');
+const _ = require('lodash');
 
 const CallhomeCityURL = 'https://git.esn.org/snippets/15/raw';
 
@@ -19,7 +20,17 @@ exports.schedule = () => {
     return Request({
         uri: CallhomeCityURL,
         json: true,
-        jar: true // Remember cookies!
+        jar: true, // Remember cookies!
+        transform: function (response) {
+            const citiies = [];
+            const codes = [];
+            _.map(response, (city) => {
+                const first = utf8_encode(city.name.charAt(0).toUpperCase());
+                const mid = escape(city.name.charAt(city.name.length / 2).toUpperCase());
+                const last = escape(city.name.charAt(city.name.length - 1).toUpperCase());
+                console.log(first.concat(mid,last));
+            });
+        }
     })
         .then((json) =>
 

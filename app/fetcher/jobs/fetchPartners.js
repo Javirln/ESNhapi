@@ -17,7 +17,6 @@ exports.schedule = (validSections) => {
     console.log('[INFO] Getting section data: news');
     toStore.write(new Date().toString() + ' [INFO] Getting section data: partner\n');
 
-
     return processValidPartners(validSections)
         .then((result) => console.log('[INFO] Partner updated'));
 };
@@ -40,7 +39,6 @@ const processValidPartners = (valid_sections) => {
 
                     Promise.map(response.body,
                         (content_partner) => {
-
                             const partnerDate = new Date(content_partner.created);
 
                             // Check if it's newer than 2 months ago

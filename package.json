@@ -20,6 +20,7 @@
     "blipp": "^2.3.0",
     "bluebird": "^3.4.1",
     "boom": "^3.1.2",
+    "cheerio": "^0.22.0",
     "date-extended": "0.0.6",
     "glue": "^3.3.0",
     "good": "^7.0.0",

@@ -3,9 +3,10 @@
 const Request = require('request-promise');
 const Section = require('../../_common/models/section.mongoose').Model;
 const Promise = require('bluebird');
+const Cheerio = require('cheerio');
 
 //const CallhomeSectionURL = 'http://satellite.esn.org/callhome/api/section.json';
-const CallhomeSectionURL = 'https://git.esn.org/snippets/13/raw';
+const CallhomeSectionURL = 'http://galaxy.esn.org/sections/xml';
 
 const Path = require('path');
 const base_dir = Path.join(__dirname, 'logs/');
@@ -19,8 +20,26 @@ exports.schedule = () => {
 
     return Request({
         uri: CallhomeSectionURL,
-        json: true,
-        jar: true // Remember cookies!
+        jar: true, // Remember cookies!
+        transform: function (response){
+            const $ = Cheerio.load(response, {
+                xmlMode: true,
+                normalizeWhitespace: true
+            });
+            const dict = $('sections');
+            const sections = [];
+            for (let i = 0; i < dict[0].children.length; i++){
+                sections.push({
+                    _id: dict[0].children[i].children[0].children[0].data,
+                    url: dict[0].children[i].children[6].children[0].children[0].data,
+                    name: dict[0].children[i].children[1].children[0].children[0].data,
+                    country: dict[0].children[i].children[4].children[0].children[0].data,
+                    address: dict[0].children[i].children[2].children[0].children[0].data,
+                    city: dict[0].children[i].children[3].children[0].children[0].data
+                });
+            }
+            return sections;
+        }
     })
         .then((json) =>
 
@@ -32,9 +51,9 @@ exports.schedule = () => {
                             $set: {
                                 url: section.url,
                                 name: section.name,
-                                country: section._id.split('-')[0],
+                                country: section.country,
                                 address: section.address,
-                                city: section._id.split('-')[0] + '-' + section._id.split('-')[1]
+                                city: section.city
                             }
                         },
                         {

@@ -22,19 +22,24 @@ exports.schedule = () => {
         json: true,
         jar: true, // Remember cookies!
         transform: function (response) {
-            const citiies = [];
-            const codes = [];
+            const cities = [];
             _.map(response, (city) => {
-                const first = utf8_encode(city.name.charAt(0).toUpperCase());
-                const mid = escape(city.name.charAt(city.name.length / 2).toUpperCase());
-                const last = escape(city.name.charAt(city.name.length - 1).toUpperCase());
-                console.log(first.concat(mid,last));
+                const first = city.name.charAt(0).toUpperCase();
+                const mid = city.name.charAt(city.name.length / 2).toUpperCase();
+                const last = city.name.charAt(city.name.length - 1).toUpperCase();
+                cities.push({
+                    _id: city.country.concat('-',first.concat(mid,last)),
+                    country: city.country,
+                    name: city.name,
+                    otherNames: city.otherNames
+                });
             });
+            return cities;
         }
     })
-        .then((json) =>
+        .then((cities) =>
 
-                Promise.map(json, (city) =>
+                Promise.map(cities, (city) =>
 
                     City.findOneAndUpdate(
                         { code: city._id },

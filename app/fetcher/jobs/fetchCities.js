@@ -28,7 +28,7 @@ exports.schedule = () => {
                 const mid = city.name.charAt(city.name.length / 2).toUpperCase();
                 const last = city.name.charAt(city.name.length - 1).toUpperCase();
                 cities.push({
-                    _id: city.country.concat('-',first.concat(mid,last)),
+                    _id: city.country.concat('-',first,mid,last),
                     country: city.country,
                     name: city.name,
                     otherNames: city.otherNames

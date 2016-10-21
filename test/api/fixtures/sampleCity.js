@@ -22,7 +22,7 @@ exports.getCities = (city) => {
 };
 
 exports.A = {
-    code: 'AA-AAAA',
+    code: 'AA-AAA',
     country: 'AA',
     name: 'City AA',
     otherNames: [
@@ -31,7 +31,7 @@ exports.A = {
 };
 
 exports.B = {
-    code: 'AA-AABB',
+    code: 'AA-AAB',
     country: 'AA',
     name: 'City AB',
     otherNames: [
@@ -40,7 +40,7 @@ exports.B = {
 };
 
 exports.Z = {
-    code: 'ZZ-ZZZZ',
+    code: 'ZZ-ZZZ',
     country: 'ZZ',
     name: 'City ZZ',
     otherNames: [

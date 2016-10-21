@@ -4,8 +4,8 @@ const Joi = require('joi');
 const CountryCode = require('./country.joi.js').code;
 
 const BaseSchema = Joi.object({
-    code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,4}$/)
-        .example('AA-AAAA')
+    code: Joi.string().regex(/^[A-Z]{2}-[A-Z]{2,3}$/)
+        .example('AA-AAA')
         .description('Code of the city'),
     country: CountryCode,
     name: Joi.string().required()

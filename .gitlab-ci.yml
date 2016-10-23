@@ -19,13 +19,23 @@ test_api:
       - coverage/
     when: on_success
 
-build_image_dev:
+build_api_dev:
   stage: build
   image: gitlab/dind
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN git.esn.org:4567
-    - docker build --file="app/Dockerfile.prod" -t git.esn.org:4567/mobile-apps/esnhapi:dev .
-    - docker push git.esn.org:4567/mobile-apps/esnhapi:dev
+    - docker build --file="app/api/Dockerfile.prod" -t git.esn.org:4567/mobile-apps/esnhapi:api-dev .
+    - docker push git.esn.org:4567/mobile-apps/esnhapi:api-dev
+  only:
+    - develop
+
+build_fetcher_dev:
+  stage: build
+  image: gitlab/dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN git.esn.org:4567
+    - docker build --file="app/fetcher/Dockerfile.prod" -t git.esn.org:4567/mobile-apps/esnhapi:fetcher-dev .
+    - docker push git.esn.org:4567/mobile-apps/esnhapi:fetcher-dev
   only:
     - develop
 

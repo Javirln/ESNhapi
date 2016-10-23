@@ -4,6 +4,8 @@ API:
       start_first: true
 db:
   scale: 1
+fetcher:
+  scale: 1
 loadBalancer:
   scale: 1
   load_balancer_config:
@@ -12,6 +14,5 @@ loadBalancer:
     port: 42
     interval: 2000
     unhealthy_threshold: 3
-    strategy: recreate
-    response_timeout: 2000
     healthy_threshold: 2
+    response_timeout: 2000

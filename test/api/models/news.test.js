@@ -24,8 +24,9 @@ describe('News', function () {
             .then((server) => Server = server);
     });
 
-    beforeEach(function () {
-        return TestTools.clearDatabase();
+    beforeEach(function (done) {
+        this.timeout(0);
+        TestTools.clearDatabase(done);
     });
 
     after(function () {

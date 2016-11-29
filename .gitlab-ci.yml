@@ -11,7 +11,7 @@ test_api:
     - mongo
   script:
     - export NODE_ENV=test
-    - npm install --silent > /dev/null
+    - npm install --silent
     - node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --recursive
   artifacts:
     name: "$CI_BUILD_REF_NAME"

@@ -39,29 +39,24 @@ const processValidPartners = (valid_sections) => {
 
                     Promise.map(response.body,
                         (content_partner) => {
-                            const partnerDate = new Date(content_partner.created);
+                            const code = valid_section.code + '-partners-' + content_partner.nid;
 
-                            // Check if it's newer than 2 months ago
-                            if (DateExtend.monthsAgo(2) < partnerDate) {
-                                const code = valid_section.code + '-partners-' + content_partner.nid;
+                            // Update the DB
+                            return Partner.findOneAndUpdate(
+                                { code: code },
+                                {
+                                    code: code,
+                                    name: content_partner.title,
+                                    moreInformation: content_partner.more_info.length === 0 ? [] : content_partner.more_info,
+                                    content: content_partner.body,
+                                    lastUpdate: Date.now()
+                                }, {
+                                    upsert: true
+                                })
+                                .then(() => {
 
-                                // Update the DB
-                                return Partner.findOneAndUpdate(
-                                    { code: code },
-                                    {
-                                        code: code,
-                                        name: content_partner.title,
-                                        moreInformation: content_partner.more_info.length === 0 ? [] : content_partner.more_info,
-                                        content: content_partner.body,
-                                        lastUpdate: Date.now()
-                                    }, {
-                                        upsert: true
-                                    })
-                                    .then(() => {
-
-                                        toStore.write(`${new Date().toString()} [INFO] [SECTION-CODE] ${valid_section.code} || [PARTNER-ID] ${content_partner.nid} created\n`);
-                                    });
-                            }
+                                    toStore.write(`${new Date().toString()} [INFO] [SECTION-CODE] ${valid_section.code} || [PARTNER-ID] ${content_partner.nid} created\n`);
+                                });
                         },
                         { concurrency: 10 }
                     )

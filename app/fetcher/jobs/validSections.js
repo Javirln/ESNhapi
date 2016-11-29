@@ -3,6 +3,7 @@
 const Section = require('../../_common/models/section.mongoose').Model;
 const Promise = require('bluebird');
 const Request = require('request-promise');
+const NormalizeUrl = require('normalize-url');
 
 // Find sections that are online and with API
 module.exports = () => {
@@ -21,7 +22,7 @@ module.exports = () => {
                     const section = sectionItem.toObject();
 
                     return Request({
-                        uri: section.url.concat(section.url.endsWith('/') ? 'api/v1' : '/api/v1'),
+                        uri: NormalizeUrl(section.url.concat(section.url.endsWith('/') ? 'api/v1' : '/api/v1')),
                         json: true,
                         resolveWithFullResponse: true,
                         jar: true,

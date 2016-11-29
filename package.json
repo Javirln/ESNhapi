@@ -41,6 +41,7 @@
     "mongoose": "^4.7.0",
     "mongoose-hidden": "^0.6.4",
     "node-schedule": "^1.2.0",
+    "normalize-url": "^1.8.0",
     "omit-empty": "^0.4.1",
     "ping": "^0.2.1",
     "request": "^2.79.0",

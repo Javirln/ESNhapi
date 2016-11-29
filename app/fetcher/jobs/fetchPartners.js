@@ -4,6 +4,7 @@ const DateExtend = require('date-extended');
 const Request = require('request-promise');
 const Partner = require('../../_common/models/partner.mongoose').Model;
 const Promise = require('bluebird');
+const NormalizeUrl = require('normalize-url');
 
 const BaseUrlPartners = 'api/v1/partners.json';
 
@@ -29,7 +30,7 @@ const processValidPartners = (valid_sections) => {
         (valid_section) =>
 
             Request({
-                uri: valid_section.url.concat(valid_section.url.endsWith('/') ? BaseUrlPartners : '/'.concat(BaseUrlPartners)),
+                uri: NormalizeUrl(valid_section.url.concat(valid_section.url.endsWith('/') ? BaseUrlPartners : '/'.concat(BaseUrlPartners))),
                 json: true,
                 resolveWithFullResponse: true,
                 jar: true

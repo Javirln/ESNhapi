@@ -4,6 +4,7 @@ const DateExtend = require('date-extended');
 const Request = require('request-promise');
 const News = require('../../_common/models/news.mongoose').Model;
 const Promise = require('bluebird');
+const NormalizeUrl = require('normalize-url');
 
 const BaseUrlNews = 'api/v1/news.json';
 
@@ -30,7 +31,7 @@ const processValidNews = (valid_sections) => {
         (valid_section) =>
 
             Request({
-                uri: valid_section.url.concat(valid_section.url.endsWith('/') ? BaseUrlNews : '/'.concat(BaseUrlNews)),
+                uri: NormalizeUrl(valid_section.url.concat(valid_section.url.endsWith('/') ? BaseUrlNews : '/'.concat(BaseUrlNews))),
                 json: true,
                 resolveWithFullResponse: true,
                 jar: true

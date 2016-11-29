@@ -25,7 +25,7 @@ describe('Events', function () {
     });
 
     beforeEach(function (done) {
-        this.timeout(0)
+        this.timeout(0);
         TestTools.clearDatabase(done);
     });
 

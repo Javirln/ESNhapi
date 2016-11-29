@@ -33,10 +33,7 @@ exports.setup = () => {
 
 };
 
-exports.clearDatabase = (done) => {
-
-    ClearDB(done);
-};
+exports.clearDatabase = ClearDB;
 
 
 exports.teardown = () => {

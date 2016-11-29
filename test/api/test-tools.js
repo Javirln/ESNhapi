@@ -3,6 +3,8 @@
 const Glue = require('glue');
 const MongoClient = require('mongodb').MongoClient;
 const ManifestTest = require('../../app/api/config/manifest.test');
+const dbURI = 'mongodb://mongo:27017/esnhapi-test';
+const ClearDB  = require('mocha-mongoose')(dbURI);
 
 const glueOptions = {
     relativeTo: __dirname
@@ -31,14 +33,9 @@ exports.setup = () => {
 
 };
 
-exports.clearDatabase = () => {
+exports.clearDatabase = (done) => {
 
-    return require('../../app/_common/models/country.mongoose').Model.remove({})
-        .then(() => require('../../app/_common/models/section.mongoose').Model.remove({}) )
-        .then(() => require('../../app/_common/models/city.mongoose').Model.remove({}) )
-        .then(() => require('../../app/_common/models/news.mongoose').Model.remove({}) )
-        .then(() => require('../../app/_common/models/partner.mongoose').Model.remove({}) )
-        .then(() => require('../../app/_common/models/event.mongoose').Model.remove({}) )
+    ClearDB(done);
 };
 
 
@@ -46,7 +43,7 @@ exports.teardown = () => {
 
     return new Promise(( resolve, error) => {
 
-        MongoClient.connect('mongodb://mongo:27017/esnhapi-test', (err, db) => {
+        MongoClient.connect(dbURI, (err, db) => {
 
             if (err) {
                 error(err);

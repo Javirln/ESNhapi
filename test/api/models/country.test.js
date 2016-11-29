@@ -24,8 +24,8 @@ describe('Countries', function () {
             .then((server) => Server = server);
     });
 
-    beforeEach(function () {
-        return TestTools.clearDatabase();
+    beforeEach(function (done) {
+        TestTools.clearDatabase(done);
     });
 
     after(function () {

@@ -66,6 +66,9 @@ const processValidEvents = (valid_sections) => {
                                         content: content_events.content || undefined,
                                         address: (content_events.address && content_events.address.length === 0) ? undefined : content_events.address,
                                         location: content_events.location || undefined,
+                                        country: valid_section.country,
+                                        city: valid_section.code.split('-')[0] + '-' + valid_section.code.split('-')[1],
+                                        section: valid_section.code,
                                         lastUpdate: Date.now()
                                     }, {
                                         upsert: true

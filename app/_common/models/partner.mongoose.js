@@ -28,6 +28,12 @@ const createModel = () => {
     // Create indexes
     Model.schema.index({ code: 1, type: 1 });
 
+    Model.schema.pre('save', function (next){
+
+        this.lastUpdate = Date.now();
+        next();
+    });
+
     return Model;
 };
 

@@ -50,6 +50,9 @@ const processValidPartners = (valid_sections) => {
                                     name: content_partner.title,
                                     moreInformation: content_partner.more_info.length === 0 ? [] : content_partner.more_info,
                                     content: content_partner.body,
+                                    country: valid_section.country,
+                                    city: valid_section.code.split('-')[0] + '-' + valid_section.code.split('-')[1],
+                                    section: valid_section.code,
                                     lastUpdate: Date.now()
                                 }, {
                                     upsert: true

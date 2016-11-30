@@ -100,9 +100,6 @@ exports.getNews = (req, reply) => {
                 .catch((error) => Boom.internal(error.errmsg)))
         .then((result) => {
 
-            if (_.isEmpty(result)) {
-                return Promise.reject(Boom.notFound());
-            }
             reply(result).code(200);
         })
         .catch((error) => reply(error));
@@ -126,9 +123,6 @@ exports.getEvents = (req, reply) => {
                 .catch((error) => Boom.internal(error.errmsg)))
         .then((result) => {
 
-            if (_.isEmpty(result)) {
-                return Promise.reject(Boom.notFound());
-            }
             reply(result).code(200);
         })
         .catch((error) => reply(error));
@@ -152,9 +146,6 @@ exports.getPartners = (req, reply) => {
                 .catch((error) => Boom.internal(error.errmsg)))
         .then((result) => {
 
-            if (_.isEmpty(result)) {
-                return Promise.reject(Boom.notFound());
-            }
             reply(result).code(200);
         })
         .catch((error) => reply(error));

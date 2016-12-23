@@ -8,6 +8,7 @@ const FakeSection = require('../fixtures/sampleSection');
 
 
 let Server;
+let cont = 0;
 
 describe('Cities', function () {
 
@@ -16,6 +17,9 @@ describe('Cities', function () {
     // =====
     // SETUP
     // =====
+
+    // Retry all tests in this suite up to 3 times
+    this.retries(3);
 
     before(function () {
         this.timeout(0);

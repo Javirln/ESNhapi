@@ -1,0 +1,38 @@
+API:
+  memswap_limit: 167772160
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.container.hostname_override: container_name
+  tty: true
+  image: git.esn.org:4567/mobile-apps/esnhapi:api-dev
+  links:
+  - db:mongo
+  mem_limit: 134217728
+db:
+  memswap_limit: 167772160
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.container.hostname_override: container_name
+  tty: true
+  image: mongo
+  volumes:
+  - /volumes/esnhapi/db_data:/data/db
+  mem_limit: 134217728
+fetcher:
+  memswap_limit: 167772160
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.container.hostname_override: container_name
+  tty: true
+  image: git.esn.org:4567/mobile-apps/esnhapi:fetcher-dev
+  links:
+  - db:mongo
+  mem_limit: 134217728
+loadBalancer:
+  expose:
+  - 3000:3000
+  tty: true
+  image: rancher/load-balancer-service
+  links:
+  - API:API
+  stdin_open: true

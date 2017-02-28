@@ -1,0 +1,72 @@
+stages:
+  - test
+  - build
+  - deploy
+  - cleanup
+
+test_api:
+  stage: test
+  image: node:6
+  services:
+    - mongo:3.3
+  script:
+    - export NODE_ENV=test
+    - npm install --silent
+    - node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --recursive
+  artifacts:
+    name: "$CI_BUILD_REF_NAME"
+    paths:
+      - coverage/
+    when: on_success
+
+build_api_dev:
+  stage: build
+  image: gitlab/dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN git.esn.org:4567
+    - docker build --file="app/api/Dockerfile.prod" -t git.esn.org:4567/mobile-apps/esnhapi:api-dev .
+    - docker push git.esn.org:4567/mobile-apps/esnhapi:api-dev
+  only:
+    - develop
+
+build_fetcher_dev:
+  stage: build
+  image: gitlab/dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN git.esn.org:4567
+    - docker build --file="app/fetcher/Dockerfile.prod" -t git.esn.org:4567/mobile-apps/esnhapi:fetcher-dev .
+    - docker push git.esn.org:4567/mobile-apps/esnhapi:fetcher-dev
+  only:
+    - develop
+
+deploy_dev:
+  stage: deploy
+  image: monostream/rancher-compose
+  script:
+    - cd rancher/development
+    - rancher-compose -p ESNhapi up --upgrade --pull --force-upgrade -d API
+  environment: develop
+  only:
+    - develop
+
+cleanup_fail_build_job:
+  stage: cleanup
+  image: monostream/rancher-compose
+  script:
+    - cd rancher/development
+    - rancher-compose -p ESNhapi up --upgrade --rollback -d API
+  when: on_failure
+  only:
+    - develop
+
+cleanup_success_build_job:
+  stage: cleanup
+  image: monostream/rancher-compose
+  script:
+    - cd rancher/development
+    - rancher-compose -p ESNhapi up --upgrade --pull --confirm-upgrade -d API
+  when: on_success
+  only:
+    - develop
+
+

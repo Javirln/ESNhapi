@@ -35,7 +35,7 @@ exports.schedule = () => {
                     name: dict[0].children[i].children[1].children[0].children[0].data,
                     country: dict[0].children[i].children[4].children[0].children[0].data,
                     address: dict[0].children[i].children[2].children[0].children[0].data,
-                    city: dict[0].children[i].children[3].children[0].children[0].data
+                    city: /^[A-Z]{2}-[A-Z]{2,4}/.exec(dict[0].children[i].children[0].children[0].data)
                 });
             }
             return sections;

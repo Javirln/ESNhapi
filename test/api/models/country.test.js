@@ -8,7 +8,7 @@ const FakeCity = require('../fixtures/sampleCity');
 const FakeNews = require('../fixtures/sampleNews');
 
 let Server;
-
+let cont = 0;
 describe('Countries', function () {
 
     this.timeout(10000);
@@ -16,6 +16,9 @@ describe('Countries', function () {
     // =====
     // SETUP
     // =====
+
+    // Retry all tests in this suite up to 3 times
+    this.retries(3);
 
     before(function () {
         this.timeout(0);

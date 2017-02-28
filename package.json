@@ -6,7 +6,7 @@
   "scripts": {
     "build": "docker-compose build",
     "start": "docker-compose up mongo api",
-    "create-image": "docker build --file='app/Dockerfile.prod' -t git.esn.org:4567/sturgelose/esnhapi:dev .",
+      "create-image": "docker build --file='app/api/Dockerfile.prod' -t git.esn.org:4567/sturgelose/esnhapi:dev .",
     "test": "docker-compose up api_test"
   },
   "keywords": [

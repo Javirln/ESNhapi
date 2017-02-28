@@ -17,6 +17,9 @@ describe('News', function () {
     // SETUP
     // =====
 
+    // Retry all tests in this suite up to 3 times
+    this.retries(3);
+
     before(function () {
         this.timeout(0);
 

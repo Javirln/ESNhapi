@@ -3,6 +3,7 @@
 const Request = require('request-promise');
 const City = require('../../_common/models/city.mongoose').Model;
 const Promise = require('bluebird');
+const _ = require('lodash');
 
 const CallhomeCityURL = 'https://git.esn.org/snippets/15/raw';
 
@@ -19,11 +20,26 @@ exports.schedule = () => {
     return Request({
         uri: CallhomeCityURL,
         json: true,
-        jar: true // Remember cookies!
+        jar: true, // Remember cookies!
+        transform: function (response) {
+            const cities = [];
+            _.map(response, (city) => {
+                const first = city.name.charAt(0).toUpperCase();
+                const mid = city.name.charAt(city.name.length / 2).toUpperCase();
+                const last = city.name.charAt(city.name.length - 1).toUpperCase();
+                cities.push({
+                    _id: city.country.concat('-',first,mid,last),
+                    country: city.country,
+                    name: city.name,
+                    otherNames: city.otherNames
+                });
+            });
+            return cities;
+        }
     })
-        .then((json) =>
+        .then((cities) =>
 
-                Promise.map(json, (city) =>
+                Promise.map(cities, (city) =>
 
                     City.findOneAndUpdate(
                         { code: city._id },

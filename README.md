@@ -1,4 +1,4 @@
-![build status](https://codeship.com/projects/205289/status?branch=master)
+[ ![Codeship Status for Javirln/ESNhapi](https://app.codeship.com/projects/5a87bd80-e0b1-0134-31eb-46050fed2f07/status?branch=master)](https://app.codeship.com/projects/205289)
 
 <a href="http://hapijs.com/"><img src="https://raw.github.com/hapijs/hapi/master/images/hapi.png" /></a>
 

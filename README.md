@@ -1,4 +1,4 @@
-![build status](https://codeship.com/projects/YOUR_PROJECT_UUID/status?branch=master)
+![build status](https://codeship.com/projects/205289/status?branch=master)
 
 <a href="http://hapijs.com/"><img src="https://raw.github.com/hapijs/hapi/master/images/hapi.png" /></a>
 

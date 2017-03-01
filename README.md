@@ -1,5 +1,4 @@
-[![build status](https://git.esn.org/mobile-apps/ESNhapi/badges/develop/build.svg)](https://git.esn.org/mobile-apps/ESNhapi/commits/develop)
-[![coverage report](https://git.esn.org/mobile-apps/ESNhapi/badges/develop/coverage.svg)](https://git.esn.org/mobile-apps/ESNhapi/commits/develop)
+![build status](https://codeship.com/projects/YOUR_PROJECT_UUID/status?branch=master)
 
 <a href="http://hapijs.com/"><img src="https://raw.github.com/hapijs/hapi/master/images/hapi.png" /></a>
 
